@@ -308,6 +308,7 @@ fieldset.track div#over aside:first-child {}
 		   background: #FFF;
 		   box-shadow: 1px 1px 5px 0px rgba(16,139,60,0.3);
 		   box-shadow: 0px 0px 1em 1em rgba(5,48,20,0.3);
+           visibility: hidden;
 		   padding: 0 10px 10px 10px;}		
 		   
 #add input[type=date] { width: auto;}

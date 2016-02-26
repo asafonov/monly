@@ -1,0 +1,3 @@
+[submodule "eyeless"]
+	path = eyeless
+	url = https://github.com/asafonov/eyeless

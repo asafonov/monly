@@ -8,6 +8,8 @@
 	<link rel=stylesheet type=text/css href="style.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC' rel='stylesheet' type='text/css'>
+    <script src="eyeless/js/eyeless.js"></script>
+    <script src="monly.js"></script>
 </head>
 
 <body>
@@ -19,7 +21,7 @@
     <div class="logo left">&equiv; Monly</div>
     <!-- /logo_menu -->
     <!-- top_add -->
-    <div class="add big marl left"><span class="gr b">+ </span>add transaction</div>
+    <div class="add big marl left js-add_button"><span class="gr b">+ </span>add transaction</div>
     <!-- /top_add -->
     <!-- search -->    
     <div class="search right marr">&#128269;</div>
@@ -387,5 +389,8 @@
   </div>
 </DIV>
 <!-- /main -->
+<script>
+    monly.__init__();
+</script>
 </body>
 </html>
