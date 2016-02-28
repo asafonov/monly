@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html> 
+<html>
 
 <head>
 	<title>Monly</title>
@@ -23,34 +23,34 @@
     <!-- top_add -->
     <div class="add big marl left js-add_button"><span class="gr b">+ </span>add transaction</div>
     <!-- /top_add -->
-    <!-- search -->    
+    <!-- search -->
     <div class="search right marr">&#128269;</div>
-    <!-- /search --> 
+    <!-- /search -->
   </div>
   <!-- /top -->
-  
+
   <!-- left_menu -->
   <div class="left_col left" style="display: none;">
     <div class="left_menu clear">
       <ul>
         <li>Transactions</li>
-        <li>Budget</li>  
+        <li>Budget</li>
         <li id="activ">Goals</li>
-        <li>Reports</li>  
+        <li>Reports</li>
         <li>Accaunts</li>
-        <li>Settings</li>            
+        <li>Settings</li>
       </ul>
     </div>
   </div>
   <!-- /left_menu -->
-  
+
   <div class="right_col left">
     <!-- content -->
     <div class="content clear">
       <!-- net_worth -->
       <div class="net_worth marb big">Net worth<span class="gr b marl big js-net_worth"><sup class="gr"></sup></span></div>
       <!-- /net_worth -->
-      
+
       <!-- add_transaction_full -->
       <div class="clear add_tran" id="full_add">
         <h1 class="big gr">Add transaction</h1>
@@ -65,21 +65,21 @@
           <!-- transaction -->
           <div class="clear">
             <input name="date" type="date" placeholder="17 дек">
-            <input name="amount" type="number" placeholder=".00">
+            <input name="amount" type="number" placeholder="0.00" step="0.01">
             <input name="description" type="text" placeholder="" class="long">
             <select name="type">
             <optgroup>
               <option value="cash">Cash</option>
               <option value="City">City</option>
               <option value="Credit">Credit</option>
-            </optgroup>  
-            </select> 
+            </optgroup>
+            </select>
             <input name="tags" type="text" placeholder="" class="long">
             <span class="add">⋮ split</span>
           </div>
           <!-- /transaction -->
           <!-- transaction -->
-          <div class="clear">
+          <!--<div class="clear">
             <input name="date" type="date" placeholder="17 дек">
             <input name="amount" type="number" placeholder=".00">
             <input name="description" type="text" placeholder="" class="long">
@@ -88,10 +88,10 @@
               <option value="cash">Cash</option>
               <option value="City">City</option>
               <option value="Credit">Credit</option>
-            </optgroup>  
-            </select> 
+            </optgroup>
+            </select>
             <input name="tags" type="text" placeholder="" class="long">
-            <span class="add">⋮ split</span>
+            <span class="add">⋮ split</span>-->
             <!-- splitting -->
             <!--<div class="clear split">
               <input name="date" type="date" placeholder="17 дек">
@@ -102,8 +102,8 @@
                 <option value="cash">Cash</option>
                 <option value="City">City</option>
                 <option value="Credit">Credit</option>
-              </optgroup>  
-              </select> 
+              </optgroup>
+              </select>
               <input name="tags" type="text" placeholder="" class="long"  id="show">
             </div>
             <div class="clear split">
@@ -115,16 +115,16 @@
                 <option value="cash">Cash</option>
                 <option value="City">City</option>
                 <option value="Credit">Credit</option>
-              </optgroup>  
-              </select> 
+              </optgroup>
+              </select>
               <input name="tags" type="text" placeholder="" class="long"  id="show">
-            </div>            
+            </div>
             <div class="add clear"><span class="gr">+ </span>item</div>-->
             <!-- /splitting -->
-          </div> 
+          <!--</div>-->
           <!-- /transaction -->
-          <!-- transaction -->          
-          <div class="clear">
+          <!-- transaction -->
+          <!--<div class="clear">
             <input name="date" type="date" placeholder="17 дек">
             <input name="amount" type="number" placeholder=".00">
             <input name="description" type="text" placeholder="" class="long">
@@ -133,30 +133,30 @@
               <option value="cash">Cash</option>
               <option value="City">City</option>
               <option value="Credit">Credit</option>
-            </optgroup>  
-            </select> 
+            </optgroup>
+            </select>
             <input name="tags" type="text" placeholder="" class="long">
             <span class="add">⋮ split</span>
-          </div> 
-          <!-- /transaction -->           
+          </div>-->
+          <!-- /transaction -->
         </form>
         <div class="add clear" id="form_add"><span class="gr">+ </span>transaction</div>
         <button name="save" class="clear">Save</button>
       </div>
       <!-- /add_transaction_full -->
-      
+
       <!-- add_transaction_short -->
       <div class="clear add_tran big" id="small_add">
         <h1 class="big gr">Add transaction</h1>
         <div class="clear">
           <hgroup>
-  
+
           </hgroup>
           <form id="add">
             <!-- transaction -->
             <div class="clear">
               <div class="clear"><h2>Date</h2><input name="date" type="date" placeholder="17 дек"></div>
-              <div class="clear"><h2>Amount</h2><input name="amount" type="number" placeholder=".00"></div>
+              <div class="clear"><h2>Amount</h2><input name="amount" type="number" placeholder="0.00" step="0.01"></div>
               <div class="clear"><h2 class="long">Description</h2><input name="description" type="text" placeholder="" class="long"></div>
               <div class="clear">
                 <h2>Type</h2>
@@ -165,18 +165,18 @@
                   <option value="cash">Cash</option>
                   <option value="City">City</option>
                   <option value="Credit">Credit</option>
-                </optgroup>  
-                </select> 
+                </optgroup>
+                </select>
               </div>
               <div class="clear"><h2 class="long">Tags</h2><input name="tags" type="text" placeholder="" class="long"></div>
-            </div> 
-            <!-- /transaction -->          
+            </div>
+            <!-- /transaction -->
           </form>
         </div>
         <button name="save" class="clear">Save</button>
       </div>
-      <!-- /add_transaction_short -->      
-      
+      <!-- /add_transaction_short -->
+
       <div class="clear">
         <!-- accounts -->
         <div class="accounts marb clear js-accounts">
@@ -188,7 +188,7 @@
           </fieldset>
         </div>
         <!-- /accounts -->
-        
+
         <div class="clear marb">
           <!-- select_period -->
           <select name="period">
@@ -197,11 +197,11 @@
             <option value="last month">Last month</option>
             <option value="last year">Last year</option>
             <option value="custom">Custom</option>
-          </optgroup>  
+          </optgroup>
           </select>
-          <!-- /select_period -->       
-        </div>              
-      
+          <!-- /select_period -->
+        </div>
+
         <!-- review -->
         <div class="review clear marb">
            <fieldset>
@@ -210,8 +210,8 @@
             <div><span>Expence</span><span class="red">- 23 456</span></div>
           </fieldset>
         </div>
-        <!-- /review -->  
-        
+        <!-- /review -->
+
         <!-- budget_review -->
         <div class="budget_review clear marb">
            <fieldset>
@@ -221,7 +221,7 @@
             <div><span>Alcohol</span><span class="red">- 350</span></div>
           </fieldset>
         </div>
-        <!-- /budget_review -->              
+        <!-- /budget_review -->
 
         <!-- budget -->
         <div class="budget left marb">
@@ -232,13 +232,13 @@
               <span>Overall</span><progress value="30" max="500"></progress>
               <aside>300</aside>
             </div>
-            
+
             <div class="clear">
               <aside>56 552</aside>
               <span>Food</span><progress value="22" max="111"></progress>
               <aside>13 768</aside>
             </div>
-            
+
             <div id="over" class="clear">
               <aside>1 459</aside>
               <span>Alcohol</span><progress value="55" max="55"></progress><span></span><aside class="red">2 459</aside>
@@ -246,9 +246,9 @@
             </div>
           </fieldset>
         </div>
-        <!-- /budget -->                 
+        <!-- /budget -->
       </div>
-      
+
     <div class="clear">
       <!-- goals -->
       <div class="goals left">
@@ -259,129 +259,73 @@
             <span>☎ New iphone</span><progress value="30" max="500"></progress>
             <aside>300</aside>
           </div>
-          
+
           <div class="clear">
             <aside>56 552</aside>
             <span>✈ Vacation!!!</span><progress value="22" max="111"></progress>
             <aside>13 768</aside>
           </div>
-          
+
           <div id="over" class="clear">
             <aside>1 459</aside>
             <span>🏠 Depts</span><progress value="55" max="55"></progress><span></span><aside class="red">2 459</aside>
             <aside>3 600</aside>
           </div>
-          
+
           <div class="clear">
             <aside>56 552</aside>
             <span>☕ Dinnings</span><progress value="22" max="111"></progress>
             <aside>13 768</aside>
-          </div>          
+          </div>
         </fieldset>
       </div>
-      <!-- /goals --> 
-      </div>      
-      
+      <!-- /goals -->
+      </div>
+
       <!-- transactions_review -->
       <h1 class="big gr">transactions</h1>
       <table class="table clear" id="small_table">
         <colgroup>
           <col class="date">
-          <col>          
-          <col class="amount">          
-        </colgroup>      
-        <tr>
-          <td class="data">24 nov</td>
-          <td>Lenta <span>City</span><span class="grey">food, alcohol, cream</span></td>          
-          <td class="money min"><span>- 523 <sup>30</sup></span></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Rosneft <span>City</span><span class="grey">car, gas</span></td>          
-          <td class="money min"><span>- 1 243 <sup>00</sup></span></td>
-        </tr>
-        <tr>
-          <td class="data">15 nov</td>
-          <td>Parallels <span>City</span><span class="grey">dining</span></td>          
-          <td class="money min"><span>- 1 332 <sup>45</sup></span></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>AE <span>City</span><span class="grey">clothing</span></td>          
-          <td class="money min"><span>- 36 293 <sup>77</sup></span></td>
-        </tr>
-        <tr>
-          <td class="date">10 nov</td>
-          <td>It's the longest name ever ever ever evereve...<span>City</span><span class="grey">tags, never, enouth, espesially, longestl...</span></td>          
-          <td class="money plus"><span>282 864 <sup>75</sup></span></td>
-        </tr>                
+          <col>
+          <col class="amount">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="data">24 nov</td>
+            <td>Lenta <span>City</span><span class="grey">food, alcohol, cream</span></td>
+            <td class="money min"><span>- 523 <sup>30</sup></span></td>
+          </tr>
+        </tbody>
       </table>
-      <!-- /transactions_review -->      
-           
+      <!-- /transactions_review -->
+
       <!-- transactions -->
       <table class="table clear" id="full_table">
         <colgroup>
           <col class="date">
           <col class="amount">
           <col>
-          <col class="tags">          
-        </colgroup>      
+          <col class="tags">
+        </colgroup>
+        <tbody>
         <tr>
           <th>date</th>
           <th>amount</th>
           <th>description</th>
           <th>tags</th>
         </tr>
-        <tr>
-          <td class="data">24 nov</td>
-          <td class="money min">523 <sup>30</sup></td>
-          <td>Lenta <span>City</span></td>
-          <td>
-            <mark>food</mark>
-            <mark>alcohol</mark>
-            <mark>cream</mark>
-          </td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td class="money min">1 243 <sup>00</sup></td>
-          <td>Rosneft <span>City Credit</span></td>
-          <td>
-            <mark>car</mark>
-            <mark>gas</mark>
-          </td>
-        </tr>
-        <tr>
-          <td class="date">15 nov</td>
-          <td class="money plus">1 332 <sup>45</sup></td>
-          <td>Parallels <span>Cash</span></td>
-          <td><mark>dining</mark></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td class="money min">36 293 <sup>77</sup></td>
-          <td>AE <span>City Credit</span></td>
-          <td><mark>clothing</mark></td>
-        </tr>
-        <tr>
-          <td class="date">10 nov</td>
-          <td class="money plus">11 282 864 <sup>75</sup></td>
-          <td>It's the longest name ever ever ever evereverever ever <span>City Credit</span></td>
-          <td>
-            <mark>tags</mark>
-            <mark>never</mark>
-            <mark>enouth</mark>
-            <mark>espesially</mark>
-            <mark>in</mark>
-            <mark>monly</mark>
-            <mark>tags</mark>
-            <mark>never</mark>
-            <mark>enouth</mark>
-            <mark>espesially</mark>
-            <mark>longestlongestlongest</mark>
-            <mark>monly</mark>
-          </td>
-        </tr>                
+          <tr>
+            <td class="data">24 nov</td>
+            <td class="money min">523 <sup>30</sup></td>
+            <td>Lenta <span>City</span></td>
+            <td>
+              <mark>food</mark>
+              <mark>alcohol</mark>
+              <mark>cream</mark>
+            </td>
+          </tr>
+        </tbody>
       </table>
       <!-- transactions -->
     </div>
