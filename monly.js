@@ -17,7 +17,7 @@ var monly = {
 
     formatMoney: function(str) {
         str = str + '';
-        return str.replace(/(\d{3})/g, ' $1').replace(/^\s/, '');
+        return str.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
     },
 
     showTransactionForm: function() {
@@ -33,7 +33,7 @@ var monly = {
     },
 
     showNetWorth: function() {
-        this._net_worth.innerHTML = ~~(this._data.net_worth / 100) + ' <sup class="gr">' + this.padlen(Math.abs(this._data.net_worth % 100)) + '</sup>';
+        this._net_worth.innerHTML = this.formatMoney(~~(this._data.net_worth / 100)) + ' <sup class="gr">' + this.padlen(Math.abs(this._data.net_worth % 100)) + '</sup>';
     },
 
     showAccounts: function() {
@@ -59,8 +59,8 @@ var monly = {
         this._full_table.innerHTML = '<tr><th>date</th><th>amount</th><th>description</th><th>tags</th></tr>';
         this._small_table.innerHTML = '';
         for (var i=this._data.transactions.length-1; i>=Math.max(0, this._data.transactions.length - 10); i--) {
-            this._full_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td class="money min">' + ~~(this._data.transactions[i].amount / 100) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td><td>' + this._data.transactions[i].description + ' <span>' + this._data.transactions[i].type + '</span><td><mark>' + this._data.transactions[i].tags.join('</mark><mark>') + '</mark></td></tr>';
-            this._small_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td>' + this._data.transactions[i].description + '<span>' + this._data.transactions[i].type + '</span><span class="grey">' + this._data.transactions[i].tags.join(', ') + '</span></td><td class="money min">' + ~~(this._data.transactions[i].amount / 100) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td></tr>';
+            this._full_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td class="money min">' + this.formatMoney(-1*~~(this._data.transactions[i].amount / 100)) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td><td>' + this._data.transactions[i].description + ' <span>' + this._data.transactions[i].type + '</span><td><mark>' + this._data.transactions[i].tags.join('</mark><mark>') + '</mark></td></tr>';
+            this._small_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td>' + this._data.transactions[i].description + '<span>' + this._data.transactions[i].type + '</span><span class="grey">' + this._data.transactions[i].tags.join(', ') + '</span></td><td class="money min">' + this.formatMoney(-1*~~(this._data.transactions[i].amount / 100)) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td></tr>';
         }
     },
 
