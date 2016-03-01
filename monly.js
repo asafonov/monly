@@ -4,6 +4,7 @@ var monly = {
     _net_worth: null,
     _accounts: null,
     _data: null,
+    _periods: [],
 
     padlen: function(str, len, item) {
         typeof(len) != 'undefined' || (len = 2);
@@ -42,7 +43,7 @@ var monly = {
         for (var i=0; i<accounts_selects.length; i++) {
             accounts_selects[i].innerHTML = '';
         }
-        
+
         for (var key in this._data.accounts) {
             this._accounts.innerHTML += '<div><span>' + key + '</span><span>' + this.formatMoney(this._data.accounts[key] / 100) + '</span></div>';
             for (i=0; i<accounts_selects.length; i++) {
@@ -52,7 +53,7 @@ var monly = {
                 accounts_selects[i].appendChild(option);
             }
         }
-        
+
     },
 
     showTransactions: function() {
@@ -77,9 +78,7 @@ var monly = {
             }
             this.addTransaction(item);
             this.saveData();
-            this.showAccounts();
-            this.showNetWorth();
-            this.showTransactions();
+            this.updateUI();
         }
         this.hideTransactionForm();
     },
@@ -90,6 +89,13 @@ var monly = {
         this._data.accounts[item.type] += -1 * item.amount;
     },
 
+    updateUI: function() {
+        this.showAccounts();
+        this.showNetWorth();
+        this.showTransactions();
+        this.overviewPeriod(this._periods[this._period_select.value]);
+    },
+
     getData: function() {
         this._data = storage.get('monly');
     },
@@ -98,14 +104,47 @@ var monly = {
         storage.set('monly', this._data);
     },
 
+    overviewPeriod: function(period) {
+        if (typeof period == 'undefined') {
+            period = new Date().toISOString().slice(0, 7);
+        }
+        var income = 0;
+        var expense = 0;
+        for (var i=this._data.transactions.length-1; i>=0; i--) {
+            if (this._data.transactions[i].date < period) {
+                break;
+            }
+            if (this._data.transactions[i].date.slice(0, 7) == period) {
+                if (this._data.transactions[i].amount > 0) {
+                    expense += this._data.transactions[i].amount;
+                } else {
+                    income += Math.abs(this._data.transactions[i].amount);
+                }
+            }
+        }
+        this._income.innerHTML = this.formatMoney(~~(income / 100)) + ' <sup>' + this.padlen(income % 100) + '</sup>';
+        this._expense.innerHTML = this.formatMoney(~~(-1*expense / 100)) + ' <sup>' + this.padlen(expense % 100) + '</sup>';
+    },
+
+    _initPeriods: function() {
+        var today = new Date();
+        this._periods.push(today.toISOString().slice(0, 7));
+        today.setMonth(today.getMonth() - 1);
+        this._periods.push(today.toISOString().slice(0, 7));
+    },
+
     __init__: function() {
         this._transaction_form = document.querySelectorAll('.add_tran');
         this._net_worth = document.querySelector('.js-net_worth');
         this._accounts = document.querySelector('.js-accounts fieldset');
         this._full_table = document.querySelector('#full_table tbody');
         this._small_table = document.querySelector('#small_table tbody');
+        this._expense = document.querySelector('.js-expense');
+        this._income = document.querySelector('.js-income');
+        this._period_select = document.querySelector('.js-period');
         var context = this;
         eyeless(document.querySelector('.js-add_button')).event('click', function() {context.showTransactionForm()});
+        eyeless(this._period_select).event('change', function() {context.overviewPeriod(context._periods[this.value])});
         for (var i=0; i<this._transaction_form.length; i++) {
             eyeless(this._transaction_form[i].querySelector('button[name=save]')).event('click', function() {context.saveTransaction(this)});
         }
@@ -123,8 +162,11 @@ var monly = {
         });
         this.saveData();
 
+        this._initPeriods();
+
         this.showNetWorth();
         this.showAccounts();
         this.showTransactions();
+        this.overviewPeriod();
     }
 }

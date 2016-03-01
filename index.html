@@ -64,7 +64,7 @@
         <form id="add">
           <!-- transaction -->
           <div class="clear">
-            <input name="date" type="date" placeholder="17 дек">
+            <input name="date" type="date">
             <input name="amount" type="number" placeholder="0.00" step="0.01">
             <input name="description" type="text" placeholder="" class="long">
             <select name="type">
@@ -77,67 +77,6 @@
             <input name="tags" type="text" placeholder="" class="long">
             <span class="add">⋮ split</span>
           </div>
-          <!-- /transaction -->
-          <!-- transaction -->
-          <!--<div class="clear">
-            <input name="date" type="date" placeholder="17 дек">
-            <input name="amount" type="number" placeholder=".00">
-            <input name="description" type="text" placeholder="" class="long">
-            <select name="type">
-            <optgroup>
-              <option value="cash">Cash</option>
-              <option value="City">City</option>
-              <option value="Credit">Credit</option>
-            </optgroup>
-            </select>
-            <input name="tags" type="text" placeholder="" class="long">
-            <span class="add">⋮ split</span>-->
-            <!-- splitting -->
-            <!--<div class="clear split">
-              <input name="date" type="date" placeholder="17 дек">
-              <input name="amount" type="number" placeholder=".00" id="show">
-              <input name="description" type="text" placeholder="" class="long">
-              <select name="type">
-              <optgroup>
-                <option value="cash">Cash</option>
-                <option value="City">City</option>
-                <option value="Credit">Credit</option>
-              </optgroup>
-              </select>
-              <input name="tags" type="text" placeholder="" class="long"  id="show">
-            </div>
-            <div class="clear split">
-              <input name="date" type="date" placeholder="17 дек">
-              <input name="amount" type="number" placeholder=".00" id="show">
-              <input name="description" type="text" placeholder="" class="long">
-              <select name="type">
-              <optgroup>
-                <option value="cash">Cash</option>
-                <option value="City">City</option>
-                <option value="Credit">Credit</option>
-              </optgroup>
-              </select>
-              <input name="tags" type="text" placeholder="" class="long"  id="show">
-            </div>
-            <div class="add clear"><span class="gr">+ </span>item</div>-->
-            <!-- /splitting -->
-          <!--</div>-->
-          <!-- /transaction -->
-          <!-- transaction -->
-          <!--<div class="clear">
-            <input name="date" type="date" placeholder="17 дек">
-            <input name="amount" type="number" placeholder=".00">
-            <input name="description" type="text" placeholder="" class="long">
-            <select name="type">
-            <optgroup>
-              <option value="cash">Cash</option>
-              <option value="City">City</option>
-              <option value="Credit">Credit</option>
-            </optgroup>
-            </select>
-            <input name="tags" type="text" placeholder="" class="long">
-            <span class="add">⋮ split</span>
-          </div>-->
           <!-- /transaction -->
         </form>
         <div class="add clear" id="form_add"><span class="gr">+ </span>transaction</div>
@@ -191,12 +130,10 @@
 
         <div class="clear marb">
           <!-- select_period -->
-          <select name="period">
+          <select name="period" class="js-period">
           <optgroup>
-            <option value="this month">This month</option>
-            <option value="last month">Last month</option>
-            <option value="last year">Last year</option>
-            <option value="custom">Custom</option>
+            <option value="0">This month</option>
+            <option value="1">Last month</option>
           </optgroup>
           </select>
           <!-- /select_period -->
@@ -206,8 +143,8 @@
         <div class="review clear marb">
            <fieldset>
             <legend class="gr">review</legend>
-            <div><span>Income</span><span>23 456</span></div>
-            <div><span>Expence</span><span class="red">- 23 456</span></div>
+            <div><span>Income</span><span class="js-income"></span></div>
+            <div><span>Expense</span><span class="red js-expense"></span></div>
           </fieldset>
         </div>
         <!-- /review -->
