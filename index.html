@@ -5,6 +5,7 @@
 	<title>Monly</title>
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/icon.png" />
 	<link rel=stylesheet type=text/css href="style.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC' rel='stylesheet' type='text/css'>
@@ -18,7 +19,7 @@
   <!-- top -->
   <div class="top clear">
     <!-- logo_menu -->
-    <div class="logo left">&equiv; Monly</div>
+    <div class="logo left js-logo">&equiv; Monly</div>
     <!-- /logo_menu -->
     <!-- top_add -->
     <div class="add big marl left js-add_button"><span class="gr b">+ </span>add transaction</div>
@@ -30,15 +31,11 @@
   <!-- /top -->
 
   <!-- left_menu -->
-  <div class="left_col left" style="display: none;">
+  <div class="left_col left js-menu" style="display: none;">
     <div class="left_menu clear">
       <ul>
-        <li>Transactions</li>
-        <li>Budget</li>
-        <li id="activ">Goals</li>
-        <li>Reports</li>
-        <li>Accaunts</li>
-        <li>Settings</li>
+        <li class="js-menu-backup">Backup data</li>
+        <li class="js-menu-restore">Restore data</li>
       </ul>
     </div>
   </div>

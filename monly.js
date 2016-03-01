@@ -5,6 +5,8 @@ var monly = {
     _accounts: null,
     _data: null,
     _periods: [],
+    _id: null,
+    _url: 'http://monly.asafonov.org/ajax/',
 
     padlen: function(str, len, item) {
         typeof(len) != 'undefined' || (len = 2);
@@ -30,6 +32,14 @@ var monly = {
     hideTransactionForm: function() {
         for (var i=0; i<this._transaction_form.length; i++) {
             this._transaction_form[i].style.visibility = 'hidden';
+        }
+    },
+
+    toggleMenu: function() {
+        if (this._menu.style.display == 'none') {
+            this._menu.style.display = 'block';
+        } else {
+            this._menu.style.display = 'none';
         }
     },
 
@@ -123,7 +133,65 @@ var monly = {
             }
         }
         this._income.innerHTML = this.formatMoney(~~(income / 100)) + ' <sup>' + this.padlen(income % 100) + '</sup>';
-        this._expense.innerHTML = this.formatMoney(~~(-1*expense / 100)) + ' <sup>' + this.padlen(expense % 100) + '</sup>';
+        this._expense.innerHTML = this.formatMoney(~~(-1*expense / 100)) + ' <sup class="red">' + this.padlen(expense % 100) + '</sup>';
+    },
+
+    sync: function() {
+        if (!this._id) return false;
+        var context = this;
+        this.download(undefined, function() {context.upload()});
+    },
+    
+    upload: function(callback) {
+        if (!this._id) return false;
+        ajax.post(this._url + '?id=' + this._id, {
+            params: 'data=' + JSON.stringify(this._data),
+            callback: callback
+        });
+    },
+
+    download: function(success_callback, error_callback) {
+        if (!this._id) return false;
+        var context = this;
+        ajax.get(this._url + '?id=' + this._id, {
+            callback: function(data) {
+                if (data) {
+                    try {
+                        context._data = JSON.parse(data);
+                        context.saveData();
+                        context.updateUI();
+                        if (typeof success_callback != 'undefined') {
+                            success_callback();
+                        }
+                    } catch(err) {
+                        console.log(err);
+                        return false;
+                    }
+                } else {
+                    if (typeof error_callback != 'undefined') {
+                        error_callback();
+                    }
+                }
+            }
+        });
+    },
+
+    backup: function() {
+        if (!confirm("Backup data?")) return false;
+        if (!this._id) {
+            this._id = prompt("Please enter your id");
+            storage.set('monly_id', this._id);
+        }
+        this.upload(function() {alert('Your data is uploaded')});
+    },
+
+    restore: function() {
+        if (!confirm("Restore data?")) return false;
+        if (!this._id) {
+            this._id = prompt("Please enter your id");
+            storage.set('monly_id', this._id);
+        }
+        this.download(function() {alert('Your data is restored')}, function() {alert("Error during restoring your data")});
     },
 
     _initPeriods: function() {
@@ -142,9 +210,14 @@ var monly = {
         this._expense = document.querySelector('.js-expense');
         this._income = document.querySelector('.js-income');
         this._period_select = document.querySelector('.js-period');
+        this._menu = document.querySelector('.js-menu');
+
         var context = this;
         eyeless(document.querySelector('.js-add_button')).event('click', function() {context.showTransactionForm()});
         eyeless(this._period_select).event('change', function() {context.overviewPeriod(context._periods[this.value])});
+        eyeless(document.querySelector('.js-menu-backup')).event('click', function() {context.backup(); context.toggleMenu()});
+        eyeless(document.querySelector('.js-menu-restore')).event('click', function() {context.restore(); context.toggleMenu()});
+        eyeless(document.querySelector('.js-logo')).event('click', function() {context.toggleMenu()});
         for (var i=0; i<this._transaction_form.length; i++) {
             eyeless(this._transaction_form[i].querySelector('button[name=save]')).event('click', function() {context.saveTransaction(this)});
         }
@@ -161,6 +234,7 @@ var monly = {
             transactions: [],
         });
         this.saveData();
+        this._id = storage.get('monly_id');
 
         this._initPeriods();
 
