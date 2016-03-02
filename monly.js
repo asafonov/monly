@@ -6,6 +6,7 @@ var monly = {
     _data: null,
     _periods: [],
     _id: null,
+    _password: null,
     _url: 'http://monly.asafonov.org/ajax/',
 
     padlen: function(str, len, item) {
@@ -145,7 +146,7 @@ var monly = {
     upload: function(callback) {
         if (!this._id) return false;
         ajax.post(this._url + '?id=' + this._id, {
-            params: 'data=' + JSON.stringify(this._data),
+            params: 'data=' + JSON.stringify(this._data) + '&password=' + this._password,
             callback: callback
         });
     },
@@ -153,7 +154,8 @@ var monly = {
     download: function(success_callback, error_callback) {
         if (!this._id) return false;
         var context = this;
-        ajax.get(this._url + '?id=' + this._id, {
+        ajax.post(this._url + '?get=1&id=' + this._id, {
+            params: 'password=' + this._password,
             callback: function(data) {
                 if (data) {
                     try {
@@ -182,6 +184,10 @@ var monly = {
             this._id = prompt("Please enter your id");
             storage.set('monly_id', this._id);
         }
+        if (!this._password) {
+            this._password = prompt("Please enter your password");
+            storage.set('monly_password', this._password);
+        }
         this.upload(function() {alert('Your data is uploaded')});
     },
 
@@ -190,6 +196,10 @@ var monly = {
         if (!this._id) {
             this._id = prompt("Please enter your id");
             storage.set('monly_id', this._id);
+        }
+        if (!this._password) {
+            this._password = prompt("Please enter your password");
+            storage.set('monly_password', this._password);
         }
         this.download(function() {alert('Your data is restored')}, function() {alert("Error during restoring your data")});
     },
@@ -235,6 +245,7 @@ var monly = {
         });
         this.saveData();
         this._id = storage.get('monly_id');
+        this._password = storage.get('monly_password');
 
         this._initPeriods();
 
