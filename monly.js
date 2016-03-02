@@ -125,7 +125,7 @@ var monly = {
             if (this._data.transactions[i].date < period) {
                 break;
             }
-            if (this._data.transactions[i].date.slice(0, 7) == period) {
+            if (this._data.transactions[i].date.slice(0, 7) == period && this._data.transactions[i].tags.indexOf("transfer") == -1) {
                 if (this._data.transactions[i].amount > 0) {
                     expense += this._data.transactions[i].amount;
                 } else {
