@@ -67,21 +67,6 @@ var monly = {
 
     },
 
-    showTransactions: function(period) {
-        this._full_table.innerHTML = '<tr><th>date</th><th>amount</th><th>description</th><th>tags</th></tr>';
-        this._small_table.innerHTML = '';
-
-        for (var i=this._data.transactions.length-1; i>=0; i--) {
-            if (this._data.transactions[i].date < period) {
-                break;
-            }
-            if (this._data.transactions[i].date.slice(0, 7) == period) {
-                this._full_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td class="money min">' + this.formatMoney(-1*~~(this._data.transactions[i].amount / 100)) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td><td>' + this._data.transactions[i].description + ' <span>' + this._data.transactions[i].type + '</span><td><mark>' + this._data.transactions[i].tags.join('</mark><mark>') + '</mark></td></tr>';
-                this._small_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td>' + this._data.transactions[i].description + '<span>' + this._data.transactions[i].type + '</span><span class="grey">' + this._data.transactions[i].tags.join(', ') + '</span></td><td class="money min">' + this.formatMoney(-1*~~(this._data.transactions[i].amount / 100)) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td></tr>';
-            }
-        }
-    },
-
     saveTransaction: function(obj) {
         var form = obj.parentNode.querySelector('form');
         var amount = parseFloat(form.elements['amount'].value || '0');
@@ -124,24 +109,32 @@ var monly = {
         if (typeof period == 'undefined') {
             period = new Date().toISOString().slice(0, 7);
         }
+
         var income = 0;
         var expense = 0;
+
+        this._full_table.innerHTML = '<tr><th>date</th><th>amount</th><th>description</th><th>tags</th></tr>';
+        this._small_table.innerHTML = '';
+
         for (var i=this._data.transactions.length-1; i>=0; i--) {
             if (this._data.transactions[i].date < period) {
                 break;
             }
-            if (this._data.transactions[i].date.slice(0, 7) == period && this._data.transactions[i].tags.indexOf("transfer") == -1) {
-                if (this._data.transactions[i].amount > 0) {
-                    expense += this._data.transactions[i].amount;
-                } else {
-                    income += Math.abs(this._data.transactions[i].amount);
+            if (this._data.transactions[i].date.slice(0, 7) == period) {
+                this._full_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td class="money min">' + this.formatMoney(-1*~~(this._data.transactions[i].amount / 100)) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td><td>' + this._data.transactions[i].description + ' <span>' + this._data.transactions[i].type + '</span><td><mark>' + this._data.transactions[i].tags.join('</mark><mark>') + '</mark></td></tr>';
+                this._small_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td>' + this._data.transactions[i].description + '<span>' + this._data.transactions[i].type + '</span><span class="grey">' + this._data.transactions[i].tags.join(', ') + '</span></td><td class="money min">' + this.formatMoney(-1*~~(this._data.transactions[i].amount / 100)) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td></tr>';
+                if (this._data.transactions[i].tags.indexOf("transfer") == -1) {
+                    if (this._data.transactions[i].amount > 0) {
+                        expense += this._data.transactions[i].amount;
+                    } else {
+                        income += Math.abs(this._data.transactions[i].amount);
+                    }
                 }
             }
         }
+
         this._income.innerHTML = this.formatMoney(~~(income / 100)) + ' <sup>' + this.padlen(income % 100) + '</sup>';
         this._expense.innerHTML = this.formatMoney(~~(-1*expense / 100)) + ' <sup class="red">' + this.padlen(expense % 100) + '</sup>';
-
-        this.showTransactions(period);
     },
 
     sync: function() {
