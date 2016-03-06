@@ -140,9 +140,29 @@ var monly = {
         }
 
         this._tags.innerHTML = '<legend class="gr">tags</legend>';
-        for(var tag in tags) {
-            if (tag != '') {
-                this._tags.innerHTML += '<div><span>' + tag + '</span><span>' + this.formatMoney(~~(tags[tag] / 100)) + ' <sup>' + this.padlen(tags[tag] % 100) + '</sup>' + '</span></div>';
+
+        var sortObject = function(obj) {
+            var arr = [];
+            var prop;
+            for (prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    arr.push({
+                        'key': prop,
+                        'value': obj[prop]
+                    });
+                }
+            }
+            arr.sort(function(a, b) {
+                return a.value - b.value;
+            });
+            return arr;
+        }
+
+        var sorted = sortObject(tags);
+
+        for(var i=sorted.length - 1; i>=0; i--) {
+            if (sorted[i].key != '') {
+                this._tags.innerHTML += '<div><span>' + sorted[i].key + '</span><span>' + this.formatMoney(~~(sorted[i].value / 100)) + ' <sup>' + this.padlen(sorted[i].value % 100) + '</sup>' + '</span></div>';
             }
         }
 
