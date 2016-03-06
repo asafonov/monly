@@ -116,6 +116,8 @@ var monly = {
         this._full_table.innerHTML = '<tr><th>date</th><th>amount</th><th>description</th><th>tags</th></tr>';
         this._small_table.innerHTML = '';
 
+        var tags = {};
+
         for (var i=this._data.transactions.length-1; i>=0; i--) {
             if (this._data.transactions[i].date < period) {
                 break;
@@ -124,12 +126,23 @@ var monly = {
                 this._full_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td class="money min">' + this.formatMoney(-1*~~(this._data.transactions[i].amount / 100)) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td><td>' + this._data.transactions[i].description + ' <span>' + this._data.transactions[i].type + '</span><td><mark>' + this._data.transactions[i].tags.join('</mark><mark>') + '</mark></td></tr>';
                 this._small_table.innerHTML += '<tr><td class="data">' + this._data.transactions[i].date + '</td><td>' + this._data.transactions[i].description + '<span>' + this._data.transactions[i].type + '</span><span class="grey">' + this._data.transactions[i].tags.join(', ') + '</span></td><td class="money min">' + this.formatMoney(-1*~~(this._data.transactions[i].amount / 100)) + ' <sup>' + this.padlen(Math.abs(this._data.transactions[i].amount % 100)) + '</sup></td></tr>';
                 if (this._data.transactions[i].tags.indexOf("transfer") == -1) {
+                    for (var j=0; j<this._data.transactions[i].tags.length; j++) {
+                        tags[this._data.transactions[i].tags[j]] = tags[this._data.transactions[i].tags[j]] || 0;
+                        tags[this._data.transactions[i].tags[j]] += this._data.transactions[i].amount;
+                    }
                     if (this._data.transactions[i].amount > 0) {
                         expense += this._data.transactions[i].amount;
                     } else {
                         income += Math.abs(this._data.transactions[i].amount);
                     }
                 }
+            }
+        }
+
+        this._tags.innerHTML = '<legend class="gr">tags</legend>';
+        for(var tag in tags) {
+            if (tag != '') {
+                this._tags.innerHTML += '<div><span>' + tag + '</span><span>' + this.formatMoney(~~(tags[tag] / 100)) + ' <sup>' + this.padlen(tags[tag] % 100) + '</sup>' + '</span></div>';
             }
         }
 
@@ -221,6 +234,7 @@ var monly = {
         this._income = document.querySelector('.js-income');
         this._period_select = document.querySelector('.js-period');
         this._menu = document.querySelector('.js-menu');
+        this._tags = document.querySelector('.js-tags');
 
         var context = this;
         eyeless(document.querySelector('.js-add_button')).event('click', function() {context.showTransactionForm()});
