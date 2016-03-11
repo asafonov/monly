@@ -197,7 +197,7 @@ fieldset div span { display: inline-block;}
 .search { cursor: pointer;}
 
 /* left */
-.left_col { position: absolute;
+.left_col { position: fixed;
             top: 2.5em;
 			left: 0;
 			z-index: 100;
