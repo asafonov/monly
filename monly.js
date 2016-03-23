@@ -76,7 +76,7 @@ var monly = {
         var amount = parseFloat(form.elements['amount'].value || '0');
         if (amount != 0) {
             var item = {
-                amount: parseInt(amount * 100),
+                amount: Math.round(amount * 100),
                 date: form.elements['date'].value || new Date().toISOString().slice(0, 10),
                 description: form.elements['description'].value,
                 type: form.elements['type'].value,
