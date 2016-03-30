@@ -90,7 +90,14 @@ var monly = {
     },
 
     addTransaction: function(item) {
-        this._data.transactions.push(item);
+        var index = -1;
+        for (var i = this._data.transactions.length - 1; i>=0; i--) {
+            if (this._data.transactions[i].date <= item.date) {
+                index = i;
+                break;
+            }
+        }
+        this._data.transactions.splice(index + 1, 0, item);
         this._data.net_worth = this._data.net_worth += -1 * item.amount;
         this._data.accounts[item.type] += -1 * item.amount;
     },
