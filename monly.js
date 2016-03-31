@@ -251,8 +251,12 @@ var monly = {
     _initPeriods: function() {
         var today = new Date();
         this._periods.push(today.toISOString().slice(0, 7));
-        today.setMonth(today.getMonth() - 1);
-        this._periods.push(today.toISOString().slice(0, 7));
+        if (today.getMonth() == 0) {
+            var last_month = new Date(today.getFullYear() - 1, 11, 15);
+        } else {
+            var last_month = new Date(today.getFullYear(), today.getMonth() - 1, 15);
+        }
+        this._periods.push(last_month.toISOString().slice(0, 7));
     },
 
     __init__: function() {
