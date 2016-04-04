@@ -292,6 +292,10 @@ var monly = {
             },
             transactions: [],
         });
+        this._data.net_worth = 0;
+        for (var account in this._data.accounts) {
+            this._data.net_worth += this._data.accounts[account];
+        }
         this.saveData();
         this._id = storage.get('monly_id');
         this._password = storage.get('monly_password');
