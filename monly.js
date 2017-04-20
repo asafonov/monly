@@ -222,32 +222,6 @@ var monly = {
         });
     },
 
-    backup: function() {
-        if (!confirm("Backup data?")) return false;
-        if (!this._id) {
-            this._id = prompt("Please enter your id");
-            storage.set('monly_id', this._id);
-        }
-        if (!this._password) {
-            this._password = prompt("Please enter your password");
-            storage.set('monly_password', this._password);
-        }
-        this.upload(function() {alert('Your data is uploaded')});
-    },
-
-    restore: function() {
-        if (!confirm("Restore data?")) return false;
-        if (!this._id) {
-            this._id = prompt("Please enter your id");
-            storage.set('monly_id', this._id);
-        }
-        if (!this._password) {
-            this._password = prompt("Please enter your password");
-            storage.set('monly_password', this._password);
-        }
-        this.download(function() {alert('Your data is restored')}, function() {alert("Error during restoring your data")});
-    },
-
     _initPeriods: function() {
         var today = new Date();
         this._periods.push(today.toISOString().slice(0, 7));
@@ -274,8 +248,6 @@ var monly = {
         var context = this;
         eyeless(document.querySelector('.js-add_button')).event('click', function() {context.showTransactionForm()});
         eyeless(this._period_select).event('change', function() {context.overviewPeriod(context._periods[this.value])});
-        eyeless(document.querySelector('.js-menu-backup')).event('click', function() {context.backup(); context.toggleMenu()});
-        eyeless(document.querySelector('.js-menu-restore')).event('click', function() {context.restore(); context.toggleMenu()});
         eyeless(document.querySelector('.js-logo')).event('click', function() {context.toggleMenu()});
         for (var i=0; i<this._transaction_form.length; i++) {
             eyeless(this._transaction_form[i].querySelector('button[name=save]')).event('click', function() {context.saveTransaction(this)});
