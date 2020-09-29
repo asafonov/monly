@@ -6,7 +6,7 @@ class Utils {
     str = str + '';
 
     while (str.length < len) {
-        str = item + str;
+      str = item + str;
     }
 
     return str;
@@ -17,6 +17,6 @@ class Utils {
   }
 
   showMoney (money, classname) {
-    return this.formatMoney(~~(money / 100)) + ' <sup' + (typeof classname != 'undefined' ? ' class="' + classname + '"' : '') + '>' + this.padlen(Math.abs(money % 100)) + '</sup>';        
+    return this.formatMoney(~~(money / 100)) + ' <sup' + (classname !== null && classname !== undefined ? ' class="' + classname + '"' : '') + '>' + this.padlen(Math.abs(money % 100)) + '</sup>';
   }
 }
