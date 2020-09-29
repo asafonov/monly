@@ -1,258 +1,274 @@
 <!DOCTYPE html>
-<html>
+<html ontouchmove> 
 
 <head>
   <title>Monly</title>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="icon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel=stylesheet type=text/css href="style.css">
-  <script src="script.js"></script>
 </head>
 
-<body>
-<DIV class="main clear">
-  <div class="top clear">
-    <div class="logo left js-logo">&equiv; Monly</div>
-    <div class="add big marl left js-add_button"><span class="gr b">+ </span>add transaction</div>
-    <div class="search right marr">&#128269;</div>
+<body id="main_page">
+  <!-- top -->
+  <div class="row top wrap">
+    <div class="logo svg"></div> 
+    <div class="menu ico_container">
+      <div class="menu_cards svg"></div>
+      <div class="menu_charts svg"></div>
+      <div class="menu_bills svg"></div>
+      <div class="menu_settings svg"></div>
+    </div>  
   </div>
+  <!-- /top -->
+  <div class="row content no_filter clear">
+    <!-- section -->
+    <div class="section wrap">
+      <h1>accounts</h1>
+      <div class="number big">120,603.44</div>
+      <div class="item">
+        <div>Cash</div>
+        <div class="number">12,000.00</div>
+      </div>
+      <div class="item">
+        <div>city bank</div>
+        <div class="number">3,457.44</div>
+      </div>
+      <div class="item">
+        <div>Яндекс.Деньги</div>
+        <div class="number">2,590.00</div>
+      </div>
+      <div class="add">add account</div>
+    </div>
+    <!-- /section -->
 
-  <div class="left_col left js-menu" style="display: none;">
-    <div class="left_menu clear">
-      <ul>
-      </ul>
+<!-- select simple 
+    <div class="select select_green" id="opened">
+        <div class="active wrap">this month</div>
+        <div class="options wrap">
+          <div class="opt">select month</div>
+          <div class="opt">select period</div>
+        </div>    
+    </div>
+ -->
+    
+<!-- select month -->
+    <div class="select select_green" id="opened">
+        <div class="active wrap">this month</div>
+        <div class="options wrap">
+          <div class="opt year">2020</div>
+          <div class="row">
+            <div class="opt">jan</div>
+            <div class="opt">feb</div>
+            <div class="opt">mar</div>
+            <div class="opt">apr</div>
+            <div class="opt">may</div>
+            <div class="opt">jun</div>
+          </div>
+          <div class="row">  
+            <div class="opt">jul</div>
+            <div class="opt">aug</div>
+            <div class="opt">sep</div>
+            <div class="opt">oct</div>
+            <div class="opt">nov</div>
+            <div class="opt">dec</div>
+          </div>
+          
+        </div>    
+    </div>
+
+
+<!-- select inputs
+    <div class="select select_green" id="opened">
+        <div class="active wrap">this month</div>
+        <div class="options wrap inputs">
+          <div class="row">
+            <div class="opt">from</div>
+            <div class="opt" contenteditable=""></div>
+          </div>
+          <div class="row">  
+            <div class="opt">to</div>
+            <div class="opt" contenteditable=""></div>
+          </div>         
+        </div>    
+    </div>
+-->
+
+    <!-- section -->
+    <div class="section wrap no_add">
+      <h1>review</h1>
+      <div class="item">
+        <div>Income</div>
+        <div class="number">12,000.00</div>
+      </div>
+      <div class="item">
+        <div>Expence</div>
+        <div class="number">3,457.44</div>
+      </div>
+    </div>
+    <!-- /section -->
+
+    <!-- section -->
+    <div class="section wrap with_left">
+      <h1>budgets</h1>
+      <div class="number big">7,278.00</div>
+      <div class="item" id="budget_1">
+        <div class="row">
+          <div>За квартиру</div>
+          <div class="number with_left">3,500.00</div>
+        </div>
+        <div class="row number dual">10,000.00 <span>13,500.00</span></div>
+        <div class="row progress_line">
+          <div class="filled"></div>
+        </div>
+      </div>
+      <div class="item" id="budget_2">
+        <div class="row">
+          <div>Управляющей</div>
+          <div class="number with_left">457.44</div>
+        </div>
+        <div class="row number dual">3,000.00<span>3,457.44</span></div>
+        <div class="row progress_line">
+          <div class="filled"></div>
+        </div>
+      </div>
+      <div class="add">add budget</div>
+    </div>
+    <!-- /section -->
+
+    <!-- section -->
+    <div class="section wrap transactions">
+      <h1>transactions</h1>
+      <!-- item -->
+      <div class="item">
+        <div class="row">
+          <div class="firts_coll">20 aug 2020</div>
+          <div class="second_coll small">Яндекс.Деньги</div>
+          <div class="third_coll number">120,000,000.00</div>
+        </div>
+        <div class="row">
+          <div class="firts_coll small">Перекресток</div>
+          <div class="second_coll small light">groceries</div>
+          <div class="third_coll ico_container">
+            <div class="trans_expence svg light"></div>
+            <div class="trans_scan svg light"></div>
+          </div>
+        </div>
+      </div>
+      <!-- /item -->
+      <!-- item -->
+      <div class="item">
+        <div class="row">
+          <div class="firts_coll">19 aug 2020</div>
+          <div class="second_coll small">Cash</div>
+          <div class="third_coll number">567.35</div>
+        </div>
+        <div class="row">
+          <div class="firts_coll small"></div>
+          <div class="second_coll small light">investment</div>
+          <div class="third_coll ico_container">
+            <div class="trans_transfer svg light"></div>
+          </div>
+        </div>
+      </div>
+      <!-- /item -->
+      <!-- item -->
+      <div class="item">
+        <div class="row">
+          <div class="firts_coll">19 aug 2020</div>
+          <div class="second_coll small">Яндекс.Деньги</div>
+          <div class="third_coll number">567.35</div>
+        </div>
+        <div class="row">
+          <div class="firts_coll small">Лента</div>
+          <div class="second_coll small light">groceries</div>
+          <div class="third_coll ico_container">
+            <div class="trans_expence svg light"></div>
+          </div>
+        </div>
+      </div>
+      <!-- /item -->
+      <!-- item -->
+      <div class="item">
+        <div class="row">
+          <div class="firts_coll">19 aug 2020</div>
+          <div class="second_coll small">alfa bank</div>
+          <div class="third_coll number">10,000.00</div>
+        </div>
+        <div class="row">
+          <div class="firts_coll small"></div>
+          <div class="second_coll small light">gift</div>
+          <div class="third_coll ico_container">
+            <div class="trans_income svg light"></div>
+          </div>
+        </div>
+      </div>
+      <!-- /item -->
+<!-- step_1 
+      <div class="item add_item step_1">
+        <div class="row">
+          <div class="action">
+            <div class="trans_scan svg"></div>
+            <span class="small">Scan</span>
+          </div>
+          <div class="action">
+            <div class="trans_expence svg"></div>
+            <span class="small">expense</span>
+          </div>
+          <div class="action">
+            <div class="trans_income svg"></div>
+            <span class="small">income</span>
+          </div>
+          <div class="action">
+            <div class="trans_transfer svg"></div>
+            <span class="small">transfer</span>
+          </div>
+        </div>
+      </div>
+-->
+<!-- step_2 -->
+      <div class="item add_item step_2">
+        <div class="row">
+          <div class="firts_coll light">19 aug 2020</div>
+          <div class="second_coll small">
+            <!-- select simple -->
+            <div class="select select_white" id="opened_money">
+                <div class="active small light">Яндекс.Деньги</div>
+                <div class="options wrap">
+                  <div class="opt small">Cash</div>
+                  <div class="opt small">alfa bank</div>
+                </div>    
+            </div>
+            <!-- /select simple -->
+          </div>
+          <div class="third_coll number light">10,000.00</div>
+        </div>
+        <div class="row">
+          <div class="firts_coll small light">Place</div>
+          <div class="second_coll small">
+            <!-- select simple -->
+            <div class="select select_white" id="pened_category">
+                <div class="active small light">Gift</div>
+                <div class="options wrap">
+                  <div class="opt small">groceries</div>
+                  <div class="opt small">auto gas</div>
+                  <div class="opt small">travels</div>
+                </div>    
+            </div>
+            <!-- /select simple -->
+          </div>
+          <div class="third_coll ico_container">
+            <div class="trans_income svg"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="add">add transaction</div>
+    </div>
+    <!-- /section -->
+
+    <div class="pay">
+      <div class="svg"></div>
     </div>
   </div>
-
-  <div class="right_col left">
-    <div class="content clear">
-      <div class="net_worth marb big">Net worth<span class="gr b marl big js-net_worth"><sup class="gr"></sup></span></div>
-
-      <!-- add_transaction_full -->
-      <div class="clear add_tran" id="full_add">
-        <h1 class="big gr">Add transaction</h1>
-        <hgroup class="clear">
-          <h2>Date</h2>
-          <h2>Amount</h2>
-          <h2 class="long">Description</h2>
-          <h2>Type</h2>
-          <h2 class="long">Tags</h2>
-        </hgroup>
-        <form id="add">
-          <!-- transaction -->
-          <div class="clear">
-            <input name="date" type="date">
-            <input name="amount" type="number" placeholder="0.00" step="0.01">
-            <input name="description" type="text" placeholder="" class="long">
-            <select name="type">
-            <optgroup>
-              <option value="cash">Cash</option>
-              <option value="City">City</option>
-              <option value="Credit">Credit</option>
-            </optgroup>
-            </select>
-            <input name="tags" type="text" placeholder="" class="long">
-            <span class="add">⋮ split</span>
-          </div>
-          <!-- /transaction -->
-        </form>
-        <div class="add clear" id="form_add"><span class="gr">+ </span>transaction</div>
-        <button name="save" class="clear">Save</button>
-      </div>
-      <!-- /add_transaction_full -->
-
-      <!-- add_transaction_short -->
-      <div class="clear add_tran big" id="small_add">
-        <h1 class="big gr">Add transaction</h1>
-        <div class="clear">
-          <hgroup>
-
-          </hgroup>
-          <form id="add">
-            <!-- transaction -->
-            <div class="clear">
-              <div class="clear"><h2>Date</h2><input name="date" type="date" placeholder="17 дек"></div>
-              <div class="clear"><h2>Amount</h2><input name="amount" type="number" placeholder="0.00" step="0.01"></div>
-              <div class="clear"><h2 class="long">Description</h2><input name="description" type="text" placeholder="" class="long"></div>
-              <div class="clear">
-                <h2>Type</h2>
-                <select name="type">
-                <optgroup>
-                  <option value="cash">Cash</option>
-                  <option value="City">City</option>
-                  <option value="Credit">Credit</option>
-                </optgroup>
-                </select>
-              </div>
-              <div class="clear"><h2 class="long">Tags</h2><input name="tags" type="text" placeholder="" class="long"></div>
-            </div>
-            <!-- /transaction -->
-          </form>
-        </div>
-        <button name="save" class="clear">Save</button>
-      </div>
-      <!-- /add_transaction_short -->
-
-      <div class="clear">
-        <!-- accounts -->
-        <div class="accounts marb clear">
-          <fieldset>
-            <legend class="gr">accounts</legend>
-            <div><span>Cash</span><span>15 000</span></div>
-            <div><span>City</span><span>1 000</span></div>
-            <div><span>Credit</span><span class="red">- 7 000</span></div>
-          </fieldset>
-        </div>
-        <!-- /accounts -->
-
-        <div class="clear marb">
-          <!-- select_period -->
-          <select name="period" class="js-period">
-          <optgroup>
-            <option value="0">This month</option>
-            <option value="1">Last month</option>
-          </optgroup>
-          </select>
-          <!-- /select_period -->
-        </div>
-
-        <!-- review -->
-        <div class="review clear marb">
-          <fieldset>
-            <legend class="gr">review</legend>
-            <div><span>Income</span><span class="js-income"></span></div>
-            <div><span>Expense</span><span class="red js-expense"></span></div>
-          </fieldset>
-        </div>
-        <!-- /review -->
-
-        <div class="review clear marb">
-          <fieldset class="js-tags">
-            <legend class="gr">tags</legend>
-          </fieldset>
-        </div>
-
-        <!-- budget_review -->
-        <div class="budget_review clear marb">
-           <fieldset>
-            <legend class="gr">budget</legend>
-            <div><span>Overall</span><span>5 600</span></div>
-            <div><span>Food</span><span>2 350</span></div>
-            <div><span>Alcohol</span><span class="red">- 350</span></div>
-          </fieldset>
-        </div>
-        <!-- /budget_review -->
-
-        <!-- budget -->
-        <div class="budget left marb">
-          <fieldset class="track">
-            <legend class="gr">budget</legend>
-            <div class="clear">
-              <aside>72 136</aside>
-              <span>Overall</span><progress value="30" max="500"></progress>
-              <aside>300</aside>
-            </div>
-
-            <div class="clear">
-              <aside>56 552</aside>
-              <span>Food</span><progress value="22" max="111"></progress>
-              <aside>13 768</aside>
-            </div>
-
-            <div id="over" class="clear">
-              <aside>1 459</aside>
-              <span>Alcohol</span><progress value="55" max="55"></progress><span></span><aside class="red">2 459</aside>
-              <aside>3 600</aside>
-            </div>
-          </fieldset>
-        </div>
-        <!-- /budget -->
-      </div>
-
-    <div class="clear">
-      <!-- goals -->
-      <div class="goals left">
-        <fieldset class="track">
-          <legend class="gr">goals</legend>
-          <div class="clear">
-            <aside>72 136</aside>
-            <span>☎ New iphone</span><progress value="30" max="500"></progress>
-            <aside>300</aside>
-          </div>
-
-          <div class="clear">
-            <aside>56 552</aside>
-            <span>✈ Vacation!!!</span><progress value="22" max="111"></progress>
-            <aside>13 768</aside>
-          </div>
-
-          <div id="over" class="clear">
-            <aside>1 459</aside>
-            <span>🏠 Depts</span><progress value="55" max="55"></progress><span></span><aside class="red">2 459</aside>
-            <aside>3 600</aside>
-          </div>
-
-          <div class="clear">
-            <aside>56 552</aside>
-            <span>☕ Dinnings</span><progress value="22" max="111"></progress>
-            <aside>13 768</aside>
-          </div>
-        </fieldset>
-      </div>
-      <!-- /goals -->
-      </div>
-
-      <!-- transactions_review -->
-      <h1 class="big gr">transactions</h1>
-      <table class="table clear" id="small_table">
-        <colgroup>
-          <col class="date">
-          <col>
-          <col class="amount">
-        </colgroup>
-        <tbody>
-          <tr>
-            <td class="data">24 nov</td>
-            <td>Lenta <span>City</span><span class="grey">food, alcohol, cream</span></td>
-            <td class="money min"><span>- 523 <sup>30</sup></span></td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- /transactions_review -->
-
-      <!-- transactions -->
-      <table class="table clear" id="full_table">
-        <colgroup>
-          <col class="date">
-          <col class="amount">
-          <col>
-          <col class="tags">
-        </colgroup>
-        <tbody>
-        <tr>
-          <th>date</th>
-          <th>amount</th>
-          <th>description</th>
-          <th>tags</th>
-        </tr>
-          <tr>
-            <td class="data">24 nov</td>
-            <td class="money min">523 <sup>30</sup></td>
-            <td>Lenta <span>City</span></td>
-            <td>
-              <mark>food</mark>
-              <mark>alcohol</mark>
-              <mark>cream</mark>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- transactions -->
-    </div>
-    <!-- content -->
-  </div>
-</DIV>
-<!-- /main -->
-</body>
+</body>    
 </html>
