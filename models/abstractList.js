@@ -1,6 +1,6 @@
 class AbstractList {
-  constructor() {
-    this.list;
+  constructor (list) {
+    this.list = list;
   }
 
   getList() {

@@ -1,22 +1,9 @@
 class Utils {
 
-  padlen (str, len, item) {
-    len !== undefined || (len = 2);
-    item !== undefined || (item = '0');
-    str = str + '';
-
-    while (str.length < len) {
-      str = item + str;
-    }
-
-    return str;
+  displayMoney (money) {
+    const dollars = parseInt(money / 100, 10);
+    const cents = money % 100;
+    return `${dollars}.${cents}`;
   }
 
-  formatMoney (str) {
-    return (str + '').replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
-  }
-
-  showMoney (money, classname) {
-    return this.formatMoney(~~(money / 100)) + ' <sup' + (classname !== null && classname !== undefined ? ' class="' + classname + '"' : '') + '>' + this.padlen(Math.abs(money % 100)) + '</sup>';
-  }
 }

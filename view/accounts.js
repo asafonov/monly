@@ -1,27 +1,40 @@
 class AccountsView {
   constructor() {
-    this.model = new Accounts();
-    this.listElement = document.querySelector('.accounts fieldset');
-    this.selects = document.querySelectorAll('select[name=type]');
+    this.model = new Accounts(
+      {Yandex: 300000, Alfa: 4142181} // test data
+    );
+    this.listElement = document.querySelector('.accounts');
+  }
+
+  clearExistingItems() {
+    const items = this.listElement.querySelectorAll('.item');
+
+    for (let i = 0; i < items.length; ++i) {
+      this.listElement.removeChild(items[i]);
+    }
   }
 
   initList() {
-    this.listElement.innerHTML = '<legend class="gr">accounts</legend>';
+    this.clearExistingItems();
     const list = this.model.getList();
-
-    for (let i = 0; i < this.selects.length; ++i) {
-        this.selects[i].innerHTML = '';
-    }
+    const addButton = this.listElement.querySelector('.add');
+    const totalElement = this.listElement.querySelector('.number.big');
+    let total = 0;
 
     for (let key in list) {
-        this.listElement.innerHTML += '<div><span>' + key + '</span><span>' + asafonov.utils.displayMoney(list[key].value) + '</span></div>';
-
-        for (i = 0; i < this.selects.length; ++i) {
-            var option = document.createElement('option');
-            option.innerHTML = key;
-            option.value = key;
-            this.selects[i].appendChild(option);
-        }
+      const item = document.createElement('div');
+      item.className = 'item';
+      const title = document.createElement('div');
+      title.innerHTML = key;
+      item.appendChild(title);
+      const value = document.createElement('div');
+      value.className = 'number';
+      value.innerHTML = asafonov.utils.displayMoney(list[key]);
+      item.appendChild(value);
+      this.listElement.insertBefore(item, addButton);
+      total += list[key];
     }
+
+    totalElement.innerHTML = asafonov.utils.displayMoney(total);
   }
 }
