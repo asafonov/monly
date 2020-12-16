@@ -1,11 +1,11 @@
 class AbstractList {
   constructor (list) {
-    this.list = list;
+    this.list = this.getList() || list || {};
   }
 
   getList() {
     if (this.list === null || this.list === undefined) {
-      this.list = JSON.parse(window.localStorage.getItem(this.constructor.name)) || {};
+      this.list = JSON.parse(window.localStorage.getItem(this.constructor.name));
     }
 
     return this.list;
@@ -21,6 +21,16 @@ class AbstractList {
 
   updateItem (id, item) {
     this.list[id] = item;
+    this.store();
+  }
+
+  updateId (id, newid) {
+    this.list[newid] = this.list[id];
+    this.deleteItem(id);
+  }
+
+  deleteItem (id) {
+    delete this.list[id];
     this.store();
   }
 
