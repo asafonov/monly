@@ -6,4 +6,11 @@ class Utils {
     return `${dollars}.${cents}`;
   }
 
+  padlen (str, len, symbol) {
+    for (let i = 0; i < len - str.length; ++i) {
+      str = symbol + str;
+    }
+
+    return str;
+  }
 }
