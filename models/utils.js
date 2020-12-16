@@ -2,7 +2,7 @@ class Utils {
 
   displayMoney (money) {
     const dollars = parseInt(money / 100, 10);
-    const cents = money % 100;
+    const cents = this.padlen((money % 100).toString(), 2, '0');
     return `${dollars}.${cents}`;
   }
 

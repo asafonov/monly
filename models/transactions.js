@@ -3,7 +3,7 @@ class Transactions {
   construct (year, month) {
     const today = new Date();
     this.year = today.getFullYear() || year;
-    this.month = asafonov.utils.padlen((today.getMonth() + 1 || month).asString(), 2, '0');
+    this.month = asafonov.utils.padlen((today.getMonth() + 1 || month).toString(), 2, '0');
     this.name = this.year + this.month;
     this.initList();
   }
@@ -12,6 +12,10 @@ class Transactions {
     if (this.list === null || this.list === undefined) {
       this.list = JSON.parse(window.localStorage.getItem(this.name)) || [];
     }
+  }
+
+  getList() {
+    return this.list;
   }
 
   addItem (item) {
@@ -34,7 +38,7 @@ class Transactions {
   }
 
   income() {
-    return this.sum(i => i < 0);
+    return Max.abs(this.sum(i => i < 0));
   }
 
   sum (func) {
