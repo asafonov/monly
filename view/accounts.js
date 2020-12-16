@@ -24,7 +24,9 @@ class AccountsView {
   }
 
   onAddButtonClicked() {
-    this.renderItem('New Account', 0);
+    const accountName = 'Account' + Math.floor(Math.random() * 1000)
+    this.model.updateItem(accountName, 0);
+    this.renderItem(accountName, 0);
   }
 
   clearExistingItems() {
