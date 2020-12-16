@@ -42,14 +42,14 @@ class AccountsView {
     title.className = 'title';
     title.setAttribute('contenteditable', 'true');
     title.innerHTML = name;
-    title.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerHTML));
+    title.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
     title.addEventListener('blur', this.onAccountTitleChangedProxy);
     item.appendChild(title);
     const value = document.createElement('div');
     value.className = 'number';
     value.innerHTML = asafonov.utils.displayMoney(amount);
     value.setAttribute('contenteditable', 'true');
-    value.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerHTML));
+    value.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
     value.addEventListener('blur', this.onAccountValueChangedProxy);
     item.appendChild(value);
     this.listElement.insertBefore(item, this.addButton);
@@ -57,18 +57,23 @@ class AccountsView {
 
   onAccountTitleChanged (event) {
     const title = event.currentTarget;
-    const newValue = title.innerHTML;
+    const newValue = title.innerText.replace(/\n/g, '');
     const originalValue = title.getAttribute('data-content');
 
     if (newValue !== originalValue) {
-      this.model.updateId(originalValue, newValue);
+      if (newValue.length > 0) {
+        this.model.updateId(originalValue, newValue);
+      } else {
+        this.model.deleteItem(originalValue);
+        this.updateList();
+      }
     }
   }
 
   onAccountValueChanged (event) {
     const value = event.currentTarget;
     const title = value.parentNode.querySelector('.title');
-    const newValue = value.innerHTML;
+    const newValue = value.innerText.replace(/\n/g, '');
     const originalValue = value.getAttribute('data-content');
 
     if (newValue !== originalValue) {
