@@ -1,6 +1,6 @@
 class Transactions {
 
-  construct (year, month) {
+  constructor (year, month) {
     const today = new Date();
     this.year = today.getFullYear() || year;
     this.month = asafonov.utils.padlen((today.getMonth() + 1 || month).toString(), 2, '0');
@@ -38,11 +38,11 @@ class Transactions {
   }
 
   income() {
-    return Max.abs(this.sum(i => i < 0));
+    return Math.abs(this.sum(i => i < 0));
   }
 
   sum (func) {
-    return this.list.filter(v => func(v)).map(v => v.amount).reduce((accumulator, currentValue) => accumulator + currentValue);
+    return this.list.filter(v => func(v)).map(v => v.amount).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
   }
 
   store() {
