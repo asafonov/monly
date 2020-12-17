@@ -1,4 +1,4 @@
-class Transactions {
+bclass Transactions {
 
   constructor (year, month) {
     const today = new Date();
@@ -16,6 +16,25 @@ class Transactions {
 
   getList() {
     return this.list;
+  }
+
+  assignType (amount) {
+    return amount >= 0 ? 'expense' : 'income';
+  }
+
+  createItem (date, account, amount, pos, tag, type) {
+    return {
+      date: date,
+      account: account,
+      amount: amount,
+      pos: pos,
+      tag: tag,
+      type: type || this.assignType(amount)
+    };
+  }
+
+  add (date, account, amount, pos, tag, type) {
+    this.addItem(this.createItem(date, account, amount, pos, tag, type));
   }
 
   addItem (item) {
