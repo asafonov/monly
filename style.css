@@ -392,8 +392,8 @@ h1 {
   display: inline-block;
 }
 
-.transactions .trans_expence {
-  background-image: url(images/ico_expence.svg);
+.transactions .trans_expense {
+  background-image: url(images/ico_expense.svg);
 }
 
 .transactions .trans_scan {
