@@ -110,6 +110,7 @@ class AccountsView {
 
   destroy() {
     this.removeEventListeners();
+    this.model.destroy();
     this.addButton = null;
     this.listElement = null;
   }

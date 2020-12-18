@@ -1,4 +1,4 @@
-bclass Transactions {
+class Transactions {
 
   constructor (year, month) {
     const today = new Date();
@@ -34,7 +34,9 @@ bclass Transactions {
   }
 
   add (date, account, amount, pos, tag, type) {
-    this.addItem(this.createItem(date, account, amount, pos, tag, type));
+    const item = this.createItem(date, account, amount, pos, tag, type);
+    this.addItem(item);
+    return item;
   }
 
   addItem (item) {

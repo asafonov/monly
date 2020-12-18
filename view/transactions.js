@@ -5,7 +5,32 @@ class TransactionsView {
     this.addButton = this.listElement.querySelector('.add');
     this.incomeElement = document.querySelector('.income');
     this.expenseElement = document.querySelector('.expense');
+    this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this);
     this.model = new Transactions();
+    this.addEventListeners();
+  }
+
+  addEventListeners() {
+    this.updateEventListeners(true);
+  }
+
+  removeEventListeners() {
+    this.updateEventListeners();
+  }
+
+  updateEventListeners (add) {
+    this.addButton[add ? 'addEventListener' : 'removeEventListener']('click', this.onAddButtonClickedProxy);
+  }
+
+  onAddButtonClicked() {
+    const item = this.model.add(
+      (new Date()).toISOString().substr(0, 10),
+      'Test',
+      0,
+      'Point of sale',
+      'Groceries'
+    );
+    this.renderItem(item);
   }
 
   updateTotal() {
@@ -78,4 +103,12 @@ class TransactionsView {
     }
   }
 
+  destroy() {
+    this.removeEventListeners();
+    this.model.destroy();
+    this.addButton = null;
+    this.listElement = null;
+    this.incomeElement = null;
+    this.expenseElement = null;
+  }
 }
