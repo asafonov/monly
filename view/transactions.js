@@ -25,7 +25,7 @@ class TransactionsView {
   onAddButtonClicked() {
     const item = this.model.add(
       (new Date()).toISOString().substr(0, 10),
-      'Test',
+      asafonov.accounts.getDefault(),
       0,
       'Point of sale',
       'Groceries'
@@ -60,7 +60,7 @@ class TransactionsView {
 
     const accountDiv = document.createElement('div');
     accountDiv.className = 'second_coll small';
-    accountDiv.innerHTML = asafonov.accounts.getDefault();
+    accountDiv.innerHTML = item.account;
     row1.appendChild(accountDiv);
 
     const amountDiv = document.createElement('div');
