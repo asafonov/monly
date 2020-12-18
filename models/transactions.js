@@ -45,7 +45,7 @@ class Transactions {
   }
 
   updateItem (id, item) {
-    this.list[id] = item;
+    this.list[id] = {...this.list[id], ...item};
     this.store();
   }
 

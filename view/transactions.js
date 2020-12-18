@@ -6,6 +6,7 @@ class TransactionsView {
     this.incomeElement = document.querySelector('.income');
     this.expenseElement = document.querySelector('.expense');
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this);
+    this.onAmountChangedProxy = this.onAmountChanged.bind(this);
     this.model = new Transactions();
     this.addEventListeners();
   }
@@ -30,7 +31,7 @@ class TransactionsView {
       'Point of sale',
       'Groceries'
     );
-    this.renderItem(item);
+    this.renderItem(item, this.model.getList().length);
   }
 
   updateTotal() {
@@ -46,9 +47,24 @@ class TransactionsView {
     }
   }
 
-  renderItem (item) {
+  onAmountChanged (event) {
+    const element = event.currentTarget;
+    const newValue = element.innerText.replace(/\n/g, '');
+    const originalValue = element.getAttribute('data-content');
+    const id = element.parentNode.parentNode.getAttribute('data-id');
+
+    if (newValue !== originalValue) {
+      const amount = parseInt(parseFloat(newValue) * 100);
+      this.model.updateItem(id, {amount: amount});
+      value.innerHTML = asafonov.utils.displayMoney(amount);
+      this.updateTotal();
+    }
+  }
+
+  renderItem (item, i) {
     const itemDiv = document.createElement('div');
     itemDiv.className = 'item';
+    itemDiv.setAttribute('data-id', i);
 
     const row1 = document.createElement('div');
     row1.className = 'row';
@@ -66,6 +82,9 @@ class TransactionsView {
     const amountDiv = document.createElement('div');
     amountDiv.className = 'third_coll number';
     amountDiv.innerHTML = asafonov.utils.displayMoney(item.amount);
+    amountDiv.setAttribute('contenteditable', 'true');
+    amountDiv.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
+    amountDiv.addEventListener('blur', this.onAmountChangedProxy);
     row1.appendChild(amountDiv);
     itemDiv.appendChild(row1);
 
@@ -100,7 +119,7 @@ class TransactionsView {
     const list = this.model.getList();
 
     for (let i = 0; i < list.length; ++i) {
-      this.renderItem(list[i]);
+      this.renderItem(list[i], i);
     }
   }
 
