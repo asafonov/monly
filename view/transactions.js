@@ -65,9 +65,9 @@ class TransactionsView {
 
     const amountDiv = document.createElement('div');
     amountDiv.className = 'third_coll number';
-    amountDiv.innerHTML = item.amount;
+    amountDiv.innerHTML = asafonov.utils.displayMoney(item.amount);
     row1.appendChild(amountDiv);
-    item.appendChild(row1);
+    itemDiv.appendChild(row1);
 
     const row2 = document.createElement('div');
     row2.className = 'row';
@@ -89,6 +89,7 @@ class TransactionsView {
     ico.className = 'svg';
     ico.classList.add('trans_' + item.type);
     icoDiv.appendChild(ico);
+    itemDiv.appendChild(row2);
 
     this.listElement.insertBefore(itemDiv, this.addButton);
   }
