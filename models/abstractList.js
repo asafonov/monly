@@ -11,6 +11,10 @@ class AbstractList {
     return this.list;
   }
 
+  getDefault() {
+    return Object.keys(this.list)[0];
+  }
+
   getItem (id) {
     if (this.list === null || this.list === undefined) {
       this.getList();

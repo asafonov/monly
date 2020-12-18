@@ -60,7 +60,7 @@ class TransactionsView {
 
     const accountDiv = document.createElement('div');
     accountDiv.className = 'second_coll small';
-    accountDiv.innerHTML = item.account;
+    accountDiv.innerHTML = asafonov.accounts.getDefault();
     row1.appendChild(accountDiv);
 
     const amountDiv = document.createElement('div');
