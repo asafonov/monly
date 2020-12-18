@@ -1,4 +1,7 @@
-document.addEventListener("DOMContentLoaded", function (event) { 
+document.addEventListener("DOMContentLoaded", function (event) {
+  asafonov.accounts = new Accounts(
+    {Account1: 300000, Account2: 4142181} // test data
+  )
   const accountsView = new AccountsView();
   accountsView.updateList();
   const transactionsView = new TransactionsView();

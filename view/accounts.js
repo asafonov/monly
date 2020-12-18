@@ -1,8 +1,6 @@
 class AccountsView {
   constructor() {
-    this.model = new Accounts(
-      {Account1: 300000, Account2: 4142181} // test data
-    );
+    this.model = asafonov.accounts;
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this);
     this.onAccountTitleChangedProxy = this.onAccountTitleChanged.bind(this);
     this.onAccountValueChangedProxy = this.onAccountValueChanged.bind(this);
