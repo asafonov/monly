@@ -7,6 +7,7 @@ class TransactionsView {
     this.expenseElement = document.querySelector('.expense');
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this);
     this.onAmountChangedProxy = this.onAmountChanged.bind(this);
+    this.onItemDataChangedProxy = this.onItemDataChanged.bind(this);
     this.model = new Transactions();
     this.addEventListeners();
   }
@@ -65,6 +66,20 @@ class TransactionsView {
     }
   }
 
+  onItemDataChanged (event) {
+    const element = event.currentTarget;
+    const newValue = element.innerText.replace(/\n/g, '');
+    const originalValue = element.getAttribute('data-content');
+    const id = element.parentNode.parentNode.getAttribute('data-id');
+    const name = element.getAttribute('data-name');
+
+    if (newValue !== originalValue) {
+      let data = {};
+      data[name] = newValue;
+      this.model.updateItem(id, data);
+    }
+  }
+
   genItemId (id) {
     return `item_${id}`;
   }
@@ -112,11 +127,19 @@ class TransactionsView {
     const posDiv = document.createElement('div');
     posDiv.className = 'first_coll small';
     posDiv.innerHTML = item.pos;
+    posDiv.setAttribute('data-name', 'pos');
+    posDiv.setAttribute('contenteditable', 'true');
+    posDiv.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
+    posDiv.addEventListener('blur', this.onItemDataChangedProxy);
     row2.appendChild(posDiv);
 
     const tagDiv = document.createElement('div');
     tagDiv.className = 'second_coll small';
     tagDiv.innerHTML = item.tag;
+    tagDiv.setAttribute('data-name', 'tag');
+    tagDiv.setAttribute('contenteditable', 'true');
+    tagDiv.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
+    tagDiv.addEventListener('blur', this.onItemDataChangedProxy);
     row2.appendChild(tagDiv);
 
     const icoDiv = document.createElement('div');
