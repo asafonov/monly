@@ -82,6 +82,8 @@ class TransactionsView {
       itemAdded = false;
     }
 
+    itemDiv.innerHTML = '';
+
     const row1 = document.createElement('div');
     row1.className = 'row';
 

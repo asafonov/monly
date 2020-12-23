@@ -45,8 +45,10 @@ class Transactions {
   }
 
   updateItem (id, item) {
+    const oldItem = {...this.list[id]};
     this.list[id] = {...this.list[id], ...item};
     this.store();
+    asafonov.messageBus.send(asafonov.events.TRANSACTION_UPDATED, {id: id, to: this.list[id], from: oldItem});
   }
 
   deleteItem (id) {
