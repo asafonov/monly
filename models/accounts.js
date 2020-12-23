@@ -11,4 +11,8 @@ class Accounts extends AbstractList {
     asafonov.messageBus.send(asafonov.events.ACCOUNT_RENAMED, {item: this.list[newid], from: id, to: newid});
   }
 
+  purchase (id, amount) {
+    this.updateItem(id, this.list[id] + amount);
+  }
+
 }
