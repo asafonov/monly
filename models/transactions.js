@@ -36,12 +36,12 @@ class Transactions {
   add (date, account, amount, pos, tag, type) {
     const item = this.createItem(date, account, amount, pos, tag, type);
     this.addItem(item);
-    return item;
   }
 
   addItem (item) {
     this.list.push(item);
     this.store();
+    asafonov.messageBus.send(asafonov.events.TRANSACTION_UPDATED, {id: this.list.length - 1, to: item, from: null});
   }
 
   updateItem (id, item) {

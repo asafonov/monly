@@ -13,25 +13,31 @@ class TransactionsView {
 
   addEventListeners() {
     this.updateEventListeners(true);
+    asafonov.messageBus.subscribe(asafonov.events.TRANSACTION_UPDATED, this, 'onTransactionUpdated');
   }
 
   removeEventListeners() {
     this.updateEventListeners();
+    asafonov.messageBus.unsubscribe(asafonov.events.TRANSACTION_UPDATED, this, 'onTransactionUpdated');
   }
 
   updateEventListeners (add) {
     this.addButton[add ? 'addEventListener' : 'removeEventListener']('click', this.onAddButtonClickedProxy);
   }
 
+  onTransactionUpdated (event) {
+    this.renderItem (event.to, event.id);
+    this.updateTotal();
+  }
+
   onAddButtonClicked() {
-    const item = this.model.add(
+    this.model.add(
       (new Date()).toISOString().substr(0, 10),
       asafonov.accounts.getDefault(),
       0,
       'Point of sale',
       'Groceries'
     );
-    this.renderItem(item, this.model.getList().length);
   }
 
   updateTotal() {
@@ -56,15 +62,25 @@ class TransactionsView {
     if (newValue !== originalValue) {
       const amount = parseInt(parseFloat(newValue) * 100);
       this.model.updateItem(id, {amount: amount});
-      value.innerHTML = asafonov.utils.displayMoney(amount);
-      this.updateTotal();
     }
   }
 
+  genItemId (id) {
+    return `item_${id}`;
+  }
+
   renderItem (item, i) {
-    const itemDiv = document.createElement('div');
-    itemDiv.className = 'item';
-    itemDiv.setAttribute('data-id', i);
+    const itemId = this.genItemId(i);
+    let itemDiv = this.listElement.querySelector(`#${itemId}`);
+    let itemAdded = true;
+
+    if (! itemDiv) {
+      itemDiv = document.createElement('div');
+      itemDiv.className = 'item';
+      itemDiv.setAttribute('data-id', i);
+      itemDiv.id = itemId;
+      itemAdded = false;
+    }
 
     const row1 = document.createElement('div');
     row1.className = 'row';
@@ -110,7 +126,7 @@ class TransactionsView {
     icoDiv.appendChild(ico);
     itemDiv.appendChild(row2);
 
-    this.listElement.insertBefore(itemDiv, this.addButton);
+    if (! itemAdded) this.listElement.insertBefore(itemDiv, this.addButton);
   }
 
   updateList() {
