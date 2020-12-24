@@ -4,7 +4,11 @@ window.asafonov.messageBus = new MessageBus();
 window.asafonov.events = {
   ACCOUNT_UPDATED: 'accountUpdated',
   ACCOUNT_RENAMED: 'accountRenamed',
-  TRANSACTION_UPDATED: 'transactionUpdated'
+  TRANSACTION_UPDATED: 'transactionUpdated',
+  BUDGET_UPDATED: 'budgetUpdated'
 };
 window.asafonov.settings = {
 };
+window.onerror = (msg, url, line) => {
+  alert(`${msg} on line ${line}`);
+}

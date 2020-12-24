@@ -1,21 +1,7 @@
-class Transactions {
+class Transactions extends AbstractPeriodList {
 
   constructor (year, month) {
-    const today = new Date();
-    this.year = today.getFullYear() || year;
-    this.month = asafonov.utils.padlen((today.getMonth() + 1 || month).toString(), 2, '0');
-    this.name = this.year + this.month;
-    this.initList();
-  }
-
-  initList() {
-    if (this.list === null || this.list === undefined) {
-      this.list = JSON.parse(window.localStorage.getItem(this.name)) || [];
-    }
-  }
-
-  getList() {
-    return this.list;
+    super(year, month, '');
   }
 
   assignType (amount) {
@@ -39,21 +25,15 @@ class Transactions {
   }
 
   addItem (item) {
-    this.list.push(item);
-    this.store();
-    asafonov.messageBus.send(asafonov.events.TRANSACTION_UPDATED, {id: this.list.length - 1, to: item, from: null});
+    super.addItem(item, asafonov.events.TRANSACTION_UPDATED);
   }
 
   updateItem (id, item) {
-    const oldItem = {...this.list[id]};
-    this.list[id] = {...this.list[id], ...item};
-    this.store();
-    asafonov.messageBus.send(asafonov.events.TRANSACTION_UPDATED, {id: id, to: this.list[id], from: oldItem});
+    super.updateItem(id, item, asafonov.events.TRANSACTION_UPDATED);
   }
 
   deleteItem (id) {
-    this.list.splice(id, 1);
-    this.store();
+    super.deleteItem(id);
   }
 
   expense() {
@@ -66,9 +46,5 @@ class Transactions {
 
   sum (func) {
     return this.list.filter(v => func(v)).map(v => v.amount).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-  }
-
-  store() {
-    window.localStorage.setItem(this.name, JSON.stringify(this.list));
   }
 }
