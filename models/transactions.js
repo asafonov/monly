@@ -37,11 +37,11 @@ class Transactions extends AbstractPeriodList {
   }
 
   expense() {
-    return this.sum(i => i > 0);
+    return this.sum(i => i.amount > 0);
   }
 
   income() {
-    return Math.abs(this.sum(i => i < 0));
+    return Math.abs(this.sum(i => i.amount < 0));
   }
 
   sum (func) {
