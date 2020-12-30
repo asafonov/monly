@@ -2,6 +2,7 @@ class TransactionsView {
 
   constructor() {
     this.listElement = document.querySelector('.transactions');
+    this.headerElement = this.listElement.querySelector('h1');
     this.addButton = this.listElement.querySelector('.add');
     this.incomeElement = document.querySelector('.income');
     this.expenseElement = document.querySelector('.expense');
@@ -151,7 +152,7 @@ class TransactionsView {
     icoDiv.appendChild(ico);
     itemDiv.appendChild(row2);
 
-    if (! itemAdded) this.listElement.insertBefore(itemDiv, this.listElement.firstChild);
+    if (! itemAdded) this.headerElement.after(itemDiv);
   }
 
   updateList() {
