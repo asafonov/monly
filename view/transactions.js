@@ -159,7 +159,7 @@ class TransactionsView {
     this.updateTotal();
     const list = this.model.getList();
 
-    for (let i = list.length - 1; i >= 0; --i) {
+    for (let i = 0; i < list.length; ++i) {
       this.renderItem(list[i], i);
     }
   }
