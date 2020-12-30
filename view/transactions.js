@@ -151,7 +151,7 @@ class TransactionsView {
     icoDiv.appendChild(ico);
     itemDiv.appendChild(row2);
 
-    if (! itemAdded) this.listElement.insertBefore(itemDiv, this.addButton);
+    if (! itemAdded) this.listElement.insertBefore(itemDiv, this.listElement.firstChild);
   }
 
   updateList() {
