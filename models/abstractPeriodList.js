@@ -2,8 +2,8 @@ class AbstractPeriodList {
 
   constructor (year, month, prefix) {
     const today = new Date();
-    this.year = today.getFullYear() || year;
-    this.month = asafonov.utils.padlen((today.getMonth() + 1 || month).toString(), 2, '0');
+    this.year = year || today.getFullYear();
+    this.month = asafonov.utils.padlen((month || today.getMonth() + 1).toString(), 2, '0');
     this.name = prefix + this.year + this.month;
     this.initList();
   }
