@@ -44,6 +44,10 @@ class Transactions extends AbstractPeriodList {
     return Math.abs(this.sum(i => i.amount < 0));
   }
 
+  sumByTag (tag) {
+    return this.sum(i => i.tag === tag);
+  }
+
   sum (func) {
     return this.list.filter(v => func(v)).map(v => v.amount).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
   }
