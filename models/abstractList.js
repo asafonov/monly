@@ -1,4 +1,5 @@
 class AbstractList {
+
   constructor (list) {
     this.list = this.getList() || list || {};
   }

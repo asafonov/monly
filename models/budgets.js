@@ -1,14 +1,14 @@
-class Budgets extends AbstractPeriodList {
-
-  constructor (year, month) {
-    super(year, month, 'budgets_');
-  }
-
-  addItem (item) {
-    super.addItem(item, asafonov.events.BUDGET_UPDATED);
-  }
+class Budgets extends AbstractList {
 
   updateItem (id, item) {
-    super.updateItem(id, item, asafonov.events.BUDGET_UPDATED);
+    const from = {...this.list[id]};
+    super.updateItem(id, item);
+    asafonov.messageBus.send(asafonov.events.BUDGET_UPDATED, {id: id, from: from, to: item});
   }
+
+  updateId (id, newid) {
+    super.updateId(id, newid);
+    asafonov.messageBus.send(asafonov.events.BUDGET_RENAMED, {item: this.list[newid], from: id, to: newid});
+  }
+
 }

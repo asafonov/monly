@@ -5,7 +5,8 @@ window.asafonov.events = {
   ACCOUNT_UPDATED: 'accountUpdated',
   ACCOUNT_RENAMED: 'accountRenamed',
   TRANSACTION_UPDATED: 'transactionUpdated',
-  BUDGET_UPDATED: 'budgetUpdated'
+  BUDGET_UPDATED: 'budgetUpdated',
+  BUDGET_RENAMED: 'budgetRenames'
 };
 window.asafonov.settings = {
 };
