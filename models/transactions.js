@@ -1,7 +1,7 @@
 class Transactions extends AbstractPeriodList {
 
   constructor (year, month) {
-    super(year, month, '');
+    super(year, month, '', asafonov.events.TRANSACTIONS_LOADED);
   }
 
   assignType (amount) {

@@ -1,16 +1,17 @@
 class AbstractPeriodList {
 
-  constructor (year, month, prefix) {
+  constructor (year, month, prefix, event) {
     const today = new Date();
     this.year = year || today.getFullYear();
     this.month = asafonov.utils.padlen((month || today.getMonth() + 1).toString(), 2, '0');
     this.name = prefix + this.year + this.month;
-    this.initList();
+    this.initList(event);
   }
 
-  initList() {
+  initList (event) {
     if (this.list === null || this.list === undefined) {
       this.list = JSON.parse(window.localStorage.getItem(this.name)) || [];
+      if (event) asafonov.messageBus.send(event, {list: this.list});
     }
   }
 
