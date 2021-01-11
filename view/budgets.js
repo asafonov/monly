@@ -59,7 +59,13 @@ class BudgetsView {
     const spent = asafonov.utils.displayMoney(sum);
 
     item.querySelector(`.number.with_left`).innerHTML = left;
-    item.querySelector('.row.number.dual').innerHTML = `${spent} <span>${budget}</span>`;
+    item.querySelector('.row.number.dual').innerText = `${spent} `;
+    const v = document.createElement('span');
+    v.setAttribute('contenteditable', 'true');
+    v.innerHTML = budget;
+    v.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
+    v.addEventListener('blur', this.onValueChangedProxy);
+    item.querySelector('.row.number.dual').appendChild(v);
     const width = Math.min(100, parseInt(sum / this.model.getItem(tag) * 100)) || 100;
     item.querySelector('.filled').style.width = `${width}%`;
   }
@@ -94,12 +100,25 @@ class BudgetsView {
 
     const row = document.createElement('div');
     row.className = 'row';
-    row.innerHTML = `<div>${name}</div><div class="number with_left">${displayAmount}</div>`;
+    const n = document.createElement('div');
+    n.className = 'budget_name';
+    n.innerHTML = name;
+    n.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
+    n.addEventListener('blur', this.onTitleChangedProxy);
+    n.setAttribute('contenteditable', 'true');
+    row.appendChild(n);
+    const a = document.createElement('div');
+    a.className = 'number with_left';
+    a.innerHTML = displayAmount;
+    row.appendChild(a);
     item.appendChild(row);
 
     const row2 = document.createElement('div');
     row2.className = 'row number dual';
-    row2.innerHTML = `${displayZero} <span>${displayAmount}</span>`;
+    row2.innerHTML = `${displayZero} `;
+    const v = document.createElement('span');
+    v.innerHTML = displayAmount;
+    row2.appendChild(v);
     item.appendChild(row2);
 
     const row3 = document.createElement('div');
@@ -110,6 +129,7 @@ class BudgetsView {
     if (! itemExists) {
       this.listElement.insertBefore(item, this.addButton);
     }
+
   }
 
   onTitleChanged (event) {
@@ -129,7 +149,7 @@ class BudgetsView {
 
   onValueChanged (event) {
     const value = event.currentTarget;
-    const title = value.parentNode.querySelector('.title');
+    const title = value.parentNode.parentNode.querySelector('.budget_name');
     const newValue = value.innerText.replace(/\n/g, '');
     const originalValue = value.getAttribute('data-content');
 
