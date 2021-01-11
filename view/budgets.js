@@ -52,6 +52,16 @@ class BudgetsView {
   }
 
   updateBudgetCompletion (tag, sum) {
+    const itemId = this.genItemId(tag);
+    const item = this.listElement.querySelector(`#${itemId}`);
+    const budget = asafonov.utils.displayMoney(this.model.getItem(tag));
+    const left = asafonov.utils.displayMoney(this.model.getItem(tag) - sum);
+    const spent = asafonov.utils.displayMoney(sum);
+
+    item.querySelector(`.number.with_left`).innerHTML = left;
+    item.querySelector('.row.number.dual').innerHTML = `${spent} <span>${budget}</span>`;
+    const width = Math.min(100, parseInt(sum / this.model.getItem(tag) * 100)) || 100;
+    item.querySelector('.filled').style.width = `${width}%`;
   }
 
   clearExistingItems() {
