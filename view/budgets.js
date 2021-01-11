@@ -47,7 +47,7 @@ class BudgetsView {
     const list = this.model.getList();
 
     for (let tag in list) {
-      this.updateBudgetCompletion(tag, list.sumByTag(tag));
+      this.updateBudgetCompletion(tag, event.list.sumByTag(tag));
     }
   }
 
@@ -79,20 +79,23 @@ class BudgetsView {
     }
 
     item.innerHTML = '';
-    const title = document.createElement('div');
-    title.className = 'title';
-    title.setAttribute('contenteditable', 'true');
-    title.innerHTML = name;
-    title.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
-    title.addEventListener('blur', this.onAccountTitleChangedProxy);
-    item.appendChild(title);
-    const value = document.createElement('div');
-    value.className = 'number';
-    value.innerHTML = asafonov.utils.displayMoney(amount);
-    value.setAttribute('contenteditable', 'true');
-    value.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
-    value.addEventListener('blur', this.onAccountValueChangedProxy);
-    item.appendChild(value);
+    const displayAmount = asafonov.utils.displayMoney(amount);
+    const displayZero = asafonov.utils.displayMoney(0);
+
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = `<div>${name}</div><div class="number with_left">${displayAmount}</div>`;
+    item.appendChild(row);
+
+    const row2 = document.createElement('div');
+    row2.className = 'row number dual';
+    row2.innerHTML = `${displayZero} <span>${displayAmount}</span>`;
+    item.appendChild(row2);
+
+    const row3 = document.createElement('div');
+    row3.className = 'row progress_line';
+    row3.innerHTML = '<div class="filled"></div>';
+    item.appendChild(row3);
 
     if (! itemExists) {
       this.listElement.insertBefore(item, this.addButton);

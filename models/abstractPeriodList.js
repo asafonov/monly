@@ -11,7 +11,7 @@ class AbstractPeriodList {
   initList (event) {
     if (this.list === null || this.list === undefined) {
       this.list = JSON.parse(window.localStorage.getItem(this.name)) || [];
-      if (event) asafonov.messageBus.send(event, {list: this.list});
+      if (event) asafonov.messageBus.send(event, {list: this});
     }
   }
 
