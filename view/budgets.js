@@ -2,6 +2,7 @@ class BudgetsView {
 
   constructor() {
     this.model = new Budgets();
+    this.transactions = null;
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this);
     this.onTitleChangedProxy = this.onTitleChanged.bind(this);
     this.onValueChangedProxy = this.onValueChanged.bind(this);
@@ -45,6 +46,7 @@ class BudgetsView {
 
   onTransactionsLoaded (event) {
     const list = this.model.getList();
+    this.transactions = event.list;
 
     for (let tag in list) {
       this.updateBudgetCompletion(tag, event.list.sumByTag(tag));
