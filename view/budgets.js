@@ -25,6 +25,7 @@ class BudgetsView {
     asafonov.messageBus[add ? 'subscribe' : 'unsubscribe'](asafonov.events.BUDGET_UPDATED, this, 'onBudgetUpdated');
     asafonov.messageBus[add ? 'subscribe' : 'unsubscribe'](asafonov.events.BUDGET_RENAMED, this, 'onBudgetRenamed');
     asafonov.messageBus[add ? 'subscribe' : 'unsubscribe'](asafonov.events.TRANSACTIONS_LOADED, this, 'onTransactionsLoaded');
+    asafonov.messageBus[add ? 'subscribe' : 'unsubscribe'](asafonov.events.TRANSACTION_UPDATED, this, 'onTransactionUpdated');
   }
 
   onAddButtonClicked() {
@@ -51,6 +52,18 @@ class BudgetsView {
 
     for (let tag in list) {
       this.updateBudgetCompletion(tag, event.list.sumByTag(tag));
+    }
+  }
+
+  onTransactionUpdated (event) {
+    let affectedTags = [event.to.tag];
+    event.from && event.from.tag !== event.to.tag && (affectedTags.push(event.from.tag));
+
+    for (let i = 0; i < affectedTags.length; ++i) {
+      if (this.model.getItem(affectedTags[i]) !== undefined) {
+        this.updateBudgetCompletion(affectedTags[i], this.transactions.sumByTag(affectedTags[i]));
+        this.updateTotal();
+      }
     }
   }
 
