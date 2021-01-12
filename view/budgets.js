@@ -47,6 +47,7 @@ class BudgetsView {
   onTransactionsLoaded (event) {
     const list = this.model.getList();
     this.transactions = event.list;
+    this.updateTotal();
 
     for (let tag in list) {
       this.updateBudgetCompletion(tag, event.list.sumByTag(tag));
@@ -164,7 +165,6 @@ class BudgetsView {
   updateList() {
     this.clearExistingItems();
     const list = this.model.getList();
-    this.updateTotal();
 
     for (let key in list) {
       this.renderItem(key, list[key]);
@@ -176,7 +176,7 @@ class BudgetsView {
     let total = 0;
 
     for (let key in list) {
-      total += list[key];
+      total += list[key] - this.transactions.sumByTag(key);
     }
 
     this.totalElement.innerHTML = asafonov.utils.displayMoney(total);
