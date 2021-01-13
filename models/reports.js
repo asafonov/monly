@@ -8,6 +8,7 @@ class Reports extends AbstractPeriodList {
     const transactions = new Transactions(this.year, this.month);
 
     if (transactions.length() === 0) {
+      transactions.destroy();
       return;
     }
 
