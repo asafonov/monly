@@ -15,6 +15,10 @@ class AbstractPeriodList {
     }
   }
 
+  length() {
+    return this.list.length;
+  }
+
   getList() {
     return this.list;
   }
@@ -39,5 +43,17 @@ class AbstractPeriodList {
 
   store() {
     window.localStorage.setItem(this.name, JSON.stringify(this.list));
+  }
+
+  clear() {
+    window.localStorage.removeItem(this.name);
+    this.list = [];
+  }
+
+  destroy() {
+    this.year = null;
+    this.month = null;
+    this.name = null;
+    this.list = null;
   }
 }
