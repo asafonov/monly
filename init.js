@@ -9,4 +9,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
   budgetsView.updateList();
   const transactionsView = new TransactionsView();
   transactionsView.updateList();
+  const reportsController = new ReportsController();
+  reportsController.build();
 });

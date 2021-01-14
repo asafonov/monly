@@ -35,6 +35,7 @@ class BudgetsView {
 
   onBudgetUpdated (event) {
     this.renderItem(event.id, event.to);
+    this.updateBudgetCompletion(event.id);
     this.updateTotal();
   }
 
@@ -43,15 +44,18 @@ class BudgetsView {
     const newId = this.genItemId(event.to);
     document.querySelector(`#${oldId}`).id = newId;
     this.renderItem(event.to, event.item);
+    this.updateBudgetCompletion(event.to);
   }
 
   onTransactionsLoaded (event) {
+    if (this.transactions !== null && this.transactions !== undefined) return;
+
     const list = this.model.getList();
     this.transactions = event.list;
     this.updateTotal();
 
     for (let tag in list) {
-      this.updateBudgetCompletion(tag, event.list.sumByTag(tag));
+      this.updateBudgetCompletion(tag);
     }
   }
 
@@ -61,13 +65,14 @@ class BudgetsView {
 
     for (let i = 0; i < affectedTags.length; ++i) {
       if (this.model.getItem(affectedTags[i]) !== undefined) {
-        this.updateBudgetCompletion(affectedTags[i], this.transactions.sumByTag(affectedTags[i]));
+        this.updateBudgetCompletion(affectedTags[i]);
         this.updateTotal();
       }
     }
   }
 
-  updateBudgetCompletion (tag, sum) {
+  updateBudgetCompletion (tag) {
+    const sum = this.transactions.sumByTag(tag);
     const itemId = this.genItemId(tag);
     const item = this.listElement.querySelector(`#${itemId}`);
     const budget = asafonov.utils.displayMoney(this.model.getItem(tag));
