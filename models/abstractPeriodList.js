@@ -23,6 +23,10 @@ class AbstractPeriodList {
     return this.list;
   }
 
+  getItem (id) {
+    return this.list[id];
+  }
+
   addItem (item, event) {
     this.list.push(item);
     this.store();

@@ -707,11 +707,11 @@ h1 {
   r: 42%;
 }
 
-svg circle.slice_1 { stroke-dasharray: 30 70; stroke-dashoffset: 0;}
-svg circle.slice_2 { stroke-dasharray: 10 90; stroke-dashoffset: -30;}
-svg circle.slice_3 { stroke-dasharray: 20 80; stroke-dashoffset: -40;}
-svg circle.slice_4 { stroke-dasharray: 40 60; stroke-dashoffset: -60;}
-svg circle.slice_f { stroke-dasharray: 1 99; stroke-dashoffset: 0;}
+svg circle.slice_1 { stroke-dasharray: 24 56; stroke-dashoffset: 0;}
+svg circle.slice_2 { stroke-dasharray: 8 72; stroke-dashoffset: -24;}
+svg circle.slice_3 { stroke-dasharray: 16 64; stroke-dashoffset: -32;}
+svg circle.slice_4 { stroke-dasharray: 32 48; stroke-dashoffset: -48;}
+svg circle.slice_f { stroke-dasharray: 1 80; stroke-dashoffset: 0;}
 
 .chart svg text {
   font-size: 1.5px;
@@ -780,9 +780,6 @@ svg circle.slice_f { stroke-dasharray: 1 99; stroke-dashoffset: 0;}
   background-image: url(images/ico_pay.svg);
 }
 
-@media (max-height: 500px), (orientation: landscape) {
-  :root {
-    --height_2: calc(2*max(1.8vw, 1.8vh));
-    --height_3: calc(1.5*max(2.4vw, 2.4vh));
-  }
+.hidden {
+  display: none;
 }
