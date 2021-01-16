@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function (event) {
   function getPageName() {
-    return document.querySelector('body').id;
+    return document.querySelector('body').id || 'main_page';
   }
 
   const loader = {
@@ -19,5 +19,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
       reportsController.build();
     },
     charts_page: () => {
+      const reportsView = new ReportsView();
+      reportsView.show();
     }
+  };
+
+  loader[getPageName()]();
 });
