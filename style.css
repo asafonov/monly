@@ -707,11 +707,7 @@ h1 {
   r: 42%;
 }
 
-svg circle.slice_1 { stroke-dasharray: 24 56; stroke-dashoffset: 0;}
-svg circle.slice_2 { stroke-dasharray: 8 72; stroke-dashoffset: -24;}
-svg circle.slice_3 { stroke-dasharray: 16 64; stroke-dashoffset: -32;}
-svg circle.slice_4 { stroke-dasharray: 32 48; stroke-dashoffset: -48;}
-svg circle.slice_f { stroke-dasharray: 1 80; stroke-dashoffset: 0;}
+svg circle.slice_f { stroke-dasharray: 1px 80px; stroke-dashoffset: 0px;}
 
 .chart svg text {
   font-size: 1.5px;
