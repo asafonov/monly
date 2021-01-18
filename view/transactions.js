@@ -63,9 +63,11 @@ class TransactionsView {
 
     const div = event.currentTarget;
     const selected = div.innerHTML;
+    div.id = 'opened_account';
+    div.innerHTML = '';
     const select = document.querySelector('.templates .select').outerHTML;
     const opt = document.querySelector('.templates .opt').outerHTML;
-    const options = '';
+    let options = '';
     const accounts = asafonov.accounts.getList();
 
     for (let i in accounts) {
