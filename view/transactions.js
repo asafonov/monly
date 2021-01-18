@@ -56,6 +56,12 @@ class TransactionsView {
     }
   }
 
+  closePopup() {
+    const itemDiv = this.listElement.querySelector('.monly-popup').parentNode.parentNode;
+    const itemId = itemDiv.getAttribute('data-id');
+    this.renderItem(itemId, this.model.getItem(itemId));
+  }
+
   onAccountClicked (event) {
     if (asafonov.accounts.length() < 2) {
       return ;
@@ -63,12 +69,11 @@ class TransactionsView {
 
     const div = event.currentTarget;
     const selected = div.innerHTML;
-    div.id = 'opened_account';
-    div.innerHTML = '';
+    div.classList.add('monly-popup');
     const select = document.querySelector('.templates .select').outerHTML;
     const opt = document.querySelector('.templates .opt').outerHTML;
-    let options = '';
     const accounts = asafonov.accounts.getList();
+    let options = '';
 
     for (let i in accounts) {
       if (i !== selected) {
@@ -77,6 +82,19 @@ class TransactionsView {
     }
 
     div.innerHTML = select.replace('{value}', selected).replace('{options}', options);
+
+    const options = div.querySelectorAll('.opt');
+
+    for (let o of options) {
+      o.setAttribute('data-id', div.parentNode.parentNode.getAttribute('data-id'));
+      o.addEventListener('click', this.onAccountSelected.bind(this));
+    }
+  }
+
+  onAccountSelected (event) {
+    const account = event.currentTarget.innerHTML;
+    const id = event.currentTarget.getAttribute('data-id');
+    this.model.updateItem(id, {account: account});
   }
 
   onAmountChanged (event) {
