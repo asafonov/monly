@@ -12,6 +12,10 @@ class AbstractList {
     return this.list;
   }
 
+  length() {
+    return Object.keys(this.list).length;
+  }
+
   getDefault() {
     return Object.keys(this.list)[0];
   }

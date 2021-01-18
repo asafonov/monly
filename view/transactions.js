@@ -8,6 +8,7 @@ class TransactionsView {
     this.expenseElement = document.querySelector('.expense');
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this);
     this.onAmountChangedProxy = this.onAmountChanged.bind(this);
+    this.onAccountClickedProxy = this.onAccountClicked.bind(this);
     this.onItemDataChangedProxy = this.onItemDataChanged.bind(this);
     this.model = new Transactions();
     this.addEventListeners();
@@ -53,6 +54,27 @@ class TransactionsView {
     for (let i = 0; i < items.length; ++i) {
       this.listElement.removeChild(items[i]);
     }
+  }
+
+  onAccountClicked (event) {
+    if (asafonov.accounts.length() < 2) {
+      return ;
+    }
+
+    const div = event.currentTarget;
+    const selected = div.innerHTML;
+    const select = document.querySelector('.templates .select').outerHTML;
+    const opt = document.querySelector('.templates .opt').outerHTML;
+    const options = '';
+    const accounts = asafonov.accounts.getList();
+
+    for (let i in accounts) {
+      if (i !== selected) {
+        options += opt.replace('{value}', i);
+      }
+    }
+
+    div.innerHTML = select.replace('{value}', selected).replace('{options}', options);
   }
 
   onAmountChanged (event) {
@@ -111,6 +133,7 @@ class TransactionsView {
     const accountDiv = document.createElement('div');
     accountDiv.className = 'second_coll small';
     accountDiv.innerHTML = item.account;
+    accountDiv.addEventListener('click', this.onAccountClickedProxy);
     row1.appendChild(accountDiv);
 
     const amountDiv = document.createElement('div');
