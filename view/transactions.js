@@ -10,6 +10,7 @@ class TransactionsView {
     this.onAmountChangedProxy = this.onAmountChanged.bind(this);
     this.onAccountClickedProxy = this.onAccountClicked.bind(this);
     this.onItemDataChangedProxy = this.onItemDataChanged.bind(this);
+    this.closePopupProxy = this.closePopup.bind(this);
     this.model = new Transactions();
     this.addEventListeners();
   }
@@ -56,14 +57,21 @@ class TransactionsView {
     }
   }
 
-  closePopup() {
-    const itemDiv = this.listElement.querySelector('.monly-popup').parentNode.parentNode;
+  closePopup (event) {
+    const popup = this.listElement.querySelector('.monly-popup');
+
+    if (! popup || popup.contains(event.currentTarget)) {
+      return;
+    }
+
+    const itemDiv = popup.parentNode.parentNode;
     const itemId = itemDiv.getAttribute('data-id');
     this.renderItem(itemId, this.model.getItem(itemId));
+    window.removeEventListener('click', this.closePopupProxy);
   }
 
   onAccountClicked (event) {
-    if (asafonov.accounts.length() < 2) {
+    if (asafonov.accounts.length() < 2 || document.querySelector('.monly-popup')) {
       return ;
     }
 
@@ -89,13 +97,15 @@ class TransactionsView {
       o.setAttribute('data-id', div.parentNode.parentNode.getAttribute('data-id'));
       o.addEventListener('click', this.onAccountSelected.bind(this));
     }
+
+    window.addEventListener('click', this.closePopupProxy);
   }
 
   onAccountSelected (event) {
     const account = event.currentTarget.innerHTML;
     const id = event.currentTarget.getAttribute('data-id');
     this.model.updateItem(id, {account: account});
-    event.stopPropagation();
+    //event.stopPropagation();
   }
 
   onAmountChanged (event) {
