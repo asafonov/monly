@@ -83,9 +83,9 @@ class TransactionsView {
 
     div.innerHTML = select.replace('{value}', selected).replace('{options}', options);
 
-    const options = div.querySelectorAll('.opt');
+    const opts = div.querySelectorAll('.opt');
 
-    for (let o of options) {
+    for (let o of opts) {
       o.setAttribute('data-id', div.parentNode.parentNode.getAttribute('data-id'));
       o.addEventListener('click', this.onAccountSelected.bind(this));
     }
@@ -95,6 +95,7 @@ class TransactionsView {
     const account = event.currentTarget.innerHTML;
     const id = event.currentTarget.getAttribute('data-id');
     this.model.updateItem(id, {account: account});
+    event.stopPropagation();
   }
 
   onAmountChanged (event) {

@@ -14,7 +14,7 @@ class AccountsController {
     }
 
     if (accountChanged) {
-      this.onAccountChanged();
+      this.onAccountChanged(event.from.account, event.to.account, event.to.amount);
     }
   }
 
@@ -22,7 +22,9 @@ class AccountsController {
     this.model.purchase(account, amount);
   }
 
-  onAccountChanged() {
+  onAccountChanged (from, to, amount) {
+    this.model.purchase(from, amount);
+    this.model.purchase(to, -amount);
   }
 
   destroy() {
