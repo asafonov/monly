@@ -60,14 +60,14 @@ class TransactionsView {
   closePopup (event) {
     const popup = this.listElement.querySelector('.monly-popup');
 
-    if (! popup || popup.contains(event.currentTarget)) {
+    if (! popup || popup.contains(event.target)) {
       return;
     }
 
+    window.removeEventListener('click', this.closePopupProxy);
     const itemDiv = popup.parentNode.parentNode;
     const itemId = itemDiv.getAttribute('data-id');
     this.renderItem(itemId, this.model.getItem(itemId));
-    window.removeEventListener('click', this.closePopupProxy);
   }
 
   onAccountClicked (event) {
@@ -105,7 +105,6 @@ class TransactionsView {
     const account = event.currentTarget.innerHTML;
     const id = event.currentTarget.getAttribute('data-id');
     this.model.updateItem(id, {account: account});
-    //event.stopPropagation();
   }
 
   onAmountChanged (event) {
