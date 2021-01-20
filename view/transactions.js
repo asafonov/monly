@@ -67,7 +67,7 @@ class TransactionsView {
     window.removeEventListener('click', this.closePopupProxy);
     const itemDiv = popup.parentNode.parentNode;
     const itemId = itemDiv.getAttribute('data-id');
-    this.renderItem(itemId, this.model.getItem(itemId));
+    this.renderItem(this.model.getItem(itemId), itemId);
   }
 
   onAccountClicked (event) {
@@ -105,6 +105,7 @@ class TransactionsView {
     const account = event.currentTarget.innerHTML;
     const id = event.currentTarget.getAttribute('data-id');
     this.model.updateItem(id, {account: account});
+    event.stopPropagation();
   }
 
   onAmountChanged (event) {
