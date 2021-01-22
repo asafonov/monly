@@ -29,6 +29,10 @@ class Transactions extends AbstractPeriodList {
   }
 
   updateItem (id, item) {
+    if (item.amount !== undefined && item.amount !== null) {
+      item.type = this.assignType(item.amount);
+    }
+
     super.updateItem(id, item, asafonov.events.TRANSACTION_UPDATED);
   }
 

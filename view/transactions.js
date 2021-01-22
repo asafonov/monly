@@ -169,7 +169,7 @@ class TransactionsView {
 
     const amountDiv = document.createElement('div');
     amountDiv.className = 'third_coll number';
-    amountDiv.innerHTML = asafonov.utils.displayMoney(item.amount);
+    amountDiv.innerHTML = asafonov.utils.displayMoney(Math.abs(item.amount));
     amountDiv.setAttribute('contenteditable', 'true');
     amountDiv.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')));
     amountDiv.addEventListener('blur', this.onAmountChangedProxy);
@@ -201,8 +201,8 @@ class TransactionsView {
     icoDiv.className = 'third_coll ico_container';
     row2.appendChild(icoDiv);
     const ico = document.createElement('div');
-    ico.className = 'svg';
     ico.classList.add('trans_' + item.type);
+    ico.classList.add('svg');
     icoDiv.appendChild(ico);
     itemDiv.appendChild(row2);
 
