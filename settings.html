@@ -6,21 +6,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel=stylesheet type=text/css href="style.css">
+  <script src="main.js"></script>
 </head>
 
 <body id="settings_page">
   <!-- top -->
   <div class="row top wrap">
-    <div class="logo svg"></div> 
+    <div class="logo svg" onclick="location.href='index.html'"></div> 
     <div class="menu ico_container">
       <div class="menu_cards svg"></div>
-      <div class="menu_charts svg"></div>
+      <a href="charts.html"><div class="menu_charts svg"></div></a>
       <div class="menu_bills svg"></div>
       <div class="menu_settings svg active"></div>
     </div>  
   </div>
   <!-- /top -->
   <div class="row content no_filter clear">
+    <!-- section -->
+    <div class="section wrap">
+      <h1>actions</h1>
+      <a class="monly-export"><div class="item set">
+        <div>export data</div>
+      </div></a>
+      <div class="item set">
+        <div>import data</div>
+      </div>
+    </div>
+    <!-- /section -->
+
     <!-- section -->
     <div class="section wrap no_add sets">
       <h1>main screen</h1>

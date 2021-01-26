@@ -21,6 +21,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     charts_page: () => {
       const reportsView = new ReportsView();
       reportsView.show();
+    },
+    settings_page: () => {
+      const exportView = new ExportView();
     }
   };
 
