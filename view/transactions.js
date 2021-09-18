@@ -115,7 +115,7 @@ class TransactionsView {
     const id = element.parentNode.parentNode.getAttribute('data-id');
 
     if (newValue !== originalValue) {
-      const amount = parseInt(parseFloat(newValue) * 100);
+      const amount = Math.round(parseFloat(newValue) * 100);
       this.model.updateItem(id, {amount: amount});
     }
   }

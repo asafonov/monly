@@ -175,7 +175,7 @@ class BudgetsView {
     const originalValue = value.getAttribute('data-content');
 
     if (newValue !== originalValue) {
-      const amount = parseInt(parseFloat(newValue) * 100);
+      const amount = Math.round(parseFloat(newValue) * 100);
       this.model.updateItem(title.innerHTML, amount);
     }
   }
