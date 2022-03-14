@@ -1,6 +1,6 @@
 class Settings extends AbstractList {
 
-  constructor (year, month) {
+  constructor (list) {
     super({
       mainscreen: {
         accounts: true,

@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       reportsView.show()
     },
     settings_page: () => {
-      const settingsView = new Settingsview()
+      const settingsView = new SettingsView()
       settingsView.show()
     }
   }
