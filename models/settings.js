@@ -5,7 +5,8 @@ class Settings extends AbstractList {
       mainscreen: {
         accounts: true,
         review: true,
-        budget: true
+        budget: true,
+        transactions: true
       }
     })
   }
