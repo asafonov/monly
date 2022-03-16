@@ -5,8 +5,10 @@ class BackupView {
     this.mainContainer = document.querySelector('.settings-backup')
     this.clearButton = this.mainContainer.querySelector('.clear')
     this.backupButton = this.mainContainer.querySelector('.backup')
+    this.restoreButton = this.mainContainer.querySelector('.restore')
     this.onClearButtonClickedProxy = this.onClearButtonClicked.bind(this)
     this.onBackupButtonClickedProxy = this.onBackupButtonClicked.bind(this)
+    this.onRestoreButtonClickedProxy = this.onRestoreButtonClicked.bind(this)
     this.addEventListeners()
   }
 
@@ -21,6 +23,7 @@ class BackupView {
   updateEventListeners (add) {
     this.clearButton[add ? 'addEventListener' : 'removeEventListener']('click', this.onClearButtonClickedProxy)
     this.backupButton[add ? 'addEventListener' : 'removeEventListener']('click', this.onBackupButtonClickedProxy)
+    this.restoreButton[add ? 'addEventListener' : 'removeEventListener']('click', this.onRestoreButtonClickedProxy)
   }
 
   onClearButtonClicked() {
@@ -30,13 +33,24 @@ class BackupView {
     }
   }
 
-  onBackupButtonClicked() {
+  getHostname() {
     const hostname = prompt('Hostname', window.localStorage.getItem('hostname') || '192.168.0.1')
+    hostname && window.localStorage.setItem('hostname', hostname)
+    return hostname
+  }
 
-    if (hostname) {
-      window.localStorage.setItem('hostname', hostname)
-      this.model.backup(hostname)
-    }
+  onBackupButtonClicked() {
+    const hostname = this.getHostname()
+    hostname && this.model.backup(hostname)
+  }
+
+  onRestoreButtonClicked() {
+    const hostname = this.getHostname()
+    hostname && this.model.restore(hostname)
+                .then(() => {
+                  alert('Data restored')
+                  location.reload()
+                })
   }
 
   destroy() {
