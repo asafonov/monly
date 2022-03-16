@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     settings_page: () => {
       const settingsView = new SettingsView()
       settingsView.show()
+      const backupView = new BackupView()
     }
   }
 
