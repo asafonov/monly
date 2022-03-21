@@ -18,7 +18,7 @@ class Reports extends AbstractPeriodList {
 
     for (let i of tags) {
       const sumByTag = transactions.sumByTag(i);
-      if (sumByTag > 0) item[i] = sumByTag;
+      item[i] = sumByTag
     }
 
     this.addItem(item);
