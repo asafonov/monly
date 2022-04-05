@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   const loader = {
     main_page: () => {
+      const updaterView = new UpdaterView('https://raw.githubusercontent.com/asafonov/monly/master/VERSION.txt', 'https://github.com/asafonov/monly.apk/releases/download/{VERSION}/app-release.apk')
+      updaterView.showUpdateDialogIfNeeded()
       asafonov.accounts = new Accounts(
         {Account1: 300000, Account2: 4142181} // test data
       )

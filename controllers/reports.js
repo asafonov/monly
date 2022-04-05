@@ -1,8 +1,5 @@
 class ReportsController {
 
-  constructor() {
-  }
-
   buildOnDate (year, month, removeSource) {
     const reports = new Reports(year, month, removeSource);
     reports.build(removeSource);
