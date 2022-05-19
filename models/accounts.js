@@ -15,4 +15,10 @@ class Accounts extends AbstractList {
     this.updateItem(id, this.list[id] + amount);
   }
 
+  getDefault() {
+    const settings = new Settings()
+    const defaultAccount = settings.getItem('default_account')
+    return defaultAccount || super.getDefault()
+  }
+
 }

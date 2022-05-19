@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       reportsView.show()
     },
     settings_page: () => {
+      asafonov.accounts = new Accounts()
       const settingsView = new SettingsView()
       settingsView.show()
       const backupView = new BackupView()

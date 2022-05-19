@@ -7,7 +7,8 @@ class Settings extends AbstractList {
         review: true,
         budget: true,
         transactions: true
-      }
+      },
+      default_account: null
     })
   }
 
