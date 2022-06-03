@@ -3,6 +3,24 @@ class ReportsView {
   constructor() {
     this.model = new Reports()
     this.circleLen = 30 * 0.42 * 2 * Math.PI
+    this.popup = document.querySelector('.monly-popup')
+    this.options = this.popup.querySelector('.options')
+    this.options.style.display = 'none'
+    this.active = this.popup.querySelector('.active')
+    this.openPopupProxy = this.openPopup.bind(this)
+    this.addEventListeners()
+  }
+
+  addEventListeners() {
+    this.active.addEventListener('click', this.openPopupProxy)
+  }
+
+  removeEventListeners() {
+    this.active.removeEventListener('click', this.openPopupProxy)
+  }
+
+  openPopup() {
+    this.options.style.display = 'block'
   }
 
   clearExistingItems() {
@@ -72,5 +90,9 @@ class ReportsView {
     const circle = document.createElement('circle')
     circle.className = 'slice_f'
     this.circleElement.innerHTML += circle.outerHTML
+  }
+
+  destroy() {
+    this.removeEventListeners()
   }
 }
