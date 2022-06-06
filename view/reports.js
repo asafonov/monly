@@ -3,24 +3,23 @@ class ReportsView {
   constructor() {
     this.model = new Reports()
     this.circleLen = 30 * 0.42 * 2 * Math.PI
-    this.popup = document.querySelector('.monly-popup')
+    this.popup = document.querySelector('.select')
     this.options = this.popup.querySelector('.options')
-    this.options.style.display = 'none'
     this.active = this.popup.querySelector('.active')
-    this.openPopupProxy = this.openPopup.bind(this)
+    this.togglePopupProxy = this.togglePopup.bind(this)
     this.addEventListeners()
   }
 
   addEventListeners() {
-    this.active.addEventListener('click', this.openPopupProxy)
+    this.active.addEventListener('click', this.togglePopupProxy)
   }
 
   removeEventListeners() {
-    this.active.removeEventListener('click', this.openPopupProxy)
+    this.active.removeEventListener('click', this.togglePopupProxy)
   }
 
-  openPopup() {
-    this.options.style.display = 'block'
+  togglePopup() {
+    this.popup.classList.toggle('monly-popup')
   }
 
   clearExistingItems() {
