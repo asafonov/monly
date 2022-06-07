@@ -19,4 +19,11 @@ class ReportsController {
     this.buildOnDate(year, month, true);
   }
 
+  availableReports() {
+    const availableReportsKeys = Object.keys(window.localStorage).filter(i => i.substr(0, 8) === 'reports_').map(i => i.substr(8))
+    return availableReportsKeys
+  }
+
+  destroy() {}
+
 }

@@ -2,12 +2,18 @@ class ReportsView {
 
   constructor() {
     this.model = new Reports()
+    this.controller = new ReportsController()
     this.circleLen = 30 * 0.42 * 2 * Math.PI
     this.popup = document.querySelector('.select')
     this.options = this.popup.querySelector('.options')
     this.active = this.popup.querySelector('.active')
     this.togglePopupProxy = this.togglePopup.bind(this)
     this.addEventListeners()
+    this.initAvailableReports()
+  }
+
+  initAvailableReports() {
+    const availableReports = this.controller.availableReports()
   }
 
   addEventListeners() {
@@ -92,6 +98,8 @@ class ReportsView {
   }
 
   destroy() {
+    this.model.destroy()
+    this.controller.destroy()
     this.removeEventListeners()
   }
 }
