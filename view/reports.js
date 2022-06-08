@@ -42,6 +42,7 @@ class ReportsView {
     this.model = new Reports(y, m)
     this.show()
     this.togglePopup()
+    this.active.innerHTML = this.options.querySelector(`.m${m}`).innerHTML + ' ' + y
   }
 
   addEventListeners() {
