@@ -14,6 +14,34 @@ class ReportsView {
 
   initAvailableReports() {
     const availableReports = this.controller.availableReports()
+    const availableReportsMap = {}
+
+    for (let i = 0; i < availableReports.length; ++i) {
+      availableReportsMap[availableReports[i]] = true
+    }
+
+    const year = new Date().getFullYear()
+    this.options.querySelector('.year').innerHTML = year
+
+    for (let i = 1; i < 13; ++i) {
+      const m = asafonov.utils.padlen(i + '', 2, '0')
+      const c = `.m${m}`
+      const k = `${year}${m}`
+      const isReportAvailable = availableReportsMap[k]
+      const month = this.options.querySelector(c)
+      month.style.display = isReportAvailable ? 'block' : 'none'
+
+      if (isReportAvailable) {
+        month.addEventListener('click', () => this.loadReport(m, year))
+      }
+    }
+  }
+
+  loadReport (m, y) {
+    this.model.destroy()
+    this.model = new Reports(y, m)
+    this.show()
+    this.togglePopup()
   }
 
   addEventListeners() {
