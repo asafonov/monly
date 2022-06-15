@@ -40,12 +40,36 @@ class Transactions extends AbstractPeriodList {
     super.deleteItem(id);
   }
 
+  getSumsByTags() {
+    const tags = {}
+
+    for (let i = 0; i < this.list.length; ++i) {
+      tags[this.list[i].tag] = (tags[this.list[i].tag] || 0) + this.list[i].amount
+    }
+
+    return tags
+  }
+
   expense() {
-    return this.sum(i => i.amount > 0);
+    const tags = this.getSumsByTags()
+    let sum = 0
+
+    for (let i in tags) {
+      sum += tags[i] < 0 ? -1 * tags[i] : 0
+    }
+
+    return sum
   }
 
   income() {
-    return Math.abs(this.sum(i => i.amount < 0));
+    const tags = this.getSumsByTags()
+    let sum = 0
+
+    for (let i in tags) {
+      sum += tags[i] || 0
+    }
+
+    return sum
   }
 
   sumByTag (tag) {
