@@ -50,7 +50,7 @@ class Transactions extends AbstractPeriodList {
     return tags
   }
 
-  expense() {
+  income() {
     const tags = this.getSumsByTags()
     let sum = 0
 
@@ -61,12 +61,12 @@ class Transactions extends AbstractPeriodList {
     return sum
   }
 
-  income() {
+  expense() {
     const tags = this.getSumsByTags()
     let sum = 0
 
     for (let i in tags) {
-      sum += tags[i] || 0
+      sum += tags[i] > 0 ? tags[i] : 0
     }
 
     return sum
