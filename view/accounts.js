@@ -1,8 +1,8 @@
 class AccountsView {
   constructor() {
     this.listElement = document.querySelector('.accounts')
-    const settings = new Settings()
-    const mainscreen = settings.getItem('mainscreen')
+    this.settings = new Settings()
+    const mainscreen = this.settings.getItem('mainscreen')
     const isEnabled = mainscreen.accounts
     this.model = asafonov.accounts
 
@@ -137,9 +137,10 @@ class AccountsView {
     const list = this.model.getList()
     const totalElement = this.listElement.querySelector('.number.big')
     let total = 0
+    const accountRate = this.settings.getItem('account_rate')
 
     for (let key in list) {
-      total += list[key]
+      total += list[key] * (accountRate[key] || 1)
     }
 
     totalElement.innerHTML = asafonov.utils.displayMoney(total)

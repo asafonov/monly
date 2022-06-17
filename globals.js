@@ -1,7 +1,7 @@
-window.asafonov = {};
+window.asafonov = {}
 window.asafonov.version = '1.12'
-window.asafonov.utils = new Utils();
-window.asafonov.messageBus = new MessageBus();
+window.asafonov.utils = new Utils()
+window.asafonov.messageBus = new MessageBus()
 window.asafonov.events = {
   ACCOUNT_UPDATED: 'accountUpdated',
   ACCOUNT_RENAMED: 'accountRenamed',
@@ -9,9 +9,9 @@ window.asafonov.events = {
   BUDGET_UPDATED: 'budgetUpdated',
   BUDGET_RENAMED: 'budgetRenamed',
   TRANSACTIONS_LOADED: 'transactionsLoaded'
-};
+}
 window.asafonov.settings = {
-};
+}
 window.onerror = (msg, url, line) => {
-  alert(`${msg} on line ${line}`);
+  alert(`${msg} on line ${line}`)
 }
