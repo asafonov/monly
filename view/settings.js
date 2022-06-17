@@ -4,6 +4,7 @@ class SettingsView {
     this.model = new Settings()
     this.mainScreen = document.querySelector('.settings-mainscreen')
     this.defaultAccountScreen = document.querySelector('.settings-default-account')
+    this.accountRateScreen = document.querySelector('.settings-account-rate')
   }
 
   showMainScreen() {
@@ -60,9 +61,34 @@ class SettingsView {
     }
   }
 
+  showAccountRateScreen() {
+    this.accountRateScreen.innerHTML = '<h1>account rates</h1>'
+    const accounts = asafonov.accounts.getList()
+
+    for (let i in accounts) {
+      const div = document.createElement('div')
+      div.className = 'item accounts-item'
+      div.innerHTML = `<div>${i}</div>`
+      div.setAttribute('data-value', i)
+      this.accountRateScreen.appendChild(div)
+      div.addEventListener('click', event => {
+        const target = event.target
+        const value = target.getAttribute('data-value')
+        const accountRate = this.model.getItem('account_rate') || {}
+        const newRate = prompt('Please enter the account rate', accountRate[value] || 1)
+
+        if (newRate) {
+          accountRate[value] = parseFloat(newRate)
+          this.model.updateItem('account_rate', accountRate)
+        }
+      })
+    }
+  }
+
   show() {
     this.showMainScreen()
     this.showDefaultAccountScreen()
+    this.showAccountRateScreen()
   }
 
 }

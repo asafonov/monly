@@ -8,7 +8,8 @@ class Settings extends AbstractList {
         budget: true,
         transactions: true
       },
-      default_account: null
+      default_account: null,
+      account_rate: {}
     })
   }
 
