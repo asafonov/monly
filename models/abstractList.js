@@ -1,7 +1,9 @@
 class AbstractList {
 
   constructor (list) {
-    this.list = this.getList() || list || {}
+    this.list = this.getList() || {}
+
+    if (list) this.list = {...list, ...this.list}
   }
 
   getList() {
