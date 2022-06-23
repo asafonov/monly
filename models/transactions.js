@@ -15,7 +15,7 @@ class Transactions extends AbstractPeriodList {
       account: account,
       amount: amount,
       pos: pos,
-      tag: tag,
+      tag: tag.trim(),
       type: type || this.assignType(amount)
     }
   }
