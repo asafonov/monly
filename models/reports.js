@@ -13,7 +13,7 @@ class Reports extends AbstractPeriodList {
     }
 
     this.clear();
-    const tags = new Set(transactions.getList().map(i => i.tag));
+    const tags = new Set(transactions.getList().map(i => i.tag.trim()));
     let item = {};
 
     for (let i of tags) {

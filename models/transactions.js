@@ -15,7 +15,7 @@ class Transactions extends AbstractPeriodList {
       account: account,
       amount: amount,
       pos: pos,
-      tag: tag.trim(),
+      tag: tag,
       type: type || this.assignType(amount)
     }
   }
@@ -46,7 +46,8 @@ class Transactions extends AbstractPeriodList {
     const accountRate = this.settings.getItem('account_rate')
 
     for (let i = 0; i < this.list.length; ++i) {
-      tags[this.list[i].tag] = (tags[this.list[i].tag] || 0) + this.list[i].amount * (accountRate[this.list[i].account] || 1)
+      const tag = this.list[i].tag.trim()
+      tags[tag] = (tags[tag] || 0) + this.list[i].amount * (accountRate[this.list[i].account] || 1)
     }
 
     return tags
@@ -75,7 +76,7 @@ class Transactions extends AbstractPeriodList {
   }
 
   sumByTag (tag) {
-    return this.sum(i => i.tag === tag)
+    return this.sum(i => i.tag.trim() === tag)
   }
 
   sum (func) {

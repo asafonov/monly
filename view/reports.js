@@ -98,7 +98,7 @@ class ReportsView {
     let offset = 0
     this.totalElement.innerHTML = asafonov.utils.displayMoney(total)
     const keys = Object.keys(data)
-    keys.sort((a, b) => data[a] < data[b])
+    keys.sort((a, b) => data[a] > data[b])
 
     for (let item of keys) {
       if (! proceedFunction(data[item])) continue
