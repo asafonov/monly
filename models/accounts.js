@@ -16,7 +16,7 @@ class Accounts extends AbstractList {
   }
 
   getDefault() {
-    const settings = new Settings()
+    const settings = asafonov.settings
     const defaultAccount = settings.getItem('default_account')
     return defaultAccount || super.getDefault()
   }

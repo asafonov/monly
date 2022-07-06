@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
   }
 
   const loader = {
-    main_page: () => {
+    main_page: async () => {
+      asafonov.settings = new Settings()
+      await asafonov.settings.initCurrencyRates()
       const updaterView = new UpdaterView('https://raw.githubusercontent.com/asafonov/monly/master/VERSION.txt', 'https://github.com/asafonov/monly.apk/releases/download/{VERSION}/app-release.apk')
       updaterView.showUpdateDialogIfNeeded()
       asafonov.accounts = new Accounts()
@@ -18,11 +20,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
       const reportsController = new ReportsController()
       reportsController.build()
     },
-    charts_page: () => {
+    charts_page: async () => {
+      asafonov.settings = new Settings()
+      await asafonov.settings.initCurrencyRates()
       const reportsView = new ReportsView()
       reportsView.show()
     },
     settings_page: () => {
+      asafonov.settings = new Settings()
       asafonov.accounts = new Accounts()
       const settingsView = new SettingsView()
       settingsView.show()

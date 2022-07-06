@@ -1,7 +1,7 @@
 class AccountsView {
   constructor() {
     this.listElement = document.querySelector('.accounts')
-    this.settings = new Settings()
+    this.settings = asafonov.settings
     const mainscreen = this.settings.getItem('mainscreen')
     const isEnabled = mainscreen.accounts
     this.model = asafonov.accounts

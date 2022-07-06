@@ -2,7 +2,7 @@ class TransactionsView {
 
   constructor() {
     this.reviewElement = document.querySelector('.review')
-    const settings = new Settings()
+    const settings = asafonov.settings
     const mainscreen = settings.getItem('mainscreen')
     this.isReviewEnabled = mainscreen.review
 

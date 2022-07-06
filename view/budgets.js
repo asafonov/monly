@@ -2,7 +2,7 @@ class BudgetsView {
 
   constructor() {
     this.listElement = document.querySelector('.budgets')
-    const settings = new Settings()
+    const settings = asafonov.settings
     const mainscreen = settings.getItem('mainscreen')
     const isEnabled = mainscreen.budget
     this.model = new Budgets()

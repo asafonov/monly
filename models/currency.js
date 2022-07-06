@@ -1,4 +1,4 @@
-class CurrencyController {
+class Currency {
 
   buildUrl (base, symbol) {
     return `https://api.exchangerate.host/lates?base=${base}&symbols=${symbol}`
@@ -10,9 +10,15 @@ class CurrencyController {
 
   async convert (base, symbol) {
     const url = this.buildUrl(base, symbol)
-    const response = await fetch(url)
-    const data = await response.json()
-    return this.parseResponse(data, symbol)
+    let ret = 1
+
+    try {
+      const response = await fetch(url)
+      const data = await response.json()
+      ret = this.parseResponse(data, symbol)
+    } catch (e) {}
+
+    return ret
   }
 
 }
