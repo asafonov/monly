@@ -1,5 +1,5 @@
 window.asafonov = {}
-window.asafonov.version = '1.18'
+window.asafonov.version = '1.19'
 window.asafonov.utils = new Utils()
 window.asafonov.messageBus = new MessageBus()
 window.asafonov.events = {
