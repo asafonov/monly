@@ -26,8 +26,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
       const reportsView = new ReportsView()
       reportsView.show()
     },
-    settings_page: () => {
+    settings_page: async () => {
       asafonov.settings = new Settings()
+      await asafonov.settings.initCurrencyRates()
       asafonov.accounts = new Accounts()
       const settingsView = new SettingsView()
       settingsView.show()
