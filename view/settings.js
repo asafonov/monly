@@ -64,15 +64,16 @@ class SettingsView {
   showAccountRateScreen() {
     this.accountRateScreen.innerHTML = '<h1>account rates</h1>'
     const accounts = asafonov.accounts.getList()
+    const currency = new Currency()
 
     for (let i in accounts) {
       const div = document.createElement('div')
       div.className = 'item accounts-item'
       div.innerHTML = `<div>${i}</div>`
       this.accountRateScreen.appendChild(div)
-      div.addEventListener('click', event => {
+      div.addEventListener('click', async event => {
         const accountRate = this.model.getItem('account_rate') || {}
-        const newRate = prompt('Please enter the account rate', accountRate[i] || 1)
+        const newRate = prompt('Please enter the account rate', await currency.initRate(accountRate[i]) || 1)
 
         if (newRate) {
           const floatRate = parseFloat(newRate)

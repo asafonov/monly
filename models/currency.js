@@ -49,4 +49,15 @@ class Currency {
     return ret
   }
 
+  async initRate (rateValue) {
+    if (rateValue?.length === 6 && ! rateValue.match(/[^A-z]/g)) {
+      const base = rateValue.substr(0, 3)
+      const symbol = rateValue.substr(3)
+      const rate = await this.convert(base, symbol)
+      return parseFloat(rate)
+    } else {
+      return rateValue
+    }
+  }
+
 }
