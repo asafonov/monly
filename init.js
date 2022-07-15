@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     },
     settings_page: async () => {
       asafonov.settings = new Settings()
-      await asafonov.settings.initCurrencyRates()
       asafonov.accounts = new Accounts()
       const settingsView = new SettingsView()
       settingsView.show()
