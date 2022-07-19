@@ -77,8 +77,7 @@ class SettingsView {
         const newRate = prompt('Please enter the account rate', (accountRate[i] || 1) + (isRateNeeded ? ` (${await currency.initRate(accountRate[i])})` : ''))
 
         if (newRate) {
-          const floatRate = parseFloat(newRate)
-          accountRate[i] = floatRate || newRate
+          accountRate[i] = currency.trim(newRate)
           this.model.updateItem('account_rate', accountRate)
         }
       })

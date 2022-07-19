@@ -49,6 +49,10 @@ class Currency {
     return ret
   }
 
+  trim (value) {
+    return this.isRateNeeded(value) ? value.substr(0, 6) : parseFloat(value)
+  }
+
   isRateNeeded (rateValue) {
     return typeof rateValue === 'string' && rateValue.length >= 6 && rateValue.match(/[A-z]/g)
   }
