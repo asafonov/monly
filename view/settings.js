@@ -73,7 +73,8 @@ class SettingsView {
       this.accountRateScreen.appendChild(div)
       div.addEventListener('click', async event => {
         const accountRate = this.model.getItem('account_rate') || {}
-        const newRate = prompt('Please enter the account rate', await currency.initRate(accountRate[i]) || 1)
+        const isRateNeeded = currency.isRateNeeded(accountRate[i])
+        const newRate = prompt('Please enter the account rate', (accountRate[i] || 1) + (isRateNeeded ? ` (${await currency.initRate(accountRate[i])})` : ''))
 
         if (newRate) {
           const floatRate = parseFloat(newRate)

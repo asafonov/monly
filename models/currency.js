@@ -49,8 +49,12 @@ class Currency {
     return ret
   }
 
+  isRateNeeded (rateValue) {
+    return typeof rateValue === 'string' && rateValue.length >= 6 && rateValue.match(/[A-z]/g)
+  }
+
   async initRate (rateValue) {
-    if (rateValue?.length === 6 && ! rateValue.match(/[^A-z]/g)) {
+    if (this.isRateNeeded(rateValue)) {
       const base = rateValue.substr(0, 3)
       const symbol = rateValue.substr(3)
       const rate = await this.convert(base, symbol)
