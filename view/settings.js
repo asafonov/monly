@@ -74,7 +74,7 @@ class SettingsView {
       div.addEventListener('click', async event => {
         const accountRate = this.model.getItem('account_rate') || {}
         const isRateNeeded = currency.isRateNeeded(accountRate[i])
-        const newRate = prompt('Please enter the account rate', (accountRate[i] || 1) + (isRateNeeded ? ` (${await currency.initRate(accountRate[i])})` : ''))
+        const newRate = prompt('Please enter the account rate', accountRate[i] + (isRateNeeded ? ` (${await currency.initRate(accountRate[i])})` : ''))
 
         if (newRate) {
           accountRate[i] = currency.trim(newRate)

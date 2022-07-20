@@ -18,7 +18,7 @@ class Currency {
       return cache.value
     }
 
-    return null
+    return [null, cache.value || 1]
   }
 
   saveToCache (base, symbol, value) {
@@ -32,7 +32,7 @@ class Currency {
   }
 
   async convert (base, symbol) {
-    let ret = this.getFromCache(base, symbol)
+    let [ret, cache] = this.getFromCache(base, symbol)
 
     if (ret) return ret
 
@@ -46,7 +46,7 @@ class Currency {
       if (ret) this.saveToCache(base, symbol, ret)
     } catch (e) {}
 
-    return ret
+    return ret || cache
   }
 
   trim (value) {
