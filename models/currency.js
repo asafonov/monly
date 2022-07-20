@@ -46,7 +46,7 @@ class Currency {
       if (ret) this.saveToCache(base, symbol, ret)
     } catch (e) {}
 
-    return ret || cache
+    return ret || cache || 1
   }
 
   trim (value) {
@@ -64,7 +64,7 @@ class Currency {
       const rate = await this.convert(base, symbol)
       return parseFloat(rate)
     } else {
-      return rateValue
+      return parseFloat(rateValue) || 1
     }
   }
 
