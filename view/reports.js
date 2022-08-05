@@ -107,7 +107,7 @@ class ReportsView {
       const lineLen = value / total * this.circleLen
       const spaceLen = this.circleLen - lineLen
       const circle = document.createElement('circle')
-      circle.className = `slice_${(i % 11) + 1}`
+      circle.className = `slice_${i}`
       circle.style.strokeDasharray = `${lineLen} ${spaceLen}`
       circle.style.strokeDashoffset = offset
       this.circleElement.innerHTML += circle.outerHTML
@@ -120,7 +120,7 @@ class ReportsView {
       this.donutElement.after(itemDiv)
 
       offset -= lineLen
-      ++i
+      i = i % 11 + 1
     }
 
     const circle = document.createElement('circle')
