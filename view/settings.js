@@ -5,6 +5,7 @@ class SettingsView {
     this.mainScreen = document.querySelector('.settings-mainscreen')
     this.defaultAccountScreen = document.querySelector('.settings-default-account')
     this.accountRateScreen = document.querySelector('.settings-account-rate')
+    this.categoriesScreen = document.querySelector('.settings-categories')
   }
 
   showMainScreen() {
@@ -84,10 +85,44 @@ class SettingsView {
     }
   }
 
+  showCategoriesScreen() {
+    this.categoriesScreen.innerHTML = '<h1>categories</h1>'
+    const items = this.model.getItem('categories')
+
+    for (let i of items) {
+      const div = document.createElement('div')
+      div.className = 'item'
+      div.innerHTML = `<div>${i}</div>`
+      this.categoriesScreen.appendChild(div)
+      div.addEventListener('click', () => {
+        if (confirm(`Delete category "${i}"?`)) {
+          items.splice(items.indexOf(i), 1)
+          this.model.updateItem('categories', items)
+          this.showCategoriesScreen()
+        }
+      })
+    }
+
+    const addButton = document.createElement('div')
+    addButton.className = 'add'
+    addButton.innerHTML = 'add category'
+    this.categoriesScreen.appendChild(addButton)
+    addButton.addEventListener('click', () => {
+      const category = prompt('Enter the category name:')
+
+      if (category) {
+        items.push(category)
+        this.model.updateItem('categories', items)
+        this.showCategoriesScreen()
+      }
+    })
+  }
+
   show() {
     this.showMainScreen()
     this.showDefaultAccountScreen()
     this.showAccountRateScreen()
+    this.showCategoriesScreen()
   }
 
 }
