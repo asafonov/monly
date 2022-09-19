@@ -26,6 +26,7 @@ class TransactionsView {
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this)
     this.onAmountChangedProxy = this.onAmountChanged.bind(this)
     this.onAccountClickedProxy = this.onAccountClicked.bind(this)
+    this.onTagClickedProxy = this.onTagClicked.bind(this)
     this.onItemDataChangedProxy = this.onItemDataChanged.bind(this)
     this.closePopupProxy = this.closePopup.bind(this)
     this.addEventListeners()
@@ -88,19 +89,33 @@ class TransactionsView {
   }
 
   onAccountClicked (event) {
-    if (asafonov.accounts.length() < 2 || document.querySelector('.monly-popup')) {
+    this.showPopup(asafonov.accounts.getList.keys(), event.currentTarget, e => onAccountSelected(e))
+  }
+
+  onAccountSelected (event) {
+    const account = event.currentTarget.innerHTML
+    const id = event.currentTarget.getAttribute('data-id')
+    this.model.updateItem(id, {account: account})
+    event.stopPropagation()
+  }
+
+  onTagClicked (event) {
+    const categories = asafonov.settings.getItem('categories')
+    this.showPopup(categories, event.currentTarget, e => alert('Ok!'))
+  }
+
+  showPopup (list, div, callback) {
+    if (list.length < 2 || document.querySelector('.monly-popup')) {
       return
     }
 
-    const div = event.currentTarget
     const selected = div.innerHTML
     div.classList.add('monly-popup')
     const select = document.querySelector('.templates .select').outerHTML
     const opt = document.querySelector('.templates .opt').outerHTML
-    const accounts = asafonov.accounts.getList()
     let options = ''
 
-    for (let i in accounts) {
+    for (let i of list) {
       if (i !== selected) {
         options += opt.replace('{value}', i)
       }
@@ -112,17 +127,10 @@ class TransactionsView {
 
     for (let o of opts) {
       o.setAttribute('data-id', div.parentNode.parentNode.getAttribute('data-id'))
-      o.addEventListener('click', this.onAccountSelected.bind(this))
+      o.addEventListener('click', callback)
     }
 
     window.addEventListener('click', this.closePopupProxy)
-  }
-
-  onAccountSelected (event) {
-    const account = event.currentTarget.innerHTML
-    const id = event.currentTarget.getAttribute('data-id')
-    this.model.updateItem(id, {account: account})
-    event.stopPropagation()
   }
 
   onAmountChanged (event) {
@@ -208,10 +216,7 @@ class TransactionsView {
     const tagDiv = document.createElement('div')
     tagDiv.className = 'second_coll small'
     tagDiv.innerHTML = item.tag
-    tagDiv.setAttribute('data-name', 'tag')
-    tagDiv.setAttribute('contenteditable', 'true')
-    tagDiv.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
-    tagDiv.addEventListener('blur', this.onItemDataChangedProxy)
+    tagDiv.addEventListeners('click', this.onTagClickedProxy)
     row2.appendChild(tagDiv)
 
     const icoDiv = document.createElement('div')
