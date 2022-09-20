@@ -89,7 +89,7 @@ class TransactionsView {
   }
 
   onAccountClicked (event) {
-    this.showPopup(asafonov.accounts.getList.keys(), event.currentTarget, e => onAccountSelected(e))
+    this.showPopup(Object.keys(asafonov.accounts.getList()), event.currentTarget, e => this.onAccountSelected(e))
   }
 
   onAccountSelected (event) {
@@ -101,7 +101,14 @@ class TransactionsView {
 
   onTagClicked (event) {
     const categories = asafonov.settings.getItem('categories')
-    this.showPopup(categories, event.currentTarget, e => alert('Ok!'))
+    this.showPopup(categories, event.currentTarget, e => this.onTagSelected(e))
+  }
+
+  onTagSelected (event) {
+    const tag = event.currentTarget.innerHTML
+    const id = event.currentTarget.getAttribute('data-id')
+    this.model.updateItem(id, {tag: tag})
+    event.stopPropagation()
   }
 
   showPopup (list, div, callback) {
@@ -216,7 +223,7 @@ class TransactionsView {
     const tagDiv = document.createElement('div')
     tagDiv.className = 'second_coll small'
     tagDiv.innerHTML = item.tag
-    tagDiv.addEventListeners('click', this.onTagClickedProxy)
+    tagDiv.addEventListener('click', this.onTagClickedProxy)
     row2.appendChild(tagDiv)
 
     const icoDiv = document.createElement('div')
