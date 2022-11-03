@@ -14,7 +14,7 @@ class AccountsView {
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this)
     this.onAccountTitleChangedProxy = this.onAccountTitleChanged.bind(this)
     this.onAccountValueChangedProxy = this.onAccountValueChanged.bind(this)
-    this.addButton = this.listElement.querySelector('.add')
+    this.addButton = this.listElement.querySelector('.add_link')
     this.addEventListeners()
   }
 
@@ -52,10 +52,16 @@ class AccountsView {
   }
 
   clearExistingItems() {
-    const items = this.listElement.querySelectorAll('.item')
+    const items = this.listElement.querySelectorAll('.section_row')
 
     for (let i = 0; i < items.length; ++i) {
       this.listElement.removeChild(items[i])
+    }
+
+    const underlines = this.listElement.querySelectorAll('.underline')
+
+    for (let i = 0; i < underlines.length; ++i) {
+      this.listElement.removeChild(underlines[i])
     }
   }
 
@@ -72,18 +78,18 @@ class AccountsView {
       item = document.createElement('div')
       itemExists = false
       item.id = itemId
-      item.className = 'item'
+      item.className = 'section_row'
     }
 
     item.innerHTML = ''
-    const title = document.createElement('div')
+    const title = document.createElement('p')
     title.className = 'title'
     title.setAttribute('contenteditable', 'true')
     title.innerHTML = name
     title.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
     title.addEventListener('blur', this.onAccountTitleChangedProxy)
     item.appendChild(title)
-    const value = document.createElement('div')
+    const value = document.createElement('p')
     value.className = 'number'
     value.innerHTML = asafonov.utils.displayMoney(amount)
     value.setAttribute('contenteditable', 'true')
@@ -93,6 +99,9 @@ class AccountsView {
 
     if (! itemExists) {
       this.listElement.insertBefore(item, this.addButton)
+      const underline = document.createElement('div')
+      underline.className = 'underline'
+      this.listElement.insertBefore(underline, this.addButton)
     }
   }
 
@@ -135,7 +144,7 @@ class AccountsView {
 
   updateTotal() {
     const list = this.model.getList()
-    const totalElement = this.listElement.querySelector('.number.big')
+    const totalElement = this.listElement.querySelector('h2')
     let total = 0
     const accountRate = this.settings.getItem('account_rate')
 
