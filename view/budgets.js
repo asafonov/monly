@@ -16,8 +16,8 @@ class BudgetsView {
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this)
     this.onTitleChangedProxy = this.onTitleChanged.bind(this)
     this.onValueChangedProxy = this.onValueChanged.bind(this)
-    this.addButton = this.listElement.querySelector('.add')
-    this.totalElement = this.listElement.querySelector('.number.big')
+    this.addButton = this.listElement.querySelector('.add_link')
+    this.totalElement = this.listElement.querySelector('.total')
     this.addEventListeners()
   }
 

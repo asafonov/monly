@@ -20,7 +20,7 @@ class TransactionsView {
     }
 
     this.headerElement = this.listElement.querySelector('h1')
-    this.addButton = this.listElement.querySelector('.add')
+    this.addButton = this.listElement.querySelector('.add_link')
     this.incomeElement = document.querySelector('.income')
     this.expenseElement = document.querySelector('.expense')
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this)
@@ -75,23 +75,6 @@ class TransactionsView {
     }
   }
 
-  closePopup (event) {
-    const popup = this.listElement.querySelector('.monly-popup')
-
-    if (! popup || popup.contains(event.target)) {
-      return
-    }
-
-    window.removeEventListener('click', this.closePopupProxy)
-    const itemDiv = popup.parentNode.parentNode
-    const itemId = itemDiv.getAttribute('data-id')
-    this.renderItem(this.model.getItem(itemId), itemId)
-  }
-
-  onAccountClicked (event) {
-    this.showPopup(Object.keys(asafonov.accounts.getList()), event.currentTarget, e => this.onAccountSelected(e))
-  }
-
   onAccountSelected (event) {
     const account = event.currentTarget.innerHTML
     const id = event.currentTarget.getAttribute('data-id')
@@ -99,45 +82,11 @@ class TransactionsView {
     event.stopPropagation()
   }
 
-  onTagClicked (event) {
-    const categories = asafonov.settings.getItem('categories')
-    this.showPopup(categories, event.currentTarget, e => this.onTagSelected(e))
-  }
-
   onTagSelected (event) {
     const tag = event.currentTarget.innerHTML
     const id = event.currentTarget.getAttribute('data-id')
     this.model.updateItem(id, {tag: tag})
     event.stopPropagation()
-  }
-
-  showPopup (list, div, callback) {
-    if (list.length < 2 || document.querySelector('.monly-popup')) {
-      return
-    }
-
-    const selected = div.innerHTML
-    div.classList.add('monly-popup')
-    const select = document.querySelector('.templates .select').outerHTML
-    const opt = document.querySelector('.templates .opt').outerHTML
-    let options = ''
-
-    for (let i of list) {
-      if (i !== selected) {
-        options += opt.replace('{value}', i)
-      }
-    }
-
-    div.innerHTML = select.replace('{value}', selected).replace('{options}', options)
-
-    const opts = div.querySelectorAll('.opt')
-
-    for (let o of opts) {
-      o.setAttribute('data-id', div.parentNode.parentNode.getAttribute('data-id'))
-      o.addEventListener('click', callback)
-    }
-
-    window.addEventListener('click', this.closePopupProxy)
   }
 
   onAmountChanged (event) {
