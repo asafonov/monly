@@ -19,17 +19,16 @@ class TransactionsView {
       return
     }
 
-    this.headerElement = this.listElement.querySelector('h1')
+    this.headerElement = this.listElement.querySelector('h1').parentNode
     this.addButton = this.listElement.querySelector('.add_link')
     this.incomeElement = document.querySelector('.income')
     this.expenseElement = document.querySelector('.expense')
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this)
     this.onAmountChangedProxy = this.onAmountChanged.bind(this)
-    this.onAccountClickedProxy = this.onAccountClicked.bind(this)
-    this.onTagClickedProxy = this.onTagClicked.bind(this)
     this.onItemDataChangedProxy = this.onItemDataChanged.bind(this)
-    this.closePopupProxy = this.closePopup.bind(this)
     this.addEventListeners()
+    this.accounts = Object.keys(asafonov.accounts.getList())
+    this.categories = asafonov.settings.getItem('categories')
   }
 
   addEventListeners() {
@@ -126,7 +125,7 @@ class TransactionsView {
 
     if (! itemDiv) {
       itemDiv = document.createElement('div')
-      itemDiv.className = 'item'
+      itemDiv.className = 'section_row transaction item'
       itemDiv.setAttribute('data-id', i)
       itemDiv.id = itemId
       itemAdded = false
@@ -134,57 +133,55 @@ class TransactionsView {
 
     itemDiv.innerHTML = ''
 
-    const row1 = document.createElement('div')
-    row1.className = 'row'
+    const col1 = document.createElement('div')
+    col1.className = 'transaction_coll'
 
-    const dateDiv = document.createElement('div')
-    dateDiv.className = 'first_coll'
-    dateDiv.innerHTML = item.date
-    row1.appendChild(dateDiv)
-
-    const accountDiv = document.createElement('div')
-    accountDiv.className = 'second_coll small'
-    accountDiv.innerHTML = item.account
-    accountDiv.addEventListener('click', this.onAccountClickedProxy)
-    row1.appendChild(accountDiv)
-
-    const amountDiv = document.createElement('div')
-    amountDiv.className = 'third_coll number'
-    amountDiv.innerHTML = asafonov.utils.displayMoney(Math.abs(item.amount))
-    amountDiv.setAttribute('contenteditable', 'true')
-    amountDiv.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
-    amountDiv.addEventListener('blur', this.onAmountChangedProxy)
-    row1.appendChild(amountDiv)
-    itemDiv.appendChild(row1)
-
-    const row2 = document.createElement('div')
-    row2.className = 'row'
+    const dateEl = document.createElement('input')
+    dateEl.setAttribute('type', 'date')
+    dateEl.setAttribute('name', 'date')
+    dateEl.value = item.date
+    col1.appendChild(dateEl)
 
     const posDiv = document.createElement('div')
-    posDiv.className = 'first_coll small'
-    posDiv.innerHTML = item.pos
-    posDiv.setAttribute('data-name', 'pos')
-    posDiv.setAttribute('contenteditable', 'true')
-    posDiv.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
-    posDiv.addEventListener('blur', this.onItemDataChangedProxy)
-    row2.appendChild(posDiv)
+    const posInput = document.createElement('input')
+    dateEl.setAttribute('name', 'place')
+    posInput.value = item.pos
+    posDiv.appendChild(posInput)
+    col1.appendChild(posDiv)
+    itemDiv.appendChild(col1)
+    const col2 = document.createElement('div')
+    col2.className = 'transaction_coll'
+    const accountEl = document.createElement('select')
 
-    const tagDiv = document.createElement('div')
-    tagDiv.className = 'second_coll small'
-    tagDiv.innerHTML = item.tag
-    tagDiv.addEventListener('click', this.onTagClickedProxy)
-    row2.appendChild(tagDiv)
+    for (let i = 0; i < this.accounts.length; ++i) {
+      const opt = document.createElement('option')
+      opt.value = this.accounts[i]
+      opt.text = this.accounts[i]
+      accountEl.appendChild(opt)
+    }
 
-    const icoDiv = document.createElement('div')
-    icoDiv.className = 'third_coll ico_container'
-    row2.appendChild(icoDiv)
-    const ico = document.createElement('div')
-    ico.classList.add('trans_' + item.type)
-    ico.classList.add('svg')
-    icoDiv.appendChild(ico)
-    itemDiv.appendChild(row2)
+    col2.appendChild(accountEl)
+    const categoryEl = document.createElement('select')
 
-    if (! itemAdded && !! this.addButton) this.addButton.after(itemDiv)
+    for (let i = 0; i < this.categories.length; ++i) {
+      const opt = document.createElement('option')
+      opt.value = this.categories[i]
+      opt.text = this.categories[i]
+      categoryEl.appendChild(opt)
+    }
+
+    col2.appendChild(categoryEl)
+    itemDiv.appendChild(col2)
+    const col3 = document.createElement('div')
+    col3.className = 'transaction_coll'
+    const amountEl = document.createElement('p')
+    amountEl.className = 'number'
+    amountEl.setAttribute('contenteditable', true)
+    amountEl.innerHTML = asafonov.utils.displayMoney(item.amount)
+    col3.appendChild(amountEl)
+    itemDiv.appendChild(col3)
+
+    if (! itemAdded && !! this.headerElement) this.headerElement.after(itemDiv)
   }
 
   updateList() {
