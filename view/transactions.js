@@ -130,6 +130,14 @@ class TransactionsView {
       id = el.getAttribute('data-id')
     }
 
+    const data = this.model.getItem(id)
+
+    if (data[name] !== value) {
+      const newData = {}
+      newData[name] = value
+      this.model.updateItem(id, newData)
+    }
+
     return value
   }
 
