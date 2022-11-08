@@ -24,11 +24,17 @@ class TransactionsView {
     this.incomeElement = document.querySelector('.income')
     this.expenseElement = document.querySelector('.expense')
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this)
-    this.onAmountChangedProxy = this.onAmountChanged.bind(this)
-    this.onItemDataChangedProxy = this.onItemDataChanged.bind(this)
     this.onValueChangeProxy = this.onValueChange.bind(this)
     this.addEventListeners()
+    this.updateAccounts()
+    this.updateCateories()
+  }
+
+  updateAccounts() {
     this.accounts = Object.keys(asafonov.accounts.getList())
+  }
+
+  updateCateories() {
     this.categories = asafonov.settings.getItem('categories')
   }
 
@@ -75,46 +81,6 @@ class TransactionsView {
     }
   }
 
-  onAccountSelected (event) {
-    const account = event.currentTarget.innerHTML
-    const id = event.currentTarget.getAttribute('data-id')
-    this.model.updateItem(id, {account: account})
-    event.stopPropagation()
-  }
-
-  onTagSelected (event) {
-    const tag = event.currentTarget.innerHTML
-    const id = event.currentTarget.getAttribute('data-id')
-    this.model.updateItem(id, {tag: tag})
-    event.stopPropagation()
-  }
-
-  onAmountChanged (event) {
-    const element = event.currentTarget
-    const newValue = element.innerText.replace(/\n/g, '')
-    const originalValue = element.getAttribute('data-content')
-    const id = element.parentNode.parentNode.getAttribute('data-id')
-
-    if (newValue !== originalValue) {
-      const amount = Math.round(parseFloat(newValue) * 100)
-      this.model.updateItem(id, {amount: amount})
-    }
-  }
-
-  onItemDataChanged (event) {
-    const element = event.currentTarget
-    const newValue = element.innerText.replace(/\n/g, '')
-    const originalValue = element.getAttribute('data-content')
-    const id = element.parentNode.parentNode.getAttribute('data-id')
-    const name = element.getAttribute('data-name')
-
-    if (newValue !== originalValue) {
-      let data = {}
-      data[name] = newValue
-      this.model.updateItem(id, data)
-    }
-  }
-
   genItemId (id) {
     return `item_${id}`
   }
@@ -137,8 +103,6 @@ class TransactionsView {
       newData[name] = value
       this.model.updateItem(id, newData)
     }
-
-    return value
   }
 
   renderItem (item, i) {

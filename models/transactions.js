@@ -32,6 +32,7 @@ class Transactions extends AbstractPeriodList {
   updateItem (id, item) {
     if (item.amount !== undefined && item.amount !== null) {
       item.type = this.assignType(item.amount)
+      item.amount = Math.round(parseFloat(item.amount) * 100)
     }
 
     super.updateItem(id, item, asafonov.events.TRANSACTION_UPDATED)
