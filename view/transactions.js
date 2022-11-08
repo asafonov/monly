@@ -26,6 +26,7 @@ class TransactionsView {
     this.onAddButtonClickedProxy = this.onAddButtonClicked.bind(this)
     this.onAmountChangedProxy = this.onAmountChanged.bind(this)
     this.onItemDataChangedProxy = this.onItemDataChanged.bind(this)
+    this.onValueChangeProxy = this.onValueChange.bind(this)
     this.addEventListeners()
     this.accounts = Object.keys(asafonov.accounts.getList())
     this.categories = asafonov.settings.getItem('categories')
@@ -118,6 +119,20 @@ class TransactionsView {
     return `item_${id}`
   }
 
+  onValueChange (event) {
+    const value = event.currentTarget.value || event.currentTarget.innerText
+    const name = event.currentTarget.getAttribute('data-name')
+    let el = event.currentTarget
+    let id
+
+    while (!id) {
+      el = el.parentNode
+      id = el.getAttribute('data-id')
+    }
+
+    return value
+  }
+
   renderItem (item, i) {
     const itemId = this.genItemId(i)
     let itemDiv = this.listElement.querySelector(`#${itemId}`)
@@ -137,15 +152,17 @@ class TransactionsView {
     col1.className = 'transaction_coll'
 
     const dateEl = document.createElement('input')
-    dateEl.setAttribute('type', 'date')
-    dateEl.setAttribute('name', 'date')
     dateEl.value = item.date
+    dateEl.setAttribute('type', 'date')
+    dateEl.setAttribute('data-name', 'date')
+    dateEl.addEventListener('change', this.onValueChangeProxy)
     col1.appendChild(dateEl)
 
     const posDiv = document.createElement('div')
     const posInput = document.createElement('input')
-    dateEl.setAttribute('name', 'place')
     posInput.value = item.pos
+    posInput.setAttribute('data-name', 'pos')
+    posInput.addEventListener('change', this.onValueChangeProxy)
     posDiv.appendChild(posInput)
     col1.appendChild(posDiv)
     itemDiv.appendChild(col1)
@@ -157,9 +174,12 @@ class TransactionsView {
       const opt = document.createElement('option')
       opt.value = this.accounts[i]
       opt.text = this.accounts[i]
+      this.accounts[i] === item.account && (opt.setAttribute('selected', true))
       accountEl.appendChild(opt)
     }
 
+    accountEl.setAttribute('data-name', 'account')
+    accountEl.addEventListener('change', this.onValueChangeProxy)
     col2.appendChild(accountEl)
     const categoryEl = document.createElement('select')
 
@@ -167,9 +187,12 @@ class TransactionsView {
       const opt = document.createElement('option')
       opt.value = this.categories[i]
       opt.text = this.categories[i]
+      this.categories[i] === item.tag && (opt.setAttribute('selected', true))
       categoryEl.appendChild(opt)
     }
 
+    categoryEl.setAttribute('data-name', 'tag')
+    categoryEl.addEventListener('change', this.onValueChangeProxy)
     col2.appendChild(categoryEl)
     itemDiv.appendChild(col2)
     const col3 = document.createElement('div')
@@ -177,7 +200,10 @@ class TransactionsView {
     const amountEl = document.createElement('p')
     amountEl.className = 'number'
     amountEl.setAttribute('contenteditable', true)
+    amountEl.setAttribute('data-name', 'amount')
     amountEl.innerHTML = asafonov.utils.displayMoney(item.amount)
+    amountEl.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
+    amountEl.addEventListener('blur', this.onValueChangeProxy)
     col3.appendChild(amountEl)
     itemDiv.appendChild(col3)
 
