@@ -2,7 +2,6 @@ class Transactions extends AbstractPeriodList {
 
   constructor (year, month) {
     super(year, month, 'transactions_', asafonov.events.TRANSACTIONS_LOADED)
-    this.settings = asafonov.settings
   }
 
   assignType (amount) {
@@ -44,7 +43,7 @@ class Transactions extends AbstractPeriodList {
 
   getSumsByTags() {
     const tags = {}
-    const accountRate = this.settings.getItem('account_rate')
+    const accountRate = asafonov.settings.getItem('account_rate')
 
     for (let i = 0; i < this.list.length; ++i) {
       const tag = this.list[i].tag.trim()
@@ -81,7 +80,7 @@ class Transactions extends AbstractPeriodList {
   }
 
   sum (func) {
-    const accountRate = this.settings.getItem('account_rate')
+    const accountRate = asafonov.settings.getItem('account_rate')
     return this.list.filter(v => func(v)).map(v => v.amount * (accountRate[v.account] || 1)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   }
 }
