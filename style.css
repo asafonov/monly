@@ -318,7 +318,7 @@ h2.left::before {
   margin-bottom: var(--size_0);
 }
 
-.budget_row p.number {
+.budget_row p.number span {
   font-size: var(--size_s2);
 }
 

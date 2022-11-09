@@ -88,16 +88,12 @@ class BudgetsView {
     const left = asafonov.utils.displayMoney(this.model.getItem(tag) - sum)
     const spent = asafonov.utils.displayMoney(sum)
 
-    item.querySelector(`.number.with_left`).innerHTML = left
-    item.querySelector('.row.number.dual').innerText = `${spent} `
-    const v = document.createElement('span')
-    v.setAttribute('contenteditable', 'true')
-    v.innerHTML = budget
-    v.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
-    v.addEventListener('blur', this.onValueChangedProxy)
-    item.querySelector('.row.number.dual').appendChild(v)
-    const width = Math.min(100, parseInt(sum / this.model.getItem(tag) * 100)) || 100
-    item.querySelector('.filled').style.width = `${width}%`
+    item.querySelector(`.number.left`).innerHTML = left
+    item.querySelectorAll('.budget_row .number span')[0].innerText = `${spent} / `
+    item.querySelectorAll('.budget_row .number span')[1].innerText = budget
+
+    const width = Math.min(100, parseInt(sum / this.model.getItem(tag) * 100))
+    item.querySelector('.budget_fill').style.width = `${width}%`
   }
 
   clearExistingItems() {
@@ -128,38 +124,37 @@ class BudgetsView {
     const displayAmount = asafonov.utils.displayMoney(amount)
     const displayZero = asafonov.utils.displayMoney(0)
 
-    const row = document.createElement('div')
-    row.className = 'row'
-    const n = document.createElement('div')
-    n.className = 'budget_name'
-    n.innerHTML = name
-    n.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
-    n.addEventListener('blur', this.onTitleChangedProxy)
-    n.setAttribute('contenteditable', 'true')
-    row.appendChild(n)
-    const a = document.createElement('div')
-    a.className = 'number with_left'
-    a.innerHTML = displayAmount
-    row.appendChild(a)
-    item.appendChild(row)
+    const row1 = document.createElement('div')
+    row1.className = 'section_row'
+    const nameEl = document.createElement('p')
+    nameEl.innerHTML = name
+    nameEl.setAttribute('contenteditable', true)
+    nameEl.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
+    nameEl.addEventListener('blur', this.onTitleChangedProxy)
+    row1.appendChild(nameEl)
+    const amountEl = document.createElement('p')
+    amountEl.className = 'number left'
+    amountEl.innerHTML = displayZero
+    row1.appendChild(amountEl)
+    item.appendChild(row1)
 
     const row2 = document.createElement('div')
-    row2.className = 'row number dual'
-    row2.innerHTML = `${displayZero} `
-    const v = document.createElement('span')
-    v.innerHTML = displayAmount
-    row2.appendChild(v)
+    row2.className = 'budget_row'
+    const numberEl = document.createElement('p')
+    numberEl.className = 'number'
+    const span1 = document.createElement('span')
+    span1.innerHTML = displayZero + ' / '
+    numberEl.appendChild(span1)
+    const span2 = document.createElement('span')
+    span2.innerHTML = displayAmount
+    numberEl.appendChild(span2)
+    row2.appendChild(numberEl)
+    row2.innerHTML += '<div class="budget_line"><div class="budget_fill" style="width: 0%"></div></div>'
     item.appendChild(row2)
-
-    const row3 = document.createElement('div')
-    row3.className = 'row progress_line'
-    row3.innerHTML = '<div class="filled"></div>'
-    item.appendChild(row3)
 
     if (! itemExists) {
       this.listElement.insertBefore(item, this.addButton)
     }
-
   }
 
   onTitleChanged (event) {
