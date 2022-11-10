@@ -128,6 +128,7 @@ class BudgetsView {
     row1.className = 'section_row'
     const nameEl = document.createElement('p')
     nameEl.innerHTML = name
+    nameEl.className = 'budget_name'
     nameEl.setAttribute('contenteditable', true)
     nameEl.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
     nameEl.addEventListener('blur', this.onTitleChangedProxy)
@@ -147,9 +148,16 @@ class BudgetsView {
     numberEl.appendChild(span1)
     const span2 = document.createElement('span')
     span2.innerHTML = displayAmount
+    span2.addEventListener('blur', this.onValueChangedProxy)
+    span2.setAttribute('contenteditable', true)
     numberEl.appendChild(span2)
     row2.appendChild(numberEl)
-    row2.innerHTML += '<div class="budget_line"><div class="budget_fill" style="width: 0%"></div></div>'
+    const budgetLine = document.createElement('div')
+    budgetLine.className = 'budget_line'
+    const budgetFill = document.createElement('div')
+    budgetFill.className = 'budget_fill'
+    budgetLine.appendChild(budgetFill)
+    row2.appendChild(budgetLine)
     item.appendChild(row2)
 
     if (! itemExists) {
@@ -174,14 +182,9 @@ class BudgetsView {
 
   onValueChanged (event) {
     const value = event.currentTarget
-    const title = value.parentNode.parentNode.querySelector('.budget_name')
+    const title = value.parentNode.parentNode.parentNode.querySelector('.budget_name')
     const newValue = value.innerText.replace(/\n/g, '')
-    const originalValue = value.getAttribute('data-content')
-
-    if (newValue !== originalValue) {
-      const amount = Math.round(parseFloat(newValue) * 100)
-      this.model.updateItem(title.innerHTML, amount)
-    }
+    this.model.updateItem(title.innerHTML, newValue)
   }
 
   updateList() {

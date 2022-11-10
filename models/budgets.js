@@ -2,7 +2,7 @@ class Budgets extends AbstractList {
 
   updateItem (id, item) {
     const from = this.list[id];
-    super.updateItem(id, item);
+    super.updateItem(id, Math.round(parseFloat(item) * 100));
     asafonov.messageBus.send(asafonov.events.BUDGET_UPDATED, {id: id, from: from, to: item});
   }
 
