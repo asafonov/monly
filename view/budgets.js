@@ -19,6 +19,11 @@ class BudgetsView {
     this.addButton = this.listElement.querySelector('.add_link')
     this.totalElement = this.listElement.querySelector('.total')
     this.addEventListeners()
+    this.updateCateories()
+  }
+
+  updateCateories() {
+    this.categories = asafonov.settings.getItem('categories')
   }
 
   addEventListeners() {
@@ -38,7 +43,7 @@ class BudgetsView {
   }
 
   onAddButtonClicked() {
-    const name = 'Budget' + Math.floor(Math.random() * 1000)
+    const name = 'Groceries'
     this.model.updateItem(name, 0)
   }
 
@@ -126,12 +131,19 @@ class BudgetsView {
 
     const row1 = document.createElement('div')
     row1.className = 'section_row'
-    const nameEl = document.createElement('p')
-    nameEl.innerHTML = name
+    const nameEl = document.createElement('select')
+
+    for (let i = 0; i < this.categories.length; ++i) {
+      const opt = document.createElement('option')
+      opt.value = this.categories[i]
+      opt.text = this.categories[i]
+      this.categories[i] === name && (opt.setAttribute('selected', true))
+      nameEl.appendChild(opt)
+    }
+
     nameEl.className = 'budget_name'
-    nameEl.setAttribute('contenteditable', true)
-    nameEl.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
-    nameEl.addEventListener('blur', this.onTitleChangedProxy)
+    nameEl.addEventListener('change', this.onTitleChangedProxy)
+    nameEl.addEventListener('focus', event => event.currentTarget.setAttribute('data-value', event.currentTarget.value))
     row1.appendChild(nameEl)
     const amountEl = document.createElement('p')
     amountEl.className = 'number left'
@@ -166,9 +178,8 @@ class BudgetsView {
   }
 
   onTitleChanged (event) {
-    const title = event.currentTarget
-    const newValue = title.innerText.replace(/\n/g, '')
-    const originalValue = title.getAttribute('data-content')
+    const newValue = event.currentTarget.value
+    const originalValue = event.currentTarget.getAttribute('data-value')
 
     if (newValue !== originalValue) {
       if (newValue.length > 0) {
@@ -182,9 +193,9 @@ class BudgetsView {
 
   onValueChanged (event) {
     const value = event.currentTarget
-    const title = value.parentNode.parentNode.parentNode.querySelector('.budget_name')
+    const title = value.parentNode.parentNode.parentNode.querySelector('.budget_name').value
     const newValue = value.innerText.replace(/\n/g, '')
-    this.model.updateItem(title.innerHTML, newValue)
+    this.model.updateItem(title, newValue)
   }
 
   updateList() {
