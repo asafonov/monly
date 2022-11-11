@@ -8,6 +8,26 @@ class SettingsView {
     this.categoriesScreen = document.querySelector('.settings-categories')
   }
 
+  _createUnderline() {
+    const underline = document.createElement('div')
+    underline.className = 'underline'
+    return underline
+  }
+
+  _createCheckbox (title, checked, isFirst, onchange) {
+    const label = document.createElement('label')
+    label.className = `section_row${isFirst ? ' no_number' : ''}`
+    const p = document.createElement('p')
+    p.innerHTML = title
+    label.appendChild(p)
+    const checkbox = document.createElement('input')
+    checkbox.setAttribute('type', 'checkbox')
+    checked && checkbox.setAttribute('checked', true)
+    checkbox.addEventListener('change', onchange)
+    label.appendChild(checkbox)
+    return label
+  }
+
   showMainScreen() {
     this.mainScreen.innerHTML = '<h1>main screen</h1>'
     const items = this.model.getItem('mainscreen')
@@ -15,26 +35,14 @@ class SettingsView {
 
     for (let i in items) {
       if (! isFirst) {
-        const underline = document.createElement('div')
-        underline.className = 'underline'
-        this.mainScreen.appendChild(underline)
+        this.mainScreen.appendChild(this._createUnderline())
       }
 
-      isFirst = false
-      const label = document.createElement('label')
-      label.className = 'section_row'
-      const p = document.createElement('p')
-      p.innerHTML = i
-      label.appendChild(p)
-      const checkbox = document.createElement('input')
-      checkbox.setAttribute('type', 'checkbox')
-      items[i] && checkbox.setAttribute('checked', true)
-      checkbox.addEventListener('change', event => {
+      this.mainScreen.appendChild(this._createCheckbox(i, items[i], isFirst, () => {
         items[i] = ! items[i]
         this.model.updateItem('mainscreen', items)
-      })
-      label.appendChild(checkbox)
-      this.mainScreen.appendChild(label)
+      }))
+      isFirst = false
     }
   }
 
@@ -42,26 +50,24 @@ class SettingsView {
     this.defaultAccountScreen.innerHTML = '<h1>default account</h1>'
     const accounts = asafonov.accounts.getList()
     const defaultAccount = this.model.getItem('default_account')
+    let isFirst = true
 
     for (let i in accounts) {
-      const div = document.createElement('div')
-      div.className = 'item accounts-item'
-      div.innerHTML = `<div>${i}</div>`
-      div.setAttribute('data-value', i)
-      defaultAccount === i && div.classList.add('set')
-      this.defaultAccountScreen.appendChild(div)
-      div.addEventListener('click', event => {
-        const target = event.target.parentNode
-        const value = target.getAttribute('data-value')
-        const items = document.querySelectorAll('.accounts-item')
+      if (! isFirst) {
+        this.defaultAccountScreen.appendChild(this._createUnderline())
+      }
 
-        for (let i = 0; i < items.length; ++i) {
-          items[i].classList.remove('set')
+      this.defaultAccountScreen.appendChild(this._createCheckbox(i, i === defaultAccount, isFirst, event => {
+        const items = this.defaultAccountScreen.querySelectorAll('input[type=checkbox]')
+
+        for (let i of items) {
+          i.removeAttribute('checked')
         }
 
-        target.classList.add('set')
-        this.model.updateItem('default_account', value)
-      })
+        event.target.setAttribute('checked', true)
+        this.model.updateItem('default_account', i)
+      }))
+      isFirst = false
     }
   }
 
