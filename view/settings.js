@@ -28,6 +28,16 @@ class SettingsView {
     return label
   }
 
+  _createLine (title, isFirst, onclick) {
+    const div = document.createElement('label')
+    div.className = `section_row${isFirst ? ' no_number' : ''}`
+    const p = document.createElement('p')
+    p.innerHTML = title
+    p.addEventListener('click', onclick)
+    div.appendChild(p)
+    return div
+  }
+
   showMainScreen() {
     this.mainScreen.innerHTML = '<h1>main screen</h1>'
     const items = this.model.getItem('mainscreen')
@@ -75,13 +85,14 @@ class SettingsView {
     this.accountRateScreen.innerHTML = '<h1>account rates</h1>'
     const accounts = asafonov.accounts.getList()
     const currency = new Currency()
+    let isFirst = true
 
     for (let i in accounts) {
-      const div = document.createElement('div')
-      div.className = 'item accounts-item'
-      div.innerHTML = `<div>${i}</div>`
-      this.accountRateScreen.appendChild(div)
-      div.addEventListener('click', async event => {
+      if (! isFirst) {
+        this.accountRateScreen.appendChild(this._createUnderline())
+      }
+
+      this.accountRateScreen.appendChild(this._createLine(i, isFirst, async event => {
         const accountRate = this.model.getItem('account_rate') || {}
         const isRateNeeded = currency.isRateNeeded(accountRate[i])
         const newRate = prompt('Please enter the account rate', (accountRate[i] || await currency.initRate(accountRate[i])) + (isRateNeeded ? ` (${await currency.initRate(accountRate[i])})` : ''))
@@ -90,7 +101,8 @@ class SettingsView {
           accountRate[i] = currency.trim(newRate)
           this.model.updateItem('account_rate', accountRate)
         }
-      })
+      }))
+      isFirst = false
     }
   }
 
