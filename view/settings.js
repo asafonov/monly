@@ -11,27 +11,30 @@ class SettingsView {
   showMainScreen() {
     this.mainScreen.innerHTML = '<h1>main screen</h1>'
     const items = this.model.getItem('mainscreen')
+    let isFirst = true
 
     for (let i in items) {
-      const div = document.createElement('div')
-      div.className = 'item'
-      div.innerHTML = `<div>${i}</div>`
-      div.setAttribute('data-value', i)
-      items[i] && div.classList.add('set')
-      this.mainScreen.appendChild(div)
-      div.addEventListener('click', event => {
-        const target = event.target.parentNode
-        const value = target.getAttribute('data-value')
-        items[value] = ! items[value]
+      if (! isFirst) {
+        const underline = document.createElement('div')
+        underline.className = 'underline'
+        this.mainScreen.appendChild(underline)
+      }
 
-        if (items[value]) {
-          target.classList.add('set')
-        } else {
-          target.classList.remove('set')
-        }
-
+      isFirst = false
+      const label = document.createElement('label')
+      label.className = 'section_row'
+      const p = document.createElement('p')
+      p.innerHTML = i
+      label.appendChild(p)
+      const checkbox = document.createElement('input')
+      checkbox.setAttribute('type', 'checkbox')
+      items[i] && checkbox.setAttribute('checked', true)
+      checkbox.addEventListener('change', event => {
+        items[i] = ! items[i]
         this.model.updateItem('mainscreen', items)
       })
+      label.appendChild(checkbox)
+      this.mainScreen.appendChild(label)
     }
   }
 
