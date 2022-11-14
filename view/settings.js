@@ -71,10 +71,10 @@ class SettingsView {
         const items = this.defaultAccountScreen.querySelectorAll('input[type=checkbox]')
 
         for (let i of items) {
-          i.removeAttribute('checked')
+          i.checked = false
         }
 
-        event.target.setAttribute('checked', true)
+        event.currentTarget.checked = true
         this.model.updateItem('default_account', i)
       }))
       isFirst = false
