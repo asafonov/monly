@@ -2,10 +2,12 @@ class SettingsView {
 
   constructor() {
     this.model = asafonov.settings
+    this.themeView = new ThemeView()
     this.mainScreen = document.querySelector('.settings-mainscreen')
     this.defaultAccountScreen = document.querySelector('.settings-default-account')
     this.accountRateScreen = document.querySelector('.settings-account-rate')
     this.categoriesScreen = document.querySelector('.settings-categories')
+    this.themeScreen = document.querySelector('.settings-theme')
   }
 
   _createUnderline() {
@@ -139,11 +141,38 @@ class SettingsView {
     })
   }
 
+  showThemeScreen() {
+    const themes = ['light', 'dark']
+    this.themeScreen.innerHTML = '<h1>theme</h1>'
+    const theme = this.model.getItem('theme')
+    let isFirst = true
+
+    for (let i of themes) {
+      if (! isFirst) {
+        this.themeScreen.appendChild(this._createUnderline())
+      }
+
+      this.themeScreen.appendChild(this._createCheckbox(i, i === theme, isFirst, event => {
+        const items = this.themeScreen.querySelectorAll('input[type=checkbox]')
+
+        for (let i of items) {
+          i.checked = false
+        }
+
+        event.currentTarget.checked = true
+        this.model.updateItem('theme', i)
+        this.themeView.apply(i)
+      }))
+      isFirst = false
+    }
+  }
+
   show() {
     this.showMainScreen()
     this.showDefaultAccountScreen()
     this.showAccountRateScreen()
     this.showCategoriesScreen()
+    this.showThemeScreen()
   }
 
 }

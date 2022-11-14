@@ -10,7 +10,8 @@ class Settings extends AbstractList {
       },
       default_account: null,
       account_rate: {},
-      categories: ['Groceries', 'Transport', 'Travel', 'Utilities', 'Gas', 'Health', 'Fun', 'Presents', 'Clothes']
+      categories: ['Groceries', 'Transport', 'Travel', 'Utilities', 'Gas', 'Health', 'Fun', 'Presents', 'Clothes'],
+      theme: 'light'
     })
   }
 

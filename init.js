@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       transactionsView.updateList()
       const reportsController = new ReportsController()
       reportsController.build()
+      const themeView = new ThemeView()
     },
     charts_page: async () => {
       asafonov.settings = new Settings()
