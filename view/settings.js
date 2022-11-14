@@ -110,22 +110,22 @@ class SettingsView {
     this.categoriesScreen.innerHTML = '<h1>categories</h1>'
     const items = this.model.getItem('categories')
 
+    let isFirst = true
+
     for (let i of items) {
-      const div = document.createElement('div')
-      div.className = 'item'
-      div.innerHTML = `<div>${i}</div>`
-      this.categoriesScreen.appendChild(div)
-      div.addEventListener('click', () => {
+      this.categoriesScreen.appendChild(this._createLine(i, isFirst, async event => {
         if (confirm(`Delete category "${i}"?`)) {
           items.splice(items.indexOf(i), 1)
           this.model.updateItem('categories', items)
           this.showCategoriesScreen()
         }
-      })
+      }))
+      isFirst = false
+      this.categoriesScreen.appendChild(this._createUnderline())
     }
 
-    const addButton = document.createElement('div')
-    addButton.className = 'add'
+    const addButton = document.createElement('a')
+    addButton.className = 'add_link'
     addButton.innerHTML = 'add category'
     this.categoriesScreen.appendChild(addButton)
     addButton.addEventListener('click', () => {
