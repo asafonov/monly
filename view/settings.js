@@ -8,6 +8,7 @@ class SettingsView {
     this.accountRateScreen = document.querySelector('.settings-account-rate')
     this.categoriesScreen = document.querySelector('.settings-categories')
     this.themeScreen = document.querySelector('.settings-theme')
+    this.additionalSettingsScreen = document.querySelector('.settings-additional')
   }
 
   _createUnderline() {
@@ -155,8 +156,8 @@ class SettingsView {
       this.themeScreen.appendChild(this._createCheckbox(i, i === theme, isFirst, event => {
         const items = this.themeScreen.querySelectorAll('input[type=checkbox]')
 
-        for (let i of items) {
-          i.checked = false
+        for (let c of items) {
+          c.checked = false
         }
 
         event.currentTarget.checked = true
@@ -167,12 +168,23 @@ class SettingsView {
     }
   }
 
+  showAdditionalSettingsScreen() {
+    this.additionalSettingsScreen.innerHTML = '<h1>additional settings</h1>'
+    let showUpdateDialog = this.model.getItem('show_update_dialog')
+    this.additionalSettingsScreen.appendChild(this._createCheckbox('Update within the app', showUpdateDialog, true, event => {
+      showUpdateDialog = ! showUpdateDialog
+      this.model.updateItem('show_update_dialog', showUpdateDialog)
+      event.currentTarget.checked = showUpdateDialog
+    }))
+  }
+
   show() {
     this.showMainScreen()
     this.showDefaultAccountScreen()
     this.showAccountRateScreen()
     this.showCategoriesScreen()
     this.showThemeScreen()
+    this.showAdditionalSettingsScreen()
   }
 
 }

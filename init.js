@@ -8,8 +8,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
       asafonov.settings = new Settings()
       const themeView = new ThemeView()
       await asafonov.settings.initCurrencyRates()
-      const updaterView = new UpdaterView('https://raw.githubusercontent.com/asafonov/monly/master/VERSION.txt', 'https://github.com/asafonov/monly.apk/releases/download/{VERSION}/app-release.apk')
-      updaterView.showUpdateDialogIfNeeded()
+
+      if (asafonov.settings.getItem('show_update_dialog')) {
+        const updaterView = new UpdaterView('https://raw.githubusercontent.com/asafonov/monly/master/VERSION.txt', 'https://github.com/asafonov/monly.apk/releases/download/{VERSION}/app-release.apk')
+        updaterView.showUpdateDialogIfNeeded()
+      }
+
       asafonov.accounts = new Accounts()
       const accountsController = new AccountsController()
       const accountsView = new AccountsView()
