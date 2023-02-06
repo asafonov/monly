@@ -1,10 +1,9 @@
 class ReportsView {
 
   constructor() {
-    alert('init!!!')
     this.model = new Reports()
     this.controller = new ReportsController()
-    this.circleLen = 125.5
+    this.circleLen = 251
     this.circleDeg = 360
     this.initAvailableReports()
   }
@@ -66,7 +65,6 @@ class ReportsView {
   }
 
   showChart (proceedFunction) {
-    alert('show Chart!!!')
     this.donutElement.innerHTML = ''
     this.clearExistingItems()
 
@@ -84,6 +82,7 @@ class ReportsView {
 
       const value = Math.abs(data[item])
       const lineLen = value / total * this.circleLen
+      lengthOffset += lineLen
       const deg = value / total * this.circleDeg
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
       svg.setAttribute('viewBox', '0 0 100 100')
@@ -91,7 +90,6 @@ class ReportsView {
       const circle = document.createElement('circle')
       circle.style.strokeDashoffset = lengthOffset
       degOffset += deg
-      lengthOffset += lineLen
       svg.appendChild(circle)
       this.donutElement.appendChild(svg)
       alert(this.donutElement.innerHTML)
