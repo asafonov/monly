@@ -1,19 +1,17 @@
 class ReportsView {
 
   constructor() {
+    alert('init!!!')
     this.model = new Reports()
     this.controller = new ReportsController()
-    this.circleLen = 30 * 0.42 * 2 * Math.PI
-    this.popup = document.querySelector('.select')
-    this.options = this.popup.querySelector('.options')
-    this.active = this.popup.querySelector('.active')
-    this.togglePopupProxy = this.togglePopup.bind(this)
-    this.addEventListeners()
+    this.circleLen = 125.5
+    this.circleDeg = 360
     this.initAvailableReports()
   }
 
   initAvailableReports() {
     const availableReports = this.controller.availableReports()
+    return
     const availableReportsMap = {}
 
     for (let i = 0; i < availableReports.length; ++i) {
@@ -45,58 +43,39 @@ class ReportsView {
     this.active.innerHTML = this.options.querySelector(`.m${m}`).innerHTML + ' ' + y
   }
 
-  addEventListeners() {
-    this.active.addEventListener('click', this.togglePopupProxy)
-  }
-
-  removeEventListeners() {
-    this.active.removeEventListener('click', this.togglePopupProxy)
-  }
-
-  togglePopup() {
-    this.popup.classList.toggle('monly-popup')
-  }
-
   clearExistingItems() {
-    const items = this.element.querySelectorAll('.item')
-
-    for (let i = 0; i < items.length; ++i) {
-      this.element.removeChild(items[i])
-    }
+    this.legendElement.innerHTML = ''
   }
 
   showExpenses() {
-    this.element = document.querySelector('.expenses.monly-circle')
-    this.circleElement = this.element.querySelector('.donut.chart svg')
-    this.totalElement = this.element.querySelector('.number.big')
-    this.donutElement = this.element.querySelector('.donut.chart')
+    this.element = document.querySelector('.monly-expenses')
+    this.donutElement = this.element.querySelector('.chart_donut')
+    this.legendElement = this.element.querySelector('.chart_legend')
     this.showChart(i => i > 0)
   }
 
   showIncome() {
     this.element = document.querySelector('.income.monly-circle')
-    this.circleElement = this.element.querySelector('.donut.chart svg')
-    this.totalElement = this.element.querySelector('.number.big')
     this.donutElement = this.element.querySelector('.donut.chart')
     this.showChart(i => i < 0)
   }
 
   show() {
     this.showExpenses()
-    this.showIncome()
+    //this.showIncome()
   }
 
   showChart (proceedFunction) {
-    this.circleElement.innerHTML = ''
+    alert('show Chart!!!')
+    this.donutElement.innerHTML = ''
     this.clearExistingItems()
 
     this.model.build()
     const data = this.model.getItem(0)
     const subtotal = Object.values(data).filter(proceedFunction).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
     const total = Math.abs(subtotal)
-    let i = 1
-    let offset = 0
-    this.totalElement.innerHTML = asafonov.utils.displayMoney(total)
+    let degOffset = -90
+    let lengthOffset = -this.circleLen
     const keys = Object.keys(data)
     keys.sort((a, b) => Math.abs(data[a]) - Math.abs(data[b]))
 
@@ -105,32 +84,31 @@ class ReportsView {
 
       const value = Math.abs(data[item])
       const lineLen = value / total * this.circleLen
-      const spaceLen = this.circleLen - lineLen
+      const deg = value / total * this.circleDeg
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      svg.setAttribute('viewBox', '0 0 100 100')
+      svg.setAttribute('style', `transform: rotate(${degOffset}deg)`)
       const circle = document.createElement('circle')
-      circle.className = `slice_${i}`
-      circle.style.strokeDasharray = `${lineLen} ${spaceLen}`
-      circle.style.strokeDashoffset = offset
-      this.circleElement.innerHTML += circle.outerHTML
+      circle.style.strokeDashoffset = lengthOffset
+      degOffset += deg
+      lengthOffset += lineLen
+      svg.appendChild(circle)
+      this.donutElement.appendChild(svg)
+      alert(this.donutElement.innerHTML)
 
-      const itemDiv = document.createElement('div')
+      /*const itemDiv = document.createElement('div')
       itemDiv.className = 'item'
       itemDiv.innerHTML = `<div><span class="bullet slice_${i}"></span>${item}</div>`
       const displayMoney = asafonov.utils.displayMoney(value)
       itemDiv.innerHTML += `<div class="number">${displayMoney}</div>`
-      this.donutElement.after(itemDiv)
-
-      offset -= lineLen
-      i = i % 11 + 1
+      this.donutElement.after(itemDiv)*/
     }
 
-    const circle = document.createElement('circle')
-    circle.className = 'slice_f'
-    this.circleElement.innerHTML += circle.outerHTML
+    this.donutElement.innerHTML += `<h2>${asafonov.utils.displayMoney(total)}</h2>`
   }
 
   destroy() {
     this.model.destroy()
     this.controller.destroy()
-    this.removeEventListeners()
   }
 }
