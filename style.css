@@ -420,22 +420,26 @@ h2.left::before {
   stroke-dasharray: calc(6 * 42%);
 }
 
+.chart_donut svg:nth-of-type(2) circle {
+  stroke: var(--color_2);
+}
+
+.chart_donut svg:nth-of-type(3) circle {
+  stroke: var(--color_3);
+}
+
+.chart_donut svg:nth-of-type(4) circle {
+  stroke: var(--color_4);
+}
+
+.chart_donut svg:nth-of-type(5) circle {
+  stroke: var(--color_5);
+}
+
 .chart_donut svg circle {
   cx: 50%;
   cy: 50%;
   r: 40%;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.chart_donut h2::after {
-  animation-name: count;
-  animation-duration: 5s;
-  animation-timing-function: linear;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
 }
 
 .chart_row .dot {
@@ -468,42 +472,4 @@ h2.left::before {
 
 .chart_legend .legend_row:nth-of-type(5) .dot:before {
   background-color: var(--color_5);
-}
-
-.chart_legend .legend_row {
-  opacity: 0;
-  height: 0;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-@keyframes disp {
-  from {}
-  to {opacity: 1; height: fit-content;}
-}
-
-.chart_legend .legend_row:nth-of-type(1) {
-  animation-name: disp;
-}
-
-.chart_legend .legend_row:nth-of-type(2) {
-  animation-name: disp;
-  animation-delay: 1s;
-}
-
-.chart_legend .legend_row:nth-of-type(3) {
-  animation-name: disp;
-  animation-delay: 2s;
-}
-
-.chart_legend .legend_row:nth-of-type(4) {
-  animation-name: disp;
-  animation-delay: 3s;
-}
-
-.chart_legend .legend_row:nth-of-type(5) {
-  animation-name: disp;
-  animation-delay: 4s;
 }
