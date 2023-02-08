@@ -3,7 +3,7 @@ class ReportsView {
   constructor() {
     this.model = new Reports()
     this.controller = new ReportsController()
-    this.circleLen = 251//2 * Math.PI * 42
+    this.circleLen = 251
     this.circleDeg = 360
     this.initAvailableReports()
   }
