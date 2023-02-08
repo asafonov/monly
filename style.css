@@ -417,7 +417,6 @@ h2.left::before {
   fill: transparent;
   stroke-width: 16%;
   stroke: var(--color_1);
-  stroke-dasharray: calc(6 * 42%);
 }
 
 .chart_donut svg:nth-of-type(2) circle {

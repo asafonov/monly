@@ -3,7 +3,7 @@ class ReportsView {
   constructor() {
     this.model = new Reports()
     this.controller = new ReportsController()
-    this.circleLen = 126
+    this.circleLen = 251//2 * Math.PI * 42
     this.circleDeg = 360
     this.initAvailableReports()
   }
@@ -78,7 +78,7 @@ class ReportsView {
     const subtotal = Object.values(data).filter(proceedFunction).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
     const total = Math.abs(subtotal)
     let degOffset = -90
-    let lengthOffset = -this.circleLen
+    let totalFraction = 0
     const keys = Object.keys(data)
     keys.sort((a, b) => Math.abs(data[a]) - Math.abs(data[b]))
 
@@ -88,15 +88,17 @@ class ReportsView {
       if (! proceedFunction(data[item])) continue
 
       const value = Math.abs(data[item])
-      const lineLen = value / total * this.circleLen
-      const deg = value / total * this.circleDeg
+      const fraction = value / total
+      const lineLen = fraction * this.circleLen
+      const deg = fraction * this.circleDeg
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
       svg.setAttribute('viewBox', '0 0 100 100')
-      svg.setAttribute('style', `transform: rotate(${degOffset}deg)`)
+      svg.setAttribute('style', `transform: rotate(-90deg)`)
       const circle = document.createElement('circle')
-      circle.style.strokeDashoffset = lengthOffset
+      circle.setAttribute('stroke-dasharray', `${fraction * this.circleLen} ${this.circleLen - fraction * this.circleLen}`)
+      circle.style.strokeDashoffset = `-${totalFraction * this.circleLen}`
       degOffset += deg
-      lengthOffset += lineLen
+      totalFraction += fraction
       svg.appendChild(circle)
       this.donutElement.appendChild(svg)
 
@@ -107,7 +109,6 @@ class ReportsView {
       itemDiv.innerHTML = `<div class="section_row chart_row"><p class="dot">${item}</p><p class="number">${displayMoney}</p></div>${underline}`
       this.legendElement.appendChild(itemDiv)
     }
-    alert(this.donutElement.innerHTML)
 
     this.donutElement.innerHTML += `<h2>${asafonov.utils.displayMoney(total)}</h2>`
   }
