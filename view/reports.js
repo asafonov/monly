@@ -5,12 +5,28 @@ class ReportsView {
     this.controller = new ReportsController()
     this.circleLen = 251
     this.dateElement = document.querySelector('.monly-date')
+    this.onDateChangedProxy = this.onDateChanged.bind(this)
+    this.addEventListeners()
     this.initAvailableReports()
+  }
+
+  addEventListeners() {
+    this.dateElement.addEventListener('change', this.onDateChangedProxy)
+  }
+
+  removeEventListeners() {
+    this.dateElement.removeEventListener('change', this.onDateChangedProxy)
+  }
+
+  onDateChanged() {
+    const value = this.dateElement.value
+    const y = value.substr(0, 4)
+    const m = value.substr(4)
+    this.loadReport(m, y)
   }
 
   initAvailableReports() {
     const availableReports = this.controller.availableReports()
-    return
     const availableReportsMap = {}
 
     for (let i = 0; i < availableReports.length; ++i) {
@@ -18,18 +34,19 @@ class ReportsView {
     }
 
     const year = new Date().getFullYear()
-    this.options.querySelector('.year').innerHTML = year
+    const month = new Date().getMonth() + 1
 
     for (let i = 1; i < 13; ++i) {
+      const isCurrentMonth = i === month
       const m = asafonov.utils.padlen(i + '', 2, '0')
-      const c = `.m${m}`
       const k = `${year}${m}`
       const isReportAvailable = availableReportsMap[k]
-      const month = this.options.querySelector(c)
-      month.style.display = isReportAvailable ? 'block' : 'none'
 
-      if (isReportAvailable) {
-        month.addEventListener('click', () => this.loadReport(m, year))
+      if (isReportAvailable || isCurrentMonth) {
+        const option = document.createElement('option')
+        option.value = k
+        option.innerHTML = isCurrentMonth ? 'this month' : `${year} - ${m}`
+        this.dateElement.appendChild(option)
       }
     }
   }
@@ -110,6 +127,7 @@ class ReportsView {
   }
 
   destroy() {
+    this.removeEventListeners()
     this.model.destroy()
     this.controller.destroy()
   }
