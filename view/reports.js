@@ -4,7 +4,7 @@ class ReportsView {
     this.model = new Reports()
     this.controller = new ReportsController()
     this.circleLen = 251
-    this.circleDeg = 360
+    this.dateElement = document.querySelector('.monly-date')
     this.initAvailableReports()
   }
 
@@ -77,7 +77,6 @@ class ReportsView {
 
     const subtotal = Object.values(data).filter(proceedFunction).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
     const total = Math.abs(subtotal)
-    let degOffset = -90
     let totalFraction = 0
     const keys = Object.keys(data)
     keys.sort((a, b) => Math.abs(data[a]) - Math.abs(data[b]))
@@ -89,15 +88,12 @@ class ReportsView {
 
       const value = Math.abs(data[item])
       const fraction = value / total
-      const lineLen = fraction * this.circleLen
-      const deg = fraction * this.circleDeg
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
       svg.setAttribute('viewBox', '0 0 100 100')
       svg.setAttribute('style', `transform: rotate(-90deg)`)
       const circle = document.createElement('circle')
       circle.setAttribute('stroke-dasharray', `${fraction * this.circleLen} ${this.circleLen - fraction * this.circleLen}`)
       circle.style.strokeDashoffset = `-${totalFraction * this.circleLen}`
-      degOffset += deg
       totalFraction += fraction
       svg.appendChild(circle)
       this.donutElement.appendChild(svg)
