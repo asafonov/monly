@@ -27,27 +27,20 @@ class ReportsView {
 
   initAvailableReports() {
     const availableReports = this.controller.availableReports()
-    const availableReportsMap = {}
+    availableReports.sort()
+    const year = (new Date().getFullYear()) + ''
+    const month = asafonov.utils.padlen((new Date().getMonth() + 1) + '', 2, '0')
 
     for (let i = 0; i < availableReports.length; ++i) {
-      availableReportsMap[availableReports[i]] = true
-    }
-
-    const year = new Date().getFullYear()
-    const month = new Date().getMonth() + 1
-
-    for (let i = 1; i < 13; ++i) {
-      const isCurrentMonth = i === month
-      const m = asafonov.utils.padlen(i + '', 2, '0')
-      const k = `${year}${m}`
-      const isReportAvailable = availableReportsMap[k]
-
-      if (isReportAvailable || isCurrentMonth) {
-        const option = document.createElement('option')
-        option.value = k
-        option.innerHTML = isCurrentMonth ? 'this month' : `${year} - ${m}`
-        this.dateElement.appendChild(option)
-      }
+      alert(availableReports[i])
+      const y = availableReports[i].substr(0, 4)
+      const m = availableReports[i].substr(4)
+      const isCurrentMonth = y === year && month === m
+      const option = document.createElement('option')
+      option.value = availableReports[i]
+      option.innerHTML = isCurrentMonth ? 'this month' : `${y} - ${m}`
+      isCurrentMonth && option.setAttribute('selected', 'selected')
+      this.dateElement.appendChild(option)
     }
   }
 
