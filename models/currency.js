@@ -1,52 +1,41 @@
 class Currency {
 
-  buildUrl (base, symbol) {
-    return `https://api.exchangerate.host/lates?base=${base}&symbols=${symbol}`
-  }
-
-  parseResponse (data, symbol) {
-    return data.rates[symbol]
+  buildUrl (base) {
+    return `http://openexchangerates.org/api/latest.json?app_id=${asafonov.exchangeRatesApiKey}&base=${base}`
   }
 
   getFromCache (base, symbol) {
-    const k = `currency_${base}${symbol}`
+    const k = `currency_${base}`
     const cache = JSON.parse(window.localStorage.getItem(k)) || {}
     const t = cache.t || 0
     const now = new Date().getTime()
 
     if (t + 12 * 3600 * 1000 > now) {
-      return [cache.value, cache.value]
+      return cache.rates[symbol]
     }
 
-    return [null, cache.value || 1]
+    return null
   }
 
-  saveToCache (base, symbol, value) {
+  async getRates (base) {
+    const url = this.buildUrl(base)
+    const response = await fetch(url, {headers: {'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Headers': '*'}})
+    const data = await response.json()
+    const k = `currency_${base}`
     const cache = {
       t: new Date().getTime(),
-      value: value
+      rates: data.rates 
     }
-    const k = `currency_${base}${symbol}`
-
     window.localStorage.setItem(k, JSON.stringify(cache))
   }
 
   async convert (base, symbol) {
-    let [ret, cache] = this.getFromCache(base, symbol)
+    let ret = this.getFromCache(base, symbol)
 
     if (ret) return ret
 
-    const url = this.buildUrl(base, symbol)
-
-    try {
-      const response = await fetch(url)
-      const data = await response.json()
-      ret = this.parseResponse(data, symbol)
-
-      if (ret) this.saveToCache(base, symbol, ret)
-    } catch (e) {}
-
-    return ret || cache || 1
+    await this.getRates(base)
+    return this.getFromCache(base, symbol) || 1
   }
 
   trim (value) {

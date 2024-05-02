@@ -12,6 +12,7 @@ window.asafonov.events = {
 }
 window.asafonov.settings = {
 }
+window.asafonov.exchangeRatesApiKey = ''
 window.onerror = (msg, url, line) => {
   alert(`${msg} on line ${line}`)
 }
