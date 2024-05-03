@@ -1,7 +1,7 @@
 class Currency {
 
   buildUrl (base) {
-    return `http://openexchangerates.org/api/latest.json?app_id=${asafonov.exchangeRatesApiKey}&base=${base}`
+    return `http://isengard.asafonov.org:8000/?base=${base}`
   }
 
   getFromCache (base, symbol) {
@@ -19,12 +19,12 @@ class Currency {
 
   async getRates (base) {
     const url = this.buildUrl(base)
-    const response = await fetch(url, {headers: {'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Headers': '*'}})
+    const response = await fetch(url)
     const data = await response.json()
     const k = `currency_${base}`
     const cache = {
       t: new Date().getTime(),
-      rates: data.rates 
+      rates: data
     }
     window.localStorage.setItem(k, JSON.stringify(cache))
   }
