@@ -47,7 +47,7 @@ class Transactions extends AbstractPeriodList {
 
     for (let i = 0; i < this.list.length; ++i) {
       const tag = this.list[i].tag.trim()
-      tags[tag] = (tags[tag] || 0) + this.list[i].amount * (accountRate[this.list[i].account] || 1)
+      tags[tag] = (tags[tag] || 0) + this.list[i].amount / (accountRate[this.list[i].account] || 1)
     }
 
     return tags
@@ -81,6 +81,6 @@ class Transactions extends AbstractPeriodList {
 
   sum (func) {
     const accountRate = asafonov.settings.getItem('account_rate')
-    return this.list.filter(v => func(v)).map(v => v.amount * (accountRate[v.account] || 1)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    return this.list.filter(v => func(v)).map(v => v.amount / (accountRate[v.account] || 1)).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
   }
 }

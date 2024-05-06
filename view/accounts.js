@@ -149,7 +149,7 @@ class AccountsView {
     const accountRate = this.settings.getItem('account_rate')
 
     for (let key in list) {
-      total += list[key] * (accountRate[key] || 1)
+      total += list[key] / (accountRate[key] || 1)
     }
 
     totalElement.innerHTML = asafonov.utils.displayMoney(total)
