@@ -9,6 +9,7 @@ class Settings extends AbstractList {
         transactions: true
       },
       default_account: null,
+      default_currency: 'USD',
       account_rate: {},
       categories: ['Groceries', 'Transport', 'Travel', 'Utilities', 'Gas', 'Health', 'Fun', 'Presents', 'Clothes'],
       theme: 'light',

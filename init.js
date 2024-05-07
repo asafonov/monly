@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function (event) {
+  localStorage.removeItem('currency_USD')
+
   function getPageName() {
     return document.querySelector('body').id || 'main_page'
   }

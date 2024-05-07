@@ -1,11 +1,11 @@
 class Currency {
 
   buildUrl (base) {
-    return `http://isengard.asafonov.org:8000/?base=${base}`
+    return `http://isengard.asafonov.org:8000/exchangerates/?base=${base}`
   }
 
   getFromCache (base, symbol) {
-    const k = `currency_${base}`
+    const k = `currency`
     const cache = JSON.parse(window.localStorage.getItem(k)) || {}
     const t = cache.t || 0
     const now = new Date().getTime()
@@ -21,7 +21,7 @@ class Currency {
     const url = this.buildUrl(base)
     const response = await fetch(url)
     const data = await response.json()
-    const k = `currency_${base}`
+    const k = `currency`
     const cache = {
       t: new Date().getTime(),
       rates: data
@@ -39,17 +39,17 @@ class Currency {
   }
 
   trim (value) {
-    return this.isRateNeeded(value) ? value.substr(0, 6) : parseFloat(value)
+    return this.isRateNeeded(value) ? value.substr(0, 3) : parseFloat(value)
   }
 
   isRateNeeded (rateValue) {
-    return typeof rateValue === 'string' && rateValue.length >= 6 && rateValue.match(/[A-z]/g)
+    return typeof rateValue === 'string' && rateValue.length === 3 && rateValue.match(/[A-z]/g)
   }
 
   async initRate (rateValue) {
     if (this.isRateNeeded(rateValue)) {
-      const base = rateValue.substr(0, 3)
-      const symbol = rateValue.substr(3)
+      const base = asafonov.settings.getItem('default_currency')
+      const symbol = rateValue.substr(0, 3)
       const rate = await this.convert(base, symbol)
       return parseFloat(rate)
     } else {

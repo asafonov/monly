@@ -5,6 +5,7 @@ class SettingsView {
     this.themeView = new ThemeView()
     this.mainScreen = document.querySelector('.settings-mainscreen')
     this.defaultAccountScreen = document.querySelector('.settings-default-account')
+    this.defaultCurrencyScreen = document.querySelector('.settings-default-currency')
     this.accountRateScreen = document.querySelector('.settings-account-rate')
     this.categoriesScreen = document.querySelector('.settings-categories')
     this.themeScreen = document.querySelector('.settings-theme')
@@ -36,8 +37,8 @@ class SettingsView {
     div.className = `section_row${isFirst ? ' no_number' : ''}`
     const p = document.createElement('p')
     p.innerHTML = title
-    p.addEventListener('click', onclick)
     div.appendChild(p)
+    div.addEventListener('click', onclick)
     return div
   }
 
@@ -84,11 +85,31 @@ class SettingsView {
     }
   }
 
-  showAccountRateScreen() {
-    this.accountRateScreen.innerHTML = '<h1>account rates</h1>'
-    const accounts = asafonov.accounts.getList()
+  showDefaultCurrencyScreen() {
     const currency = new Currency()
+    this.defaultCurrencyScreen.innerHTML = '<h1>default currency</h1>'
+    this.defaultCurrencyScreen.appendChild(
+      this._createLine(this.model.getItem('default_currency'), true, event => {
+        const c = this.model.getItem('default_currency')
+        let nc = prompt('Please enter new default currency', c)
+
+        if (nc) {
+          nc = currency.trim(nc)
+          this.model.updateItem('default_currency', nc)
+          event.currentTarget.querySelector('p').innerHTML = nc
+
+          if (nc !== c) currency.getRates(nc)
+        }
+      })
+    )
+  }
+
+  showAccountRateScreen() {
+    const currency = new Currency()
+    this.accountRateScreen.innerHTML = '<h1>account currencies</h1>'
+    const accounts = asafonov.accounts.getList()
     let isFirst = true
+    const accountRate = this.model.getItem('account_rate') || {}
 
     for (let i in accounts) {
       if (! isFirst) {
@@ -96,9 +117,9 @@ class SettingsView {
       }
 
       this.accountRateScreen.appendChild(this._createLine(i, isFirst, async event => {
-        const accountRate = this.model.getItem('account_rate') || {}
+        const rate = accountRate[i] || this.model.getItem('default_currency')
         const isRateNeeded = currency.isRateNeeded(accountRate[i])
-        const newRate = prompt('Please enter the account rate', (accountRate[i] || await currency.initRate(accountRate[i])) + (isRateNeeded ? ` (${await currency.initRate(accountRate[i])})` : ''))
+        const newRate = prompt('Please enter the account currency', (rate || await currency.initRate(rate)) + (isRateNeeded ? ` (${await currency.initRate(rate)})` : ''))
 
         if (newRate) {
           accountRate[i] = currency.trim(newRate)
@@ -181,6 +202,7 @@ class SettingsView {
   show() {
     this.showMainScreen()
     this.showDefaultAccountScreen()
+    this.showDefaultCurrencyScreen()
     this.showAccountRateScreen()
     this.showCategoriesScreen()
     this.showThemeScreen()
