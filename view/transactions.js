@@ -61,7 +61,7 @@ class TransactionsView {
       (new Date()).toISOString().substr(0, 10),
       asafonov.accounts.getDefault(),
       0,
-      'Point of sale',
+      '',
       'Groceries'
     )
   }
@@ -130,14 +130,22 @@ class TransactionsView {
     dateEl.addEventListener('change', this.onValueChangeProxy)
     col1.appendChild(dateEl)
 
-    const posDiv = document.createElement('div')
-    const posInput = document.createElement('input')
-    posInput.value = item.pos
-    posInput.setAttribute('data-name', 'pos')
-    posInput.setAttribute('size', '1')
-    posInput.addEventListener('change', this.onValueChangeProxy)
-    posDiv.appendChild(posInput)
-    col1.appendChild(posDiv)
+    const dcDiv = document.createElement('div')
+    const dcSelect = document.createElement('select')
+
+    for (let i of ['debit', 'credit']) {
+      const opt = document.createElement('option')
+      opt.value = i === 'debit' ? 1 : -1
+      opt.text = i
+      opt.value === Math.sign(item.amount) && opt.setAttribute('selected', true)
+      dcSelect.appendChild(opt)
+    }
+
+    dcSelect.setAttribute('data-name', 'pos')
+    dcSelect.setAttribute('size', '1')
+    dcSelect.addEventListener('change', this.onValueChangeProxy)
+    dcDiv.appendChild(dcSelect)
+    col1.appendChild(dcDiv)
     itemDiv.appendChild(col1)
     const col2 = document.createElement('div')
     col2.className = 'transaction_coll'
