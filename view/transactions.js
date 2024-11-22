@@ -97,12 +97,15 @@ class TransactionsView {
     }
 
     const data = this.model.getItem(id)
+    const newData = {}
 
-    if (data[name] !== value) {
-      const newData = {}
-      newData[name] = value
-      this.model.updateItem(id, newData)
+    if (name === 'dc') {
+      newData.amount = value * Math.abs(data.amount / 100)
+    } else if (data[name] !== value) {
+      newData[name] = name === 'amount' ? Math.abs(value) : value
     }
+
+    this.model.updateItem(id, newData)
   }
 
   renderItem (item, i) {
@@ -133,15 +136,15 @@ class TransactionsView {
     const dcDiv = document.createElement('div')
     const dcSelect = document.createElement('select')
 
-    for (let i of ['debit', 'credit']) {
+    for (let i of ['expense', 'income']) {
       const opt = document.createElement('option')
-      opt.value = i === 'debit' ? 1 : -1
+      opt.value = i === 'expense' ? 1 : -1
       opt.text = i
-      opt.value === Math.sign(item.amount) && opt.setAttribute('selected', true)
+      i === item.type && opt.setAttribute('selected', true)
       dcSelect.appendChild(opt)
     }
 
-    dcSelect.setAttribute('data-name', 'pos')
+    dcSelect.setAttribute('data-name', 'dc')
     dcSelect.setAttribute('size', '1')
     dcSelect.addEventListener('change', this.onValueChangeProxy)
     dcDiv.appendChild(dcSelect)
@@ -182,7 +185,7 @@ class TransactionsView {
     amountEl.className = 'number'
     amountEl.setAttribute('contenteditable', true)
     amountEl.setAttribute('data-name', 'amount')
-    amountEl.innerHTML = asafonov.utils.displayMoney(item.amount)
+    amountEl.innerHTML = asafonov.utils.displayMoney(Math.abs(item.amount))
     amountEl.addEventListener('focus', event => event.currentTarget.setAttribute('data-content', event.currentTarget.innerText.replace(/\n/g, '')))
     amountEl.addEventListener('blur', this.onValueChangeProxy)
     col3.appendChild(amountEl)
