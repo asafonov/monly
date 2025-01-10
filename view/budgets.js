@@ -43,8 +43,15 @@ class BudgetsView {
   }
 
   onAddButtonClicked() {
-    const name = 'Groceries'
-    this.model.updateItem(name, 0)
+    const list = this.model.getList()
+
+    for (let i = 0; i < this.categories.length; ++i) {
+      if (list[this.categories[i]] === undefined || list[this.categories[i]] === null) {
+        const name = this.categories[i]
+        this.model.updateItem(name, 0)
+        return
+      }
+    }
   }
 
   onBudgetUpdated (event) {
