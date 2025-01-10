@@ -4,10 +4,10 @@ class BudgetsView {
     this.listElement = document.querySelector('.budgets')
     const settings = asafonov.settings
     const mainscreen = settings.getItem('mainscreen')
-    const isEnabled = mainscreen.budget
+    this.isEnabled = mainscreen.budget
     this.model = new Budgets()
 
-    if (! isEnabled) {
+    if (! this.isEnabled) {
       this.listElement.parentNode.removeChild(this.listElement)
       return
     }
@@ -199,6 +199,8 @@ class BudgetsView {
   }
 
   updateList() {
+    if (! this.isEnabled) return
+
     this.clearExistingItems()
     const list = this.model.getList()
 
